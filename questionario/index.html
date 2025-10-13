@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .description {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .question {
+            margin-bottom: 30px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 16px;
+            color: #555;
+        }
+        
+        .option.selected {
+            border-color: #667eea;
+            background-color: #f0f3ff;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            display: none;
+            text-align: center;
+        }
+        
+        .result.show {
+            display: block;
+        }
+        
+        .result h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .result-image {
+            max-width: 100%;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .result-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .restart-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .restart-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .form-section {
+            display: block;
+        }
+        
+        .form-section.hidden {
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section" id="formSection">
+            <h1 id="quizTitle">Personality Quiz</h1>
+            <p class="description" id="quizDescription">Answer these questions to discover your result!</p>
+            
+            <form id="quizForm">
+                <div id="questionsContainer"></div>
+                <button type="submit" class="submit-btn" id="submitBtn">See My Result</button>
+            </form>
+        </div>
+
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <p>Saving your answers...</p>
+        </div>
+        
+        <div class="result" id="resultSection">
+            <h2 id="resultTitle"></h2>
+            <p class="result-description" id="resultDescription"></p>
+            <div><img id="resultImage" class="result-image" src="" alt="Result"></div>
+            <div><button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button></div>
+        </div>
+    </div>
+
+    <script>
+        // ===== GOOGLE SHEETS CONFIGURATION =====
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx51RKt1gzqjV8PIMqhSelK5pMbmwf2It1pY4OH-IftZPvDIIgDbXAhCnqpk4Us6nPtRQ/exec';
+        
+        // Set to false to disable data collection (for testing)
+        const ENABLE_DATA_COLLECTION = true;
+        
+        // ===== QUIZ CONFIGURATION =====
+        const quizData = {
+            title: "Che milanese sei?",
+            description: "Rispondi a queste domande per capire che tipo di milanese sei!",
+
+            questions: [
+                {
+                    text: "Domanda 1",
+                    options: [
+                        { text: "Risposta 1", value: "1_1" },
+                        { text: "Risposta 2", value: "1_2" },
+                        { text: "Risposta 3", value: "1_3" }
+                    ]
+                },
+                {
+                    text: "Domanda 2",
+                    options: [
+                        { text: "Risposta 1", value: "2_1" },
+                        { text: "Risposta 2", value: "2_2" },
+                        { text: "Risposta 3", value: "2_3" }
+                    ]
+                },
+                {
+                    text: "Domanda 3",
+                    options: [
+                        { text: "Risposta 1", value: "3_1" },
+                        { text: "Risposta 2", value: "3_2" },
+                        { text: "Risposta 3", value: "3_3" }
+                    ]
+                },
+                {
+                    text: "Domanda 4",
+                    options: [
+                        { text: "Risposta 1", value: "4_1" },
+                        { text: "Risposta 2", value: "4_2" },
+                        { text: "Risposta 3", value: "4_3" }
+                    ]
+                },
+            ],
+
+            results: {
+                ecologisti_convinti: {
+                    title: "Ecologisti Convinti",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
+                    description: "Vogliono meno auto, più verde, più transizione. Votano sempre per il cambiamento."
+                },
+                amici_piazza: {
+                    title:  "Amici della Piazza",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
+                    description: "Amano stare insieme, immaginano piazze vive e verdi come cuore della città."
+                },
+                abitudinari_volante: {
+                    title: "Abitudinari al Volante",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
+                    description:" Si trovano bene così: macchina sotto casa, poche novità. Ogni cambiamento è un fastidio."
+                },
+                verdi_salotto: {
+                    title: "Verdi da Salotto",
+                    image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
+                    description: "Vogliono piante e fiori, ma guai a rumore, schiamazzi o rivoluzioni sotto casa."
+                }
+            }
+        };
+
+        // Initialize the quiz
+        function initQuiz() {
+            document.getElementById('quizTitle').textContent = quizData.title;
+            document.getElementById('quizDescription').textContent = quizData.description;
+            
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            quizData.questions.forEach((question, qIndex) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = `${qIndex + 1}. ${question.text}`;
+                questionDiv.appendChild(questionText);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                question.options.forEach((option, oIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `question${qIndex}`;
+                    radio.value = option.value;
+                    radio.id = `q${qIndex}o${oIndex}`;
+                    radio.required = true;
+                    radio.dataset.text = option.text;
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `q${qIndex}o${oIndex}`;
+                    label.textContent = option.text;
+                    
+                    optionDiv.appendChild(radio);
+                    optionDiv.appendChild(label);
+                    
+                    optionDiv.addEventListener('click', function() {
+                        radio.checked = true;
+                        document.querySelectorAll(`input[name="question${qIndex}"]`).forEach(r => {
+                            r.closest('.option').classList.remove('selected');
+                        });
+                        optionDiv.classList.add('selected');
+                    });
+                    
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Calculate result based on most common value
+        function calculateResult(answers) {
+            console.log("answers", answers)
+            let resultKey = 'verdi_salotto';
+            
+            return quizData.results[resultKey];
+        }
+
+        // Send data to Google Sheets
+        async function sendToGoogleSheets(data) {
+            if (!ENABLE_DATA_COLLECTION) {
+                console.log('Data collection disabled');
+                return true;
+            }
+
+            if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+                console.warn('Google Sheets URL not configured');
+                return true; // Don't block quiz if not configured
+            }
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                // Note: no-cors mode doesn't allow reading the response
+                // We assume success if no error is thrown
+                return true;
+            } catch (error) {
+                console.error('Error sending data:', error);
+                // Don't block the user from seeing results even if sending fails
+                return true;
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('quizForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const answers = [];
+            const answersSimple = [];
+            
+            quizData.questions.forEach((question, index) => {
+                const selected = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selected) {
+                    const selectedIndex = Array.from(
+                        document.querySelectorAll(`input[name="question${index}"]`)
+                    ).indexOf(selected);
+                    
+                    answers.push({
+                        value: selected.value,
+                        text: selected.dataset.text
+                    });
+                    
+                    // Store as "Q1: A2" format (question number, answer number)
+                    answersSimple.push(`Q${index + 1}: A${selectedIndex + 1}`);
+                }
+            });
+            
+            const result = calculateResult(answers);
+            console.log("result="+result)
+            const resultKey = Object.keys(quizData.results).find(
+                key => quizData.results[key].title === result.title
+            );
+            
+            // Show loading
+            document.getElementById('formSection').classList.add('hidden');
+            document.getElementById('loadingSection').classList.add('show');
+            
+            // Prepare data for Google Sheets
+            const submissionData = {
+                timestamp: new Date().toISOString(),
+                result: result.title,
+                answers: answersSimple,
+            };
+            
+            // Send to Google Sheets
+            await sendToGoogleSheets(submissionData);
+            
+            // Show result
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultImage').src = result.image;
+            document.getElementById('resultDescription').textContent = result.description;
+            
+            document.getElementById('loadingSection').classList.remove('show');
+            document.getElementById('resultSection').classList.add('show');
+        });
+
+        // Restart quiz
+        function restartQuiz() {
+            document.getElementById('quizForm').reset();
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('formSection').classList.remove('hidden');
+            document.getElementById('resultSection').classList.remove('show');
+        }
+
+        // Initialize on page load
+        initQuiz();
+    </script>
+</body>
+</html>
