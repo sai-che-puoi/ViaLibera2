@@ -24,7 +24,7 @@
         .container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             max-width: 600px;
             width: 100%;
             padding: 40px;
@@ -121,7 +121,7 @@
             border-radius: 50%;
             background: #667eea;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .slider::-moz-range-thumb {
@@ -131,7 +131,7 @@
             background: #667eea;
             cursor: pointer;
             border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .slider-labels {
@@ -192,7 +192,7 @@
             max-width: 100%;
             border-radius: 15px;
             margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .result-description {
@@ -247,16 +247,21 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div><img src="/img/saichepuoi.jpg" alt=""/></div>
+    <div style="padding: 20px 0"><img style="display: grid; margin: 0 auto" src="/img/saichepuoi.jpg" alt=""/></div>
     <div class="form-section" id="formSection">
+        <div></div>
         <h1 id="quizTitle"></h1>
         <p class="description" id="quizDescription"></p>
 
@@ -272,113 +277,179 @@
     </div>
 
     <div class="result" id="resultSection">
+        Fai parte dei:
         <h2 id="resultTitle"></h2>
         <p class="result-description" id="resultDescription"></p>
-        <div><img id="resultImage" class="result-image" src="" alt="Result"></div>
-        <div><button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button></div>
+
+        <!-- Cartesian Plane -->
+        <div id="cartesianPlane" style="margin: 30px 0;">
+            <svg width="100%" height="400" viewBox="0 0 500 500" style="border: 1px solid #e0e0e0; border-radius: 10px; background: #f8f9ff;">
+                <!-- Grid lines -->
+                <line x1="250" y1="0" x2="250" y2="500" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+                <line x1="0" y1="250" x2="500" y2="250" stroke="#ddd" stroke-width="1" stroke-dasharray="5,5"/>
+
+                <!-- Axes -->
+                <line x1="0" y1="250" x2="500" y2="250" stroke="#333" stroke-width="2"/>
+                <line x1="250" y1="0" x2="250" y2="500" stroke="#333" stroke-width="2"/>
+
+                <!-- Axis labels -->
+                <text x="0" y="270" font-size="14" fill="#667eea" font-weight="600">Individuo</text>
+                <text x="430" y="270" font-size="14" fill="#667eea" font-weight="600">Collettivo</text>
+                <text x="260" y="30" font-size="14" fill="#667eea" font-weight="600">Cambiamento</text>
+                <text x="260" y="490" font-size="14" fill="#667eea" font-weight="600">Status Quo</text>
+
+                <!-- Result point -->
+                <circle id="resultPoint" cx="250" cy="250" r="8" fill="#764ba2" stroke="#667eea" stroke-width="3">
+                    <animate attributeName="r" from="0" to="8" dur="0.5s" fill="freeze"/>
+                </circle>
+
+                <!-- Crosshair lines for the point -->
+                <line id="verticalLine" x1="250" y1="0" x2="250" y2="500" stroke="#764ba2" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <line id="horizontalLine" x1="0" y1="250" x2="500" y2="250" stroke="#764ba2" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+            </svg>
+            <div style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
+                <span id="coordinatesText">Posizione: (50, 50)</span>
+            </div>
+        </div>
+
+        <div>
+            <button class="restart-btn" onclick="restartQuiz()">Take Quiz Again</button>
+        </div>
     </div>
 </div>
 
 <script>
     // ===== GOOGLE SHEETS CONFIGURATION =====
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx51RKt1gzqjV8PIMqhSelK5pMbmwf2It1pY4OH-IftZPvDIIgDbXAhCnqpk4Us6nPtRQ/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx0NcWLNOLtLO9gyTTxQUXl6II4mKQb5sSl4BG-pTJUs7riZQvY_9H5CanTbsyTLS1IWA/exec';
 
     // Set to false to disable data collection (for testing)
     const ENABLE_DATA_COLLECTION = true;
 
     // ===== QUIZ CONFIGURATION =====
     const quizData = {
-        title: "Che milanese sei?",
-        description: "Rispondi a queste domande per capire che tipo di milanese sei!",
+        title: "Questionario Via Libera",
+        description: "",
 
         // Question type: "radio" or "slider"
         questions: [
             {
                 type: "slider",
-                text: "Domanda 1",
+                text: "Non uso la macchina e credo che troppo spazio cittadino sia dedicato alle auto: sarebbe giusto ridurlo o riconvertirlo.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: 1,
+                weightY: 0.5
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 2",
+                text: "Ridurre le auto è essenziale per il bene del pianeta e combattere la crisi climatica.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: 1,
+                weightY: 1
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 3",
+                text: "Vorrei più verde nel mio quartiere, anche se questo significasse perdere qualche parcheggio.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: 0.5,
+                weightY: 1
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 4",
+                text: "Mi piacerebbe che alcuni spazi oggi dedicati alle auto nel mio quartiere diventassero luoghi di aggregazione o gioco.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: 0.5,
+                weightY: 0.5
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 5",
+                text: "Temo che riconvertire i parcheggi in spazi di aggregazione porterebbe solo rumore e disturbo sotto casa.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: -0.5,
+                weightY: -0.5
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 6",
+                text: "Non vedo dove sia il problema nell'avere le macchine parcheggiate lungo la strada: è normale così.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
+                maxLabel: "Moltissimo",
+                weightX: -1,
+                weightY: -0.5
             },
-             {
+            {
                 type: "slider",
-                text: "Domanda 7",
+                text: "Dipendo dall'auto per i miei spostamenti: non potrei farne a meno soprattutto con le alternative attuali.",
                 min: 0,
-                max: 10,
-                defaultValue: 5,
+                max: 5,
+                defaultValue: 3,
                 minLabel: "Per niente",
-                maxLabel: "Moltissimo"
-            }
+                maxLabel: "Moltissimo",
+                weightX: -1,
+                weightY: -1
+            },
+            {
+                type: "radio",
+                text: "Domanda 8",
+                options: [
+                    {text: "Risposta 1", value: "8_1"},
+                    {text: "Risposta 2", value: "8_2"},
+                    {text: "Risposta 3", value: "8_3"}
+                ]
+            },
         ],
 
         results: {
             ecologisti_convinti: {
                 title: "Ecologisti Convinti",
-                image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
                 description: "Vogliono meno auto, più verde, più transizione. Votano sempre per il cambiamento."
             },
             amici_piazza: {
-                title:  "Amici della Piazza",
-                image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
+                title: "Amici della Piazza",
                 description: "Amano stare insieme, immaginano piazze vive e verdi come cuore della città."
             },
             abitudinari_volante: {
                 title: "Abitudinari al Volante",
-                image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
-                description:" Si trovano bene così: macchina sotto casa, poche novità. Ogni cambiamento è un fastidio."
+                description: " Si trovano bene così: macchina sotto casa, poche novità. Ogni cambiamento è un fastidio."
             },
             verdi_salotto: {
                 title: "Verdi da Salotto",
-                image: "https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg",
                 description: "Vogliono piante e fiori, ma guai a rumore, schiamazzi o rivoluzioni sotto casa."
-            }
+            },
+            pragmatici_sosta: {
+                title: "Pragmatici della sosta",
+                description: "Temono il traffico e i problemi pratici. Se non c'è parcheggio comodo, si oppongono."
+            },
+            entusiasti_futuro: {
+                title: "Entusiasti del Futuro",
+                description: "Vedono la città come un laboratorio vivo, immaginano trasformazioni radicali e le abbracciano."
+            },
+            cittadini_equilibristi: {
+                title: "Cittadini Equilibristi",
+                description: "Oscillano. Da un lato capiscono la necessità di cambiare, dall'altro hanno paura di perdere comfort."
+            },
+
         }
     };
 
@@ -423,7 +494,7 @@
                     optionDiv.appendChild(radio);
                     optionDiv.appendChild(label);
 
-                    optionDiv.addEventListener('click', function() {
+                    optionDiv.addEventListener('click', function () {
                         radio.checked = true;
                         document.querySelectorAll(`input[name="question${qIndex}"]`).forEach(r => {
                             r.closest('.option').classList.remove('selected');
@@ -456,7 +527,7 @@
                 sliderValue.className = 'slider-value';
                 sliderValue.textContent = slider.value;
 
-                slider.addEventListener('input', function() {
+                slider.addEventListener('input', function () {
                     sliderValue.textContent = this.value;
                 });
 
@@ -484,12 +555,90 @@
         });
     }
 
-    // Calculate result based on most common value
     function calculateResult(answers) {
         console.log("answers", answers);
-        let resultKey = 'verdi_salotto';
+        const s = [];
+        answers.forEach(
+            (answer, index) => {
+                if (answer.type === 'slider') {
+                    s[index] = (answer.value - 2.5) / 2.5
+                }
+            }
+        )
 
-        return quizData.results[resultKey];
+        const weights = [];
+        quizData.questions.forEach((question, index) => {
+            if (question.type === 'slider') {
+                weights[index] = {
+                    x: s[index] * question.weightX,
+                    y: s[index] * question.weightY,
+                }
+            }
+        })
+        console.log(s)
+        console.log(weights);
+        let sumCx = 0;
+        let sumCy = 0;
+        let countNonZeroX = 0;
+        let countNonZeroY = 0;
+
+        quizData.questions.forEach((question, index) => {
+            if (question.type === 'slider') {
+                sumCx += weights[index].x;
+                sumCy += weights[index].y;
+
+                if (Math.abs(question.weightX) > 0) countNonZeroX++;
+                if (Math.abs(question.weightY) > 0) countNonZeroY++;
+            }
+        });
+
+        const Xbar = sumCx / countNonZeroX;
+        const Ybar = sumCy / countNonZeroY;
+        const Xpct = 50 * (Xbar + 1);
+        const Ypct = 50 * (Ybar + 1);
+        console.log("xpct", Xpct);
+        console.log("ypct", Ypct);
+        let resultKey = 'verdi_salotto';
+        console.log("res", quizData.results[resultKey]);
+        return {
+            timestamp: new Date().toISOString(),
+            result: quizData.results[resultKey],
+            q1: +answers[0].value,
+            q2: +answers[1].value,
+            q3: +answers[2].value,
+            q4: +answers[3].value,
+            q5: +answers[4].value,
+            q6: +answers[5].value,
+            q7: +answers[6].value,
+            x: Xpct,
+            y: Ypct,
+        }
+    }
+
+    // Update the cartesian plane with the calculated coordinates
+    function updateCartesianPlane(xPct, yPct) {
+        // Convert percentages (0-100) to SVG coordinates (0-500)
+        // X: 0% = left (0), 100% = right (500)
+        // Y: 0% = bottom (500), 100% = top (0) - inverted because SVG Y grows downward
+        const svgX = (xPct / 100) * 500;
+        const svgY = 500 - (yPct / 100) * 500; // Invert Y axis
+
+        // Update the point position
+        const point = document.getElementById('resultPoint');
+        point.setAttribute('cx', svgX);
+        point.setAttribute('cy', svgY);
+
+        // Update crosshair lines
+        const verticalLine = document.getElementById('verticalLine');
+        const horizontalLine = document.getElementById('horizontalLine');
+        verticalLine.setAttribute('x1', svgX);
+        verticalLine.setAttribute('x2', svgX);
+        horizontalLine.setAttribute('y1', svgY);
+        horizontalLine.setAttribute('y2', svgY);
+
+        // Update coordinates text
+        const coordText = document.getElementById('coordinatesText');
+        coordText.textContent = `Posizione: (${Math.round(xPct)}, ${Math.round(yPct)})`;
     }
 
     // Send data to Google Sheets
@@ -505,7 +654,7 @@
         }
 
         try {
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
+            await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: {
@@ -513,7 +662,6 @@
                 },
                 body: JSON.stringify(data)
             });
-
             return true;
         } catch (error) {
             console.error('Error sending data:', error);
@@ -522,7 +670,7 @@
     }
 
     // Handle form submission
-    document.getElementById('quizForm').addEventListener('submit', async function(e) {
+    document.getElementById('quizForm').addEventListener('submit', async function (e) {
         e.preventDefault();
 
         const answers = [];
@@ -559,10 +707,6 @@
         });
 
         const result = calculateResult(answers);
-        console.log("result=" + result);
-        const resultKey = Object.keys(quizData.results).find(
-            key => quizData.results[key].title === result.title
-        );
 
         // Show loading
         document.getElementById('formSection').classList.add('hidden');
@@ -571,20 +715,31 @@
         // Prepare data for Google Sheets
         const submissionData = {
             timestamp: new Date().toISOString(),
-            result: result.title,
-            answers: answersSimple,
+            result: result.result.title,
+            q1: result.q1,
+            q2: result.q2,
+            q3: result.q3,
+            q4: result.q4,
+            q5: result.q5,
+            q6: result.q6,
+            q7: result.q7,
+            x: result.x,
+            y: result.y,
         };
-
-        // Send to Google Sheets
-        await sendToGoogleSheets(submissionData);
+        console.log('Sending to Google Sheets:', submissionData);
 
         // Show result
-        document.getElementById('resultTitle').textContent = result.title;
-        document.getElementById('resultImage').src = result.image;
-        document.getElementById('resultDescription').textContent = result.description;
+        document.getElementById('resultTitle').textContent = result.result.title;
+        document.getElementById('resultDescription').textContent = result.result.description;
+
+        // Update cartesian plane with the calculated point
+        updateCartesianPlane(result.x, result.y);
 
         document.getElementById('loadingSection').classList.remove('show');
         document.getElementById('resultSection').classList.add('show');
+
+        // Send to Google Sheets
+        await sendToGoogleSheets(submissionData);
     });
 
     // Restart quiz
