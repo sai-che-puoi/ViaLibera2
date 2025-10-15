@@ -1,3 +1,4 @@
+import {generateTimestamp} from "./config.js";
 
 export class QuizUI {
     constructor(container, quizData) {
@@ -171,6 +172,7 @@ export class QuizUI {
      */
     reset() {
         this.elements.form.reset();
+        document.getElementById("quizTitle").textContent = "Questionario Via Libera - " + generateTimestamp();
 
         document.querySelectorAll('.option').forEach(el =>
             el.classList.remove('selected')
