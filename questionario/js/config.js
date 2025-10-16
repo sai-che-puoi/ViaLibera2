@@ -38,7 +38,7 @@ export function generateTimestamp() {
     const seconds = String(now.getSeconds()).padStart(2, '0');
     const random = Math.floor(Math.random() * 100);
 
-    return `${hours}${minutes}${seconds}-${random}`;
+    return `${hours}.${minutes}.${seconds}-${random}`;
 }
 
 export const QUIZ_DATA = {
