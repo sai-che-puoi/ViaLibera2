@@ -149,12 +149,12 @@ export const QUIZ_DATA = {
             type: "allocation",
             text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione 100 punti da distribuire tra i seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
             options: [
-                {text: "Verde urbano (alberi, aiuole, orti)", value: "8_1"},
-                {text: "Mobilità sostenibile (piste ciclabili, pedonalizzazioni)", value: "8_2"},
-                {text: "Spazi di socialità (panchine, spazi comunitari, eventi)", value: "8_3"},
-                {text: "Bambini e famiglie (giochi, spazi sicuri)", value: "8_4"},
-                {text: "Cultura e sport (arte urbana, campetti, attività)", value: "8_5"},
-                {text: "Parcheggi e circolazione delle auto", value: "8_6"}
+                {text: "Verde urbano (alberi, aiuole, orti)", value: "1_1"},
+                {text: "Mobilità sostenibile (piste ciclabili, pedonalizzazioni)", value: "1_2"},
+                {text: "Spazi di socialità (panchine, spazi comunitari, eventi)", value: "1_3"},
+                {text: "Bambini e famiglie (giochi, spazi sicuri)", value: "1_4"},
+                {text: "Cultura e sport (arte urbana, campetti, attività)", value: "1_5"},
+                {text: "Parcheggi e circolazione delle auto", value: "1_6"}
             ]
         },
         {
