@@ -83,14 +83,14 @@ export class QuizUI {
     }
 
 
-    createDescription(question, index) {
+    createDescription() {
         const container = document.createElement('div');
         container.className = 'description';
         return container;
     }
 
 
-    createSeparator(question, index) {
+    createSeparator() {
         const container = document.createElement('div');
         container.className = 'separator';
         return container;
@@ -274,7 +274,7 @@ export class QuizUI {
             <span class="remaining-value warning" id="remainingValue_${index}">100</span>
         </div>
         <div class="progress-bar-container">
-            <div class="progress-bar warning" id="progressBar_${index}" style="width: 0%"></div>
+            <div class="progress-bar warning" id="progressBar_${index}" style="width: 0"></div>
         </div>
         <div class="progress-labels">
             <span>0</span>
@@ -487,9 +487,9 @@ export class QuizUI {
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         } else if (question.type === 'separator') {
-            div.appendChild(this.createSeparator(question, index));
+            div.appendChild(this.createSeparator());
         } else if (question.type === 'description') {
-            div.appendChild(this.createDescription(question, index));
+            div.appendChild(this.createDescription());
         }
 
         return div;
@@ -505,6 +505,7 @@ export class QuizUI {
             if (question.type === 'slider') {
                 const slider = document.getElementById(question.id || `q${index}slider`);
                 answers.push({
+                    id: question.id,
                     type: 'slider',
                     value: slider.value,
                     text: slider.value
@@ -513,6 +514,7 @@ export class QuizUI {
                 const selected = document.querySelector(`input[name="question${index}"]:checked`);
                 if (selected) {
                     answers.push({
+                        id: question.id,
                         type: 'radio',
                         value: selected.value,
                         text: selected.dataset.text
@@ -530,20 +532,23 @@ export class QuizUI {
                 });
 
                 answers.push({
+                    id: question.id,
                     type: 'option',
                     value: selectedValues,
-                    text: selectedTexts.join(', ')
+                    text: selectedTexts.join(', '),
+                    options_number: question.options_number
                 });
             } else if (question.type === 'allocation') {
-                const allocations = {};
+                const sliderValues = [];
                 question.options.forEach((option, optIndex) => {
                     const slider = document.getElementById(`slider_${index}_${optIndex}`);
-                    allocations[option.value] = parseInt(slider.value) || 0;
+                    sliderValues.push(parseInt(slider.value) || 0);
                 });
                 answers.push({
+                    id: question.id,
                     type: 'allocation',
-                    value: allocations,
-                    text: JSON.stringify(allocations)
+                    value: sliderValues,
+                    options_number: question.options_number
                 });
             }
         });

@@ -166,17 +166,33 @@ export class ResultCalculator {
     /**
      * Calculate complete result
      */
-    calculate(answers, results) {
+    calculate(answers) {
         const coords = this.calculateCoordinates(answers);
         const category = this.archetypeFor(answers);
-        console.log(answers)
         const answerData = {};
-        answers.forEach((answer, index) => {
-            answerData[`q${index + 1}`] = answer.type === 'slider'
-                ? parseFloat(answer.value)
-                : answer.value;
+        answers.forEach((answer) => {
+            if (answer.type === 'slider') {
+                answerData[answer.id] = parseFloat(answer.value)
+            }
+            else if (answer.type === 'option') {
+                const num = answer.value[0]?.split('_')[0];
+                for (let i = 1; i <= answer.options_number; i++) {
+                    const key = `${num}_${i}`;
+                    const id = `${answer.id}_${i}`;
+                    answerData[id] = answer.value.includes(key) ? 1 : 0;
+                }
+            }
+            else if (answer.type === 'allocation') {
+                for (let i = 1; i <= answer.options_number; i++) {
+                    const id = `${answer.id}_${i}`;
+                    answerData[id] = answer.value[i-1];
+                }
+            }
+            else {
+                answerData[answer.id] = answer.text;
+            }
+
         });
-        console.log(answerData)
 
         return {
             timestamp: new Date().toISOString(),

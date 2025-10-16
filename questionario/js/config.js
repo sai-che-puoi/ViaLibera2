@@ -43,7 +43,7 @@ export function generateTimestamp() {
 
 export const QUIZ_DATA = {
     title: "Questionario Via Libera " + generateTimestamp(),
-    description: "Ciao! Siamo volontari di Sai che puoi e stiamo facendo un’indagine di quartiere per immaginare insieme una futura Milano.\n" +
+    description: "Ciao! Siamo volontari di Sai che puoi? e stiamo facendo un’indagine di quartiere per immaginare insieme una futura Milano.\n" +
         "Ci piacerebbe sapere cosa pensi di come viene usato lo spazio pubblico in città. " +
         "Abbiamo preparato un gioco e 5 domande per capire meglio il tuo rapporto con questi temi: non ci sono risposte giuste o sbagliate, ci interessa solo il tuo punto di vista.\n" +
         "Dura pochi minuti, ti va di partecipare?",
@@ -169,7 +169,9 @@ export const QUIZ_DATA = {
         },
         {
             type: "allocation",
-            text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione 100 punti da distribuire tra i seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
+            id: "a1",
+            text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione dei punti da distribuire tra le scelte seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
+            options_number: 6,
             options: [
                 {text: "Verde urbano (alberi, aiuole, orti)", value: "1_1"},
                 {text: "Mobilità sostenibile (piste ciclabili, pedonalizzazioni)", value: "1_2"},
@@ -183,6 +185,7 @@ export const QUIZ_DATA = {
             type: "option",
             id: "o1",
             max_choices: 2,
+            options_number: 6,
             text: "Se potessi scegliere un’esperienza che ti piacerebbe vivere sotto casa tua, quale sarebbe? (Risposta aperta da registrare, scegliendo l'opzione 'Altro')",
             options: [
                 {text: "Prendere un caffè all’aperto senza rumore di auto", value: "2_1"},
@@ -210,6 +213,7 @@ export const QUIZ_DATA = {
             type: "option",
             id: "o2",
             max_choices: 3,
+            options_number: 7,
             text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato? (Risposta aperta da registrare, scegliendo l'opzione 'Altro')",
             options: [
                 {text: "Avere parcheggi e strade organizzate per muoversi in auto", value: "4_1"},
@@ -276,8 +280,9 @@ export const QUIZ_DATA = {
         },
         {
             type: "option",
-            id: "trasporti",
+            id: "o3",
             max_choices: 6,
+            options_number: 6,
             text: "Quali mezzi di trasporto usi di più?",
             options: [
                 {text: "Auto", value: "8_1"},

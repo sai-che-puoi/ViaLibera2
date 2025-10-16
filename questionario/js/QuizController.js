@@ -49,7 +49,7 @@ export class QuizController {
      */
     async handleSubmit() {
         const answers = this.ui.collectAnswers();
-        const result = this.calculator.calculate(answers, this.quizData.results);
+        const result = this.calculator.calculate(answers);
 
         // Show loading
         this.showSection('loading');
