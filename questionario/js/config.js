@@ -159,8 +159,9 @@ export const QUIZ_DATA = {
         },
         {
             type: "option",
+            id: "o1",
             max_choices: 2,
-            text: "Se potessi scegliere un’esperienza che ti piacerebbe vivere sotto casa tua, quale sarebbe?",
+            text: "Se potessi scegliere un’esperienza che ti piacerebbe vivere sotto casa tua, quale sarebbe? (Risposta aperta da registrare, scegliendo l'opzione 'Altro')",
             options: [
                 {text: "Prendere un caffè all’aperto senza rumore di auto", value: "2_1"},
                 {text: "Vedere bambini che giocano in sicurezza", value: "2_2"},
@@ -172,7 +173,8 @@ export const QUIZ_DATA = {
         },
         {
             type: "radio",
-            text: "Alcune persone ritengono che limitare le auto migliori la vivibilità, altre persone che renda più difficile spostarsi. Tu come la vedi?",
+            id: "r1",
+            text: "Alcune persone ritengono che limitare le auto migliori la vivibilità, altre persone che renda più difficile spostarsi. Tu come la vedi? (Scegli una sola risposta)",
             options: [
                 {text: "Ridurrei le auto se ci fossero buone alternative di trasporto", value: "3_1"},
                 {text: "Limitare le auto migliorerebbe la qualità della vita nel quartiere", value: "3_2"},
@@ -180,13 +182,13 @@ export const QUIZ_DATA = {
                 {text: "Dipende da come vengono organizzati parcheggi e trasporto pubblico", value: "3_4"},
                 {text: "Non sento il bisogno di cambiare la situazione attuale", value: "3_5"},
                 {text: "Non ho un’opinione precisa a riguardo", value: "3_6"},
-                {text: "Altro", value: "3_7"},
             ]
         },
         {
             type: "option",
+            id: "o2",
             max_choices: 3,
-            text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato?",
+            text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato? (Risposta aperta da registrare, scegliendo l'opzione 'Altro'",
             options: [
                 {text: "Avere parcheggi e strade organizzate per muoversi in auto", value: "4_1"},
                 {text: "Più spazi verdi e aree per stare all’aperto", value: "4_2"},
@@ -199,7 +201,8 @@ export const QUIZ_DATA = {
         },
         {
             type: "radio",
-            text: "In una strada dove il traffico automobilistico è stato ridotto cosa accade secondo te? Immagina questa strada (piazza ecc) con meno auto, quale cambiamento ti colpisce per primo?",
+            id: "r2",
+            text: "In una strada dove il traffico automobilistico è stato ridotto cosa accade secondo te? Immagina questa strada (piazza ecc) con meno auto, quale cambiamento ti colpisce per primo? ",
             options: [
                 {text: "Meno rumore", value: "5_1"},
                 {text: "Più socialità tra vicini", value: "5_2"},
@@ -225,6 +228,7 @@ export const QUIZ_DATA = {
         },
         {
             type: "radio",
+            id: "eta",
             text: "Età",
             options: [
                 {text: "16-29 anni", value: "6_1"},
@@ -236,6 +240,7 @@ export const QUIZ_DATA = {
         },
         {
             type: "radio",
+            id: "lavoro",
             text: "Qual è la tua situazione lavorativa attuale?",
             options: [
                 {text: "Studente", value: "7_1"},
@@ -249,6 +254,7 @@ export const QUIZ_DATA = {
         },
         {
             type: "option",
+            id: "trasporti",
             max_choices: 6,
             text: "Quali mezzi di trasporto usi di più?",
             options: [
