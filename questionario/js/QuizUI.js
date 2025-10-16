@@ -34,8 +34,6 @@ export class QuizUI {
         });
     }
 
-
-
     /**
      * Create slider element
      */
@@ -69,7 +67,7 @@ export class QuizUI {
 
         const labels = document.createElement('div');
         labels.className = 'slider-labels';
-        labels.style.width = '100%'; // Add explicit width
+        labels.style.width = '100%';
         labels.innerHTML = `
         <span>${question.minLabel}</span>
         <span>${question.maxLabel}</span>
@@ -80,6 +78,7 @@ export class QuizUI {
 
         return container;
     }
+
     /**
      * Create radio group element
      */
@@ -121,6 +120,116 @@ export class QuizUI {
     }
 
     /**
+     * Create checkbox group element (option type)
+     */
+    createCheckboxGroup(question, index) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'option-question-wrapper';
+
+        const container = document.createElement('div');
+        container.className = 'options';
+        container.id = `option_${index}`;
+
+        question.options.forEach((option, optIndex) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'option';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = `question${index}`;
+            checkbox.id = `${index}_checkbox_${optIndex}`;
+            checkbox.value = option.value;
+            checkbox.dataset.text = option.text;
+            checkbox.dataset.questionIndex = index;
+
+            const label = document.createElement('label');
+            label.htmlFor = checkbox.id;
+            label.textContent = option.text;
+
+            optionDiv.appendChild(checkbox);
+            optionDiv.appendChild(label);
+
+            optionDiv.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                }
+                this.updateCheckboxSelection(index, question.max_choices);
+            });
+
+            checkbox.addEventListener('change', () => {
+                this.updateCheckboxSelection(index, question.max_choices);
+            });
+
+            container.appendChild(optionDiv);
+        });
+
+        wrapper.appendChild(container);
+
+        // Add hint message
+        const hint = document.createElement('div');
+        hint.className = 'checkbox-hint';
+        hint.id = `checkbox_hint_${index}`;
+        hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
+        wrapper.appendChild(hint);
+
+        // Store validation state
+        wrapper.dataset.valid = 'false';
+        wrapper.dataset.maxChoices = question.max_choices;
+
+        return wrapper;
+    }
+
+    /**
+     * Update checkbox selection and validation
+     */
+    updateCheckboxSelection(questionIndex, maxChoices) {
+        const container = document.getElementById(`option_${questionIndex}`);
+        const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+        const hint = document.getElementById(`checkbox_hint_${questionIndex}`);
+        const wrapper = container.parentElement;
+
+        let checkedCount = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) checkedCount++;
+        });
+
+        // Update visual selection
+        checkboxes.forEach(cb => {
+            const optionDiv = cb.closest('.option');
+            if (cb.checked) {
+                optionDiv.classList.add('selected');
+            } else {
+                optionDiv.classList.remove('selected');
+            }
+
+            // Disable unchecked boxes if max reached
+            if (checkedCount >= maxChoices && !cb.checked) {
+                cb.disabled = true;
+                optionDiv.classList.add('disabled');
+            } else {
+                cb.disabled = false;
+                optionDiv.classList.remove('disabled');
+            }
+        });
+
+        // Update hint message
+        const remaining = maxChoices - checkedCount;
+        if (checkedCount === 0) {
+            hint.textContent = `Seleziona fino a ${maxChoices} opzion${maxChoices > 1 ? 'i' : 'e'}`;
+            hint.style.color = '#666';
+        } else if (checkedCount < maxChoices) {
+            hint.textContent = `Puoi selezionare ancora ${remaining} opzion${remaining > 1 ? 'i' : 'e'}`;
+            hint.style.color = '#667eea';
+        } else {
+            hint.textContent = `Perfetto! Hai selezionato ${maxChoices} opzion${maxChoices > 1 ? 'i' : 'e'}`;
+            hint.style.color = '#10b981';
+        }
+
+        // Update validation state
+        wrapper.dataset.valid = (checkedCount > 0 && checkedCount <= maxChoices).toString();
+    }
+
+    /**
      * Create resource allocation element
      */
     createResourceAllocation(question, index) {
@@ -148,7 +257,7 @@ export class QuizUI {
             <span class="remaining-value warning" id="remainingValue_${index}">100</span>
         </div>
         <div class="progress-bar-container">
-            <div class="progress-bar warning" id="progressBar_${index}" style="width: 0"></div>
+            <div class="progress-bar warning" id="progressBar_${index}" style="width: 0%"></div>
         </div>
         <div class="progress-labels">
             <span>0</span>
@@ -163,7 +272,7 @@ export class QuizUI {
         errorMsg.className = 'error-message';
         errorMsg.id = `errorMessage_${index}`;
         errorMsg.innerHTML = `
-        <svg class="error-icon" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
             <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
             <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
@@ -172,7 +281,7 @@ export class QuizUI {
     `;
         container.appendChild(errorMsg);
 
-        // Options container - all in one div
+        // Options container
         const optionsContainer = document.createElement('div');
         optionsContainer.id = `optionsContainer_${index}`;
         optionsContainer.className = 'allocation-options-wrapper';
@@ -338,9 +447,6 @@ export class QuizUI {
         updateAllocation();
     }
 
-// Update the createQuestionElement method to handle allocation type
-// Add this case in your existing createQuestionElement method:
-
     /**
      * Create a question element (UPDATED)
      */
@@ -357,6 +463,8 @@ export class QuizUI {
             div.appendChild(this.createSlider(question, index));
         } else if (question.type === 'radio') {
             div.appendChild(this.createRadioGroup(question, index));
+        } else if (question.type === 'option') {
+            div.appendChild(this.createCheckboxGroup(question, index));
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         }
@@ -364,7 +472,6 @@ export class QuizUI {
         return div;
     }
 
-// Update collectAnswers to handle allocation questions
     /**
      * Collect answers from form (UPDATED)
      */
@@ -388,6 +495,22 @@ export class QuizUI {
                         text: selected.dataset.text
                     });
                 }
+            } else if (question.type === 'option') {
+                const container = document.getElementById(`option_${index}`);
+                const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+                const selectedValues = [];
+                const selectedTexts = [];
+
+                checkboxes.forEach(cb => {
+                    selectedValues.push(cb.value);
+                    selectedTexts.push(cb.dataset.text);
+                });
+
+                answers.push({
+                    type: 'option',
+                    value: selectedValues,
+                    text: selectedTexts.join(', ')
+                });
             } else if (question.type === 'allocation') {
                 const allocations = {};
                 question.options.forEach((option, optIndex) => {
@@ -404,6 +527,41 @@ export class QuizUI {
 
         return answers;
     }
+    //
+    // /**
+    //  * Validation before submit (UPDATED)
+    //  */
+    // async handleSubmit() {
+    //     let allValid = true;
+    //     const validationErrors = [];
+    //
+    //     this.quizData.questions.forEach((question, index) => {
+    //         if (question.type === 'allocation') {
+    //             const container = document.getElementById(`allocation_${index}`);
+    //             if (container.dataset.valid !== 'true') {
+    //                 allValid = false;
+    //                 validationErrors.push(`Domanda ${index + 1}: Distribuisci esattamente 100 punti`);
+    //             }
+    //         } else if (question.type === 'option') {
+    //             const container = document.getElementById(`option_${index}`);
+    //             const wrapper = container.parentElement;
+    //             if (wrapper.dataset.valid !== 'true') {
+    //                 allValid = false;
+    //                 validationErrors.push(`Domanda ${index + 1}: Seleziona almeno un'opzione`);
+    //             }
+    //         }
+    //     });
+    //
+    //     if (!allValid) {
+    //         alert('Per favore completa tutte le domande:\n' + validationErrors.join('\n'));
+    //         return;
+    //     }
+    //
+    //     const answers = this.ui.collectAnswers();
+    //     const result = this.calculator.calculate(answers, this.quizData.results);
+    //
+    //     // ... rest of your existing code
+    // }
 
     /**
      * Reset the form
@@ -412,9 +570,15 @@ export class QuizUI {
         this.elements.form.reset();
         document.getElementById("quizTitle").textContent = "Questionario Via Libera - " + generateTimestamp();
 
-        document.querySelectorAll('.option').forEach(el =>
-            el.classList.remove('selected')
-        );
+        document.querySelectorAll('.option').forEach(el => {
+            el.classList.remove('selected');
+            el.classList.remove('disabled');
+        });
+
+        // Reset checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.disabled = false;
+        });
 
         this.quizData.questions.forEach((question, index) => {
             if (question.type === 'slider') {
@@ -423,6 +587,12 @@ export class QuizUI {
                 const valueDisplay = slider.nextElementSibling;
                 if (valueDisplay) {
                     valueDisplay.textContent = slider.value;
+                }
+            } else if (question.type === 'option') {
+                const hint = document.getElementById(`checkbox_hint_${index}`);
+                if (hint) {
+                    hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
+                    hint.style.color = '#666';
                 }
             }
         });
