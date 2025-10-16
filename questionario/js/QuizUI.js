@@ -163,7 +163,7 @@ export class QuizUI {
         errorMsg.className = 'error-message';
         errorMsg.id = `errorMessage_${index}`;
         errorMsg.innerHTML = `
-        <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="error-icon" stroke="currentColor" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
             <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
             <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
@@ -240,7 +240,7 @@ export class QuizUI {
     initAllocationListeners(questionIndex, optionsCount) {
         const updateAllocation = () => {
             let total = 0;
-            // const values = [];
+            const values = [];
 
             // Calculate total
             for (let i = 0; i < optionsCount; i++) {
@@ -403,28 +403,6 @@ export class QuizUI {
         });
 
         return answers;
-    }
-
-// Validation before submit - add this to QuizController.handleSubmit()
-// Before collecting answers, validate allocation questions:
-
-    async handleSubmit() {
-        // Validate allocation questions
-        let allValid = true;
-        this.quizData.questions.forEach((question, index) => {
-            if (question.type === 'allocation') {
-                const container = document.getElementById(`allocation_${index}`);
-                if (container.dataset.valid !== 'true') {
-                    allValid = false;
-                    alert('Per favore, distribuisci esattamente 100 punti prima di continuare.');
-                }
-            }
-        });
-
-        if (!allValid) return;
-
-        const answers = this.ui.collectAnswers();
-        this.calculator.calculate(answers, this.quizData.results);
     }
 
     /**
