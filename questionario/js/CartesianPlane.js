@@ -17,7 +17,7 @@ export class CartesianPlane {
     update(xPct, yPct) {
         // Convert percentage to SVG coordinates
         const svgX = (xPct / 100) * 500;
-        const svgY = 500 - (yPct / 100) * 500; // Invert Y
+        const svgY = 480 - (yPct / 100) * 480; // Invert Y
 
         this.elements.point.setAttribute('cx', svgX);
         this.elements.point.setAttribute('cy', svgY);

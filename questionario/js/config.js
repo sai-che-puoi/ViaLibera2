@@ -43,7 +43,10 @@ export function generateTimestamp() {
 
 export const QUIZ_DATA = {
     title: "Questionario Via Libera " + generateTimestamp(),
-    description: "",
+    description: "Ciao! Siamo volontari di Sai che puoi e stiamo facendo un’indagine di quartiere per immaginare insieme una futura Milano.\n" +
+        "Ci piacerebbe sapere cosa pensi di come viene usato lo spazio pubblico in città. " +
+        "Abbiamo preparato un gioco e 5 domande per capire meglio il tuo rapporto con questi temi: non ci sono risposte giuste o sbagliate, ci interessa solo il tuo punto di vista.\n" +
+        "Dura circa pochi minuti, ti va di partecipare?",
 
     questions: [
         {
@@ -129,7 +132,111 @@ export const QUIZ_DATA = {
             minLabel: "Per niente",
             maxLabel: "Moltissimo",
             weights: {x: -1, y: -1}
-        }
+        },
+        {
+            type: "allocation",
+            text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione 100 punti da distribuire tra i seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
+            options: [
+                {text: "Verde urbano (alberi, aiuole, orti)", value: "8_1"},
+                {text: "Mobilità sostenibile (piste ciclabili, pedonalizzazioni)", value: "8_2"},
+                {text: "Spazi di socialità (panchine, spazi comunitari, eventi)", value: "8_3"},
+                {text: "Bambini e famiglie (giochi, spazi sicuri)", value: "8_4"},
+                {text: "Cultura e sport (arte urbana, campetti, attività)", value: "8_5"},
+                {text: "Parcheggi e circolazione delle auto", value: "8_6"}
+            ]
+        },
+        {
+            type: "option",
+            max_choices: 2,
+            text: "Se potessi scegliere un’esperienza che ti piacerebbe vivere sotto casa tua, quale sarebbe?",
+            options: [
+                {text: "Prendere un caffè all’aperto senza rumore di auto", value: "2_1"},
+                {text: "Vedere bambini che giocano in sicurezza", value: "2_2"},
+                {text: "Partecipare a un evento di quartiere", value: "2_3"},
+                {text: "Fare sport all’aperto", value: "2_4"},
+                {text: "Fare giardinaggio o partecipare alla creazione di foreste urbane", value: "2_5"},
+                {text: "Altro", value: "2_6"},
+            ]
+        },
+        {
+            type: "radio",
+            text: "Alcune persone ritengono che limitare le auto migliori la vivibilità, altre persone che renda più difficile spostarsi. Tu come la vedi?",
+            options: [
+                {text: "Ridurrei le auto se ci fossero buone alternative di trasporto", value: "3_1"},
+                {text: "Limitare le auto migliorerebbe la qualità della vita nel quartiere", value: "3_2"},
+                {text: "Le auto sono necessarie per la vita quotidiana (lavoro, famiglia, ecc.)", value: "3_3"},
+                {text: "Dipende da come vengono organizzati parcheggi e trasporto pubblico", value: "3_4"},
+                {text: "Non sento il bisogno di cambiare la situazione attuale", value: "3_5"},
+                {text: "Non ho un’opinione precisa a riguardo", value: "3_6"},
+                {text: "Altro", value: "3_7"},
+            ]
+        },
+        {
+            type: "option",
+            max_choices: 3,
+            text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato?",
+            options: [
+                {text: "Avere parcheggi e strade organizzate per muoversi in auto", value: "4_1"},
+                {text: "Più spazi verdi e aree per stare all’aperto", value: "4_2"},
+                {text: "Spazi più accessibili e facili da raggiungere", value: "4_3"},
+                {text: "Più spazio per corsie/ percorsi ciclabili", value: "4_4"},
+                {text: "Luoghi che favoriscano incontro e socialità", value: "4_5"},
+                {text: "Spazi pubblici più sicuri e tranquilli", value: "4_6"},
+                {text: "Altro", value: "4_7"},
+            ]
+        },
+        {
+            type: "radio",
+            text: "In una strada dove il traffico automobilistico è stato ridotto cosa accade secondo te? Immagina questa strada (piazza ecc) con meno auto, quale cambiamento ti colpisce per primo?",
+            options: [
+                {text: "Meno rumore", value: "5_1"},
+                {text: "Più socialità tra vicini", value: "5_2"},
+                {text: "Aria più pulita", value: "5_3"},
+                {text: "Possibilità di assembramenti chiassosi", value: "5_4"},
+                {text: "Maggiore difficoltà nel raggiungere i negozi e servizi", value: "5_5"},
+                {text: "Maggior sicurezza stradale", value: "5_6"},
+                {text: "Non noto nessun cambiamento", value: "5_7"},
+                {text: "Altro", value: "5_8"},
+            ]
+        },
+
+        {
+            type: "radio",
+            text: "Età",
+            options: [
+                {text: "16-29 anni", value: "5_1"},
+                {text: "39-44 anni", value: "5_2"},
+                {text: "45-59 anni", value: "5_3"},
+                {text: "60+ anni", value: "5_4"},
+                {text: "Preferisco non rispondere", value: "5_5"},
+            ]
+        },
+        {
+            type: "radio",
+            text: "Qual è la tua situazione lavorativa attuale?",
+            options: [
+                {text: "Studente", value: "5_1"},
+                {text: "Lavoratore dipendente", value: "5_1"},
+                {text: "Lavoratore autonomo / Libero Professionista", value: "5_1"},
+                {text: "In cerca di occupazione", value: "5_1"},
+                {text: "Pensionato", value: "5_1"},
+                {text: "Altro", value: "5_1"},
+                {text: "Preferisco non rispondere", value: "5_1"},
+            ]
+        },
+        {
+            type: "option",
+            max_choices: 6,
+            text: "Quali mezzi di trasporto usi di più?",
+            options: [
+                {text: "Auto", value: "5_1"},
+                {text: "Bici", value: "5_2"},
+                {text: "Mezzi pubblici", value: "5_3"},
+                {text: "A piedi", value: "5_4"},
+                {text: "Moto / Scooter / Monopattino", value: "5_5"},
+                {text: "Altro", value: "5_6"},
+            ]
+        },
     ],
 
     archetypes: [
