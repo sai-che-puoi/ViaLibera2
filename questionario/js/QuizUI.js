@@ -79,6 +79,20 @@ export class QuizUI {
         return container;
     }
 
+
+    createDescription(question, index) {
+        const container = document.createElement('div');
+        container.className = 'description';
+        return container;
+    }
+
+
+    createSeparator(question, index) {
+        const container = document.createElement('div');
+        container.className = 'separator';
+        return container;
+    }
+
     /**
      * Create radio group element
      */
@@ -456,7 +470,7 @@ export class QuizUI {
 
         const text = document.createElement('div');
         text.className = 'question-text';
-        text.textContent = `${index + 1}. ${question.text}`;
+        text.textContent = `${question.text}`;
         div.appendChild(text);
 
         if (question.type === 'slider') {
@@ -467,6 +481,10 @@ export class QuizUI {
             div.appendChild(this.createCheckboxGroup(question, index));
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
+        } else if (question.type === 'separator') {
+            div.appendChild(this.createSeparator(question, index));
+        } else if (question.type === 'description') {
+            div.appendChild(this.createDescription(question, index));
         }
 
         return div;

@@ -134,6 +134,18 @@ export const QUIZ_DATA = {
             weights: {x: -1, y: -1}
         },
         {
+            type: "separator",
+            text: ""
+        },
+        {
+            type: "description",
+            text: "Domande Immaginative"
+        },
+        {
+            type: "separator",
+            text: ""
+        },
+        {
             type: "allocation",
             text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione 100 punti da distribuire tra i seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
             options: [
@@ -199,7 +211,18 @@ export const QUIZ_DATA = {
                 {text: "Altro", value: "5_8"},
             ]
         },
-
+        {
+            type: "separator",
+            text: ""
+        },
+        {
+            type: "description",
+            text: "Domande anagrafiche"
+        },
+        {
+            type: "separator",
+            text: ""
+        },
         {
             type: "radio",
             text: "Età",

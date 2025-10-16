@@ -62,6 +62,7 @@ h1 {
     transition: all 0.3s ease;
 }
 
+
 .option:hover {
     border-color: #667eea;
     background-color: #f8f9ff;
@@ -503,4 +504,18 @@ h1 {
 
 .slider-labels span {
     display: inline-block;
+}
+
+.separator {
+    align-items: center;
+    /*padding: 5px;*/
+    padding-top: 10px;
+    border-top: 3px solid #e0e0e0;
+}
+
+.description {
+    align-items: center;
+    /*padding: 5px;*/
+    margin-bottom: 30px;
+    /*border-top: 3px solid #e0e0e0;*/
 }
