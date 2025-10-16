@@ -57,10 +57,11 @@ export class QuizController {
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
+            userAgent: navigator.userAgent,
             result: result.category.title,
             x: result.coordinates.x,
             y: result.coordinates.y,
-            ...result.answers
+            ...result.answers,
         };
 
         // Display result

@@ -46,8 +46,30 @@ export const QUIZ_DATA = {
     description: "Ciao! Siamo volontari di Sai che puoi e stiamo facendo un’indagine di quartiere per immaginare insieme una futura Milano.\n" +
         "Ci piacerebbe sapere cosa pensi di come viene usato lo spazio pubblico in città. " +
         "Abbiamo preparato un gioco e 5 domande per capire meglio il tuo rapporto con questi temi: non ci sono risposte giuste o sbagliate, ci interessa solo il tuo punto di vista.\n" +
-        "Dura circa pochi minuti, ti va di partecipare?",
+        "Dura pochi minuti, ti va di partecipare?",
 
+    interviewers: [
+        { location: "Via Aselli", couple: "Caccini - Ticozzelli" },
+        { location: "Via Aselli", couple: "Minora - Uguccioni" },
+        { location: "Via Aselli", couple: "Ciaccio - Sciariada" },
+        { location: "Via Aselli", couple: "Marcantognini - Secco" },
+
+        { location: "Via Cadore", couple: "De luca - Gobbi" },
+        { location: "Via Cadore", couple: "Uberti Foppa - Vita" },
+        { location: "Via Cadore", couple: "Collotti - Locatelli" },
+        { location: "Via Cadore", couple: "Miranti - Paoletti" },
+
+        { location: "Via Solari", couple: "Pirovano - Foresio" },
+        { location: "Via Solari", couple: "Ucci - Marini Govigli" },
+        { location: "Via Solari", couple: "Bottenghi - Al Hazwani" },
+        { location: "Via Solari", couple: "Cannarozzo - Bianco" },
+        { location: "Via Solari", couple: "Negri - Orsenigo" },
+
+        { location: "Piazza Bettini", couple: "Armellin  - Cosso" },
+        { location: "Piazza Bettini", couple: "Pellone  - Galuppini" },
+        { location: "Piazza Bettini", couple: "Cella - Bonini" },
+        { location: "Piazza Bettini", couple: "Leone - Goisis" }
+    ],
     questions: [
         {
             id: 'q1',
@@ -188,7 +210,7 @@ export const QUIZ_DATA = {
             type: "option",
             id: "o2",
             max_choices: 3,
-            text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato? (Risposta aperta da registrare, scegliendo l'opzione 'Altro'",
+            text: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato? (Risposta aperta da registrare, scegliendo l'opzione 'Altro')",
             options: [
                 {text: "Avere parcheggi e strade organizzate per muoversi in auto", value: "4_1"},
                 {text: "Più spazi verdi e aree per stare all’aperto", value: "4_2"},
@@ -202,7 +224,7 @@ export const QUIZ_DATA = {
         {
             type: "radio",
             id: "r2",
-            text: "In una strada dove il traffico automobilistico è stato ridotto cosa accade secondo te? Immagina questa strada (piazza ecc) con meno auto, quale cambiamento ti colpisce per primo? ",
+            text: "In una strada dove il traffico automobilistico è stato ridotto cosa accade secondo te? Immagina questa strada con meno auto, quale cambiamento ti colpisce per primo? (Scegli una sola risposta)",
             options: [
                 {text: "Meno rumore", value: "5_1"},
                 {text: "Più socialità tra vicini", value: "5_2"},
@@ -231,9 +253,9 @@ export const QUIZ_DATA = {
             id: "eta",
             text: "Età",
             options: [
-                {text: "16-29 anni", value: "6_1"},
-                {text: "39-44 anni", value: "6_2"},
-                {text: "45-59 anni", value: "6_3"},
+                {text: "16 - 29 anni", value: "6_1"},
+                {text: "30 - 44 anni", value: "6_2"},
+                {text: "45 - 59 anni", value: "6_3"},
                 {text: "60+ anni", value: "6_4"},
                 {text: "Preferisco non rispondere", value: "6_5"},
             ]

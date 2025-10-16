@@ -519,3 +519,10 @@ h1 {
     margin-bottom: 30px;
     /*border-top: 3px solid #e0e0e0;*/
 }
+
+.interviewers {
+    align-items: center;
+    padding: 5px;
+    margin-bottom: 30px;
+    /*border-top: 3px solid #e0e0e0;*/
+}

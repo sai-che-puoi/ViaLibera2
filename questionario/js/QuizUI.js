@@ -1,4 +1,4 @@
-import {generateTimestamp} from "./config.js";
+import {generateTimestamp, QUIZ_DATA} from "./config.js";
 
 export class QuizUI {
     constructor(container, quizData) {
@@ -11,6 +11,9 @@ export class QuizUI {
      * Initialize the quiz UI
      */
     init() {
+        const interviewEl = this.createInterviewerElement(this.quizData);
+        this.elements.interviewers = document.getElementById('interviewers');
+        this.elements.interviewers.appendChild(interviewEl);
         this.elements.title = document.getElementById('quizTitle');
         this.elements.description = document.getElementById('quizDescription');
         this.elements.questionsContainer = document.getElementById('questionsContainer');
@@ -19,13 +22,13 @@ export class QuizUI {
         this.elements.title.textContent = this.quizData.title;
         this.elements.description.textContent = this.quizData.description;
 
-        this.renderQuestions();
+        this.renderQuiz();
     }
 
     /**
      * Render all questions
      */
-    renderQuestions() {
+    renderQuiz() {
         this.elements.questionsContainer.innerHTML = '';
 
         this.quizData.questions.forEach((question, index) => {
@@ -461,6 +464,7 @@ export class QuizUI {
         updateAllocation();
     }
 
+
     /**
      * Create a question element (UPDATED)
      */
@@ -479,6 +483,7 @@ export class QuizUI {
             div.appendChild(this.createRadioGroup(question, index));
         } else if (question.type === 'option') {
             div.appendChild(this.createCheckboxGroup(question, index));
+            text.textContent = `${question.text} ID: ${QUIZ_DATA.title.substring(24, 35)}`
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         } else if (question.type === 'separator') {
@@ -614,5 +619,25 @@ export class QuizUI {
                 }
             }
         });
+    }
+
+    createInterviewerElement(quizData) {
+
+        const dropdown = document.createElement('select');
+        dropdown.className = 'interviewers';
+
+        quizData.interviewers.forEach(option => {
+            // Create a new <option> element
+            const optionEl = document.createElement('option');
+
+            // Set the value and text of the option
+            optionEl.value = option.location + " - " + option.couple;
+            optionEl.text = optionEl.value;
+
+            // Add the option to the dropdown
+            dropdown.appendChild(optionEl);
+        });
+
+        return dropdown;
     }
 }

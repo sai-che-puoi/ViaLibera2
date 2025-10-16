@@ -169,13 +169,14 @@ export class ResultCalculator {
     calculate(answers, results) {
         const coords = this.calculateCoordinates(answers);
         const category = this.archetypeFor(answers);
-
+        console.log(answers)
         const answerData = {};
         answers.forEach((answer, index) => {
             answerData[`q${index + 1}`] = answer.type === 'slider'
                 ? parseFloat(answer.value)
                 : answer.value;
         });
+        console.log(answerData)
 
         return {
             timestamp: new Date().toISOString(),
