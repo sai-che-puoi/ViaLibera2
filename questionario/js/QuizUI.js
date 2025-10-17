@@ -286,15 +286,15 @@ export class QuizUI {
         // const errorMsg = document.createElement('div');
         // errorMsg.className = 'error-message';
         // errorMsg.id = `errorMessage_${index}`;
-    //     errorMsg.innerHTML = `
-    //     <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    //         <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-    //         <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
-    //         <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
-    //     </svg>
-    //     <span>Hai superato il limite di 100 punti. Riduci alcune allocazioni.</span>
-    // `;
-    //     container.appendChild(errorMsg);
+        //     errorMsg.innerHTML = `
+        //     <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        //         <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+        //         <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
+        //         <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
+        //     </svg>
+        //     <span>Hai superato il limite di 100 punti. Riduci alcune allocazioni.</span>
+        // `;
+        //     container.appendChild(errorMsg);
 
         // Options container
         const optionsContainer = document.createElement('div');
@@ -553,6 +553,7 @@ export class QuizUI {
 
         return answers;
     }
+
     //
     // /**
     //  * Validation before submit (UPDATED)
@@ -619,6 +620,49 @@ export class QuizUI {
                 if (hint) {
                     hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
                     hint.style.color = '#666';
+                }
+            } else if (question.type === 'allocation') {
+                // Reset allocation sliders
+                question.options.forEach((option, optIndex) => {
+                    const slider = document.getElementById(`slider_${index}_${optIndex}`);
+                    const numberInput = document.getElementById(`number_${index}_${optIndex}`);
+                    const valueDisplay = document.getElementById(`value_${index}_${optIndex}`);
+
+                    if (slider) {
+                        slider.value = 0;
+                        // Trigger input event to update UI
+                        slider.dispatchEvent(new Event('input', {bubbles: true}));
+                    }
+                    if (numberInput) {
+                        numberInput.value = 0;
+                    }
+                    if (valueDisplay) valueDisplay.textContent = '0';
+                });
+
+                // Reset remaining resources display
+                const remainingValue = document.getElementById(`remainingValue_${index}`);
+                const allocatedValue = document.getElementById(`allocatedValue_${index}`);
+                const progressBar = document.getElementById(`progressBar_${index}`);
+                const submitHint = document.getElementById(`submitHint_${index}`);
+                const remainingBox = remainingValue?.closest('.remaining-display')?.parentElement;
+
+                if (remainingValue) {
+                    remainingValue.textContent = '100';
+                    remainingValue.classList.remove('success');
+                    remainingValue.classList.add('warning');
+                }
+                if (allocatedValue) allocatedValue.textContent = '0';
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    progressBar.classList.remove('success');
+                    progressBar.classList.add('warning');
+                }
+                if (remainingBox) {
+                    remainingBox.classList.remove('success', 'error');
+                    remainingBox.classList.add('warning');
+                }
+                if (submitHint) {
+                    submitHint.textContent = 'Distribuisci tutti i 100 punti per continuare';
                 }
             }
         });
