@@ -86,6 +86,18 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q2',
+            attitude: ATTITUDES.NON_VIVO_SENZA_AUTO,
+            type: "slider",
+            text: "Dipendo dall'auto per i miei spostamenti: non potrei farne a meno soprattutto con le alternative attuali.",
+            min: 0,
+            max: 5,
+            defaultValue: 3,
+            minLabel: "Per niente",
+            maxLabel: "Moltissimo",
+            weights: {x: -1, y: -1}
+        },
+        {
+            id: 'q3',
             attitude: ATTITUDES.GRETA,
             type: "slider",
             text: "Ridurre le auto è essenziale per il bene del pianeta e combattere la crisi climatica.",
@@ -97,43 +109,7 @@ export const QUIZ_DATA = {
             weights: {x: 1, y: 1}
         },
         {
-            id: 'q3',
-            attitude: ATTITUDES.VERDE,
-            type: "slider",
-            text: "Vorrei più verde nel mio quartiere, anche se questo significasse perdere qualche parcheggio.",
-            min: 0,
-            max: 5,
-            defaultValue: 3,
-            minLabel: "Per niente",
-            maxLabel: "Moltissimo",
-            weights: {x: 0.5, y: 1}
-        },
-        {
             id: 'q4',
-            attitude: ATTITUDES.PIAZZA,
-            type: "slider",
-            text: "Mi piacerebbe che alcuni spazi oggi dedicati alle auto nel mio quartiere diventassero luoghi di aggregazione o gioco.",
-            min: 0,
-            max: 5,
-            defaultValue: 3,
-            minLabel: "Per niente",
-            maxLabel: "Moltissimo",
-            weights: {x: 0.5, y: 0.5}
-        },
-        {
-            id: 'q5',
-            attitude: ATTITUDES.FATEMI_DORMIRE,
-            type: "slider",
-            text: "Temo che riconvertire i parcheggi in spazi di aggregazione porterebbe solo rumore e disturbo sotto casa.",
-            min: 0,
-            max: 5,
-            defaultValue: 3,
-            minLabel: "Per niente",
-            maxLabel: "Moltissimo",
-            weights: {x: -0.5, y: -0.5}
-        },
-        {
-            id: 'q6',
             attitude: ATTITUDES.STATUS_QUO,
             type: "slider",
             text: "Non vedo dove sia il problema nell'avere le macchine parcheggiate lungo la strada: è normale così.",
@@ -145,17 +121,44 @@ export const QUIZ_DATA = {
             weights: {x: -1, y: -0.5}
         },
         {
-            id: 'q7',
-            attitude: ATTITUDES.NON_VIVO_SENZA_AUTO,
+            id: 'q5',
+            attitude: ATTITUDES.VERDE,
             type: "slider",
-            text: "Dipendo dall'auto per i miei spostamenti: non potrei farne a meno soprattutto con le alternative attuali.",
+            text: "Vorrei più verde nel mio quartiere, anche se questo significasse perdere qualche parcheggio.",
             min: 0,
             max: 5,
             defaultValue: 3,
             minLabel: "Per niente",
             maxLabel: "Moltissimo",
-            weights: {x: -1, y: -1}
+            weights: {x: 0.5, y: 1}
         },
+        {
+            id: 'q6',
+            attitude: ATTITUDES.FATEMI_DORMIRE,
+            type: "slider",
+            text: "Temo che riconvertire i parcheggi in spazi di aggregazione porterebbe solo rumore e disturbo sotto casa.",
+            min: 0,
+            max: 5,
+            defaultValue: 3,
+            minLabel: "Per niente",
+            maxLabel: "Moltissimo",
+            weights: {x: -0.5, y: -0.5}
+        },
+        {
+            id: 'q7',
+            attitude: ATTITUDES.PIAZZA,
+            type: "slider",
+            text: "Mi piacerebbe che alcuni spazi oggi dedicati alle auto nel mio quartiere diventassero luoghi di aggregazione o gioco.",
+            min: 0,
+            max: 5,
+            defaultValue: 3,
+            minLabel: "Per niente",
+            maxLabel: "Moltissimo",
+            weights: {x: 0.5, y: 0.5}
+        },
+
+
+
         {
             type: "separator",
             text: ""
