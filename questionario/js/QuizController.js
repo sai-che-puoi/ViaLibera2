@@ -57,7 +57,7 @@ export class QuizController {
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
-            id:  this.quizData.title.substring(24, 35),
+            id:  this.ui.id,
             userAgent: navigator.userAgent,
             result: result.category.title,
             interviewer: interviewer.value,
@@ -98,7 +98,6 @@ export class QuizController {
      * Restart the quiz
      */
     restart() {
-        this.ui.reset();
-        this.showSection('form');
+        location.reload();
     }
 }

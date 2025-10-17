@@ -31,7 +31,7 @@ const ATTITUDES = {
     NON_VIVO_SENZA_AUTO: "Non posso vivere senza auto"
 }
 
-export function generateTimestamp() {
+export function generateId() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
@@ -42,7 +42,7 @@ export function generateTimestamp() {
 }
 
 export const QUIZ_DATA = {
-    title: "Questionario Via Libera " + generateTimestamp(),
+    title: "Questionario Via Libera",
     description: "Ciao! Siamo volontari di Sai che puoi? e stiamo facendo un’indagine di quartiere per immaginare insieme una futura Milano.\n" +
         "Ci piacerebbe sapere cosa pensi di come viene usato lo spazio pubblico in città. " +
         "Abbiamo preparato un gioco e 5 domande per capire meglio il tuo rapporto con questi temi: non ci sono risposte giuste o sbagliate, ci interessa solo il tuo punto di vista.\n" +

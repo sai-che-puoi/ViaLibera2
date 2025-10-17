@@ -1,10 +1,11 @@
-import {generateTimestamp, QUIZ_DATA} from "./config.js";
+import {generateId} from "./config.js";
 
 export class QuizUI {
     constructor(container, quizData) {
         this.container = container;
         this.quizData = quizData;
         this.elements = {};
+        this.id = generateId();
     }
 
     /**
@@ -21,7 +22,7 @@ export class QuizUI {
         this.elements.questionsContainer = document.getElementById('questionsContainer');
         this.elements.form = document.getElementById('quizForm');
 
-        this.elements.title.textContent = this.quizData.title;
+        this.elements.title.textContent = this.quizData.title + " - " + this.id;
         this.elements.description.textContent = this.quizData.description;
 
         this.renderQuiz();
@@ -481,7 +482,7 @@ export class QuizUI {
             div.appendChild(this.createRadioGroup(question, index));
         } else if (question.type === 'option') {
             div.appendChild(this.createCheckboxGroup(question, index));
-            text.textContent = `${question.text} ID: ${QUIZ_DATA.title.substring(24, 35)}`
+            text.textContent = `${question.text} ID: ${this.id}`
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         } else if (question.type === 'separator') {
@@ -552,120 +553,6 @@ export class QuizUI {
         });
 
         return answers;
-    }
-
-    //
-    // /**
-    //  * Validation before submit (UPDATED)
-    //  */
-    // async handleSubmit() {
-    //     let allValid = true;
-    //     const validationErrors = [];
-    //
-    //     this.quizData.questions.forEach((question, index) => {
-    //         if (question.type === 'allocation') {
-    //             const container = document.getElementById(`allocation_${index}`);
-    //             if (container.dataset.valid !== 'true') {
-    //                 allValid = false;
-    //                 validationErrors.push(`Domanda ${index + 1}: Distribuisci esattamente 100 punti`);
-    //             }
-    //         } else if (question.type === 'option') {
-    //             const container = document.getElementById(`option_${index}`);
-    //             const wrapper = container.parentElement;
-    //             if (wrapper.dataset.valid !== 'true') {
-    //                 allValid = false;
-    //                 validationErrors.push(`Domanda ${index + 1}: Seleziona almeno un'opzione`);
-    //             }
-    //         }
-    //     });
-    //
-    //     if (!allValid) {
-    //         alert('Per favore completa tutte le domande:\n' + validationErrors.join('\n'));
-    //         return;
-    //     }
-    //
-    //     const answers = this.ui.collectAnswers();
-    //     const result = this.calculator.calculate(answers, this.quizData.results);
-    //
-    //     // ... rest of your existing code
-    // }
-
-    /**
-     * Reset the form
-     */
-    reset() {
-        this.elements.form.reset();
-        document.getElementById("quizTitle").textContent = "Questionario Via Libera - " + generateTimestamp();
-
-        document.querySelectorAll('.option').forEach(el => {
-            el.classList.remove('selected');
-            el.classList.remove('disabled');
-        });
-
-        // Reset checkboxes
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.disabled = false;
-        });
-
-        this.quizData.questions.forEach((question, index) => {
-            if (question.type === 'slider') {
-                const slider = document.getElementById(question.id || `q${index}slider`);
-                slider.value = question.defaultValue;
-                const valueDisplay = slider.nextElementSibling;
-                if (valueDisplay) {
-                    valueDisplay.textContent = slider.value;
-                }
-            } else if (question.type === 'option') {
-                const hint = document.getElementById(`checkbox_hint_${index}`);
-                if (hint) {
-                    hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
-                    hint.style.color = '#666';
-                }
-            } else if (question.type === 'allocation') {
-                // Reset allocation sliders
-                question.options.forEach((option, optIndex) => {
-                    const slider = document.getElementById(`slider_${index}_${optIndex}`);
-                    const numberInput = document.getElementById(`number_${index}_${optIndex}`);
-                    const valueDisplay = document.getElementById(`value_${index}_${optIndex}`);
-
-                    if (slider) {
-                        slider.value = 0;
-                        // Trigger input event to update UI
-                        slider.dispatchEvent(new Event('input', {bubbles: true}));
-                    }
-                    if (numberInput) {
-                        numberInput.value = 0;
-                    }
-                    if (valueDisplay) valueDisplay.textContent = '0';
-                });
-
-                // Reset remaining resources display
-                const remainingValue = document.getElementById(`remainingValue_${index}`);
-                const allocatedValue = document.getElementById(`allocatedValue_${index}`);
-                const progressBar = document.getElementById(`progressBar_${index}`);
-                const submitHint = document.getElementById(`submitHint_${index}`);
-                const remainingBox = remainingValue?.closest('.remaining-display')?.parentElement;
-
-                if (remainingValue) {
-                    remainingValue.textContent = '100';
-                    remainingValue.classList.remove('success');
-                    remainingValue.classList.add('warning');
-                }
-                if (allocatedValue) allocatedValue.textContent = '0';
-                if (progressBar) {
-                    progressBar.style.width = '0%';
-                    progressBar.classList.remove('success');
-                    progressBar.classList.add('warning');
-                }
-                if (remainingBox) {
-                    remainingBox.classList.remove('success', 'error');
-                    remainingBox.classList.add('warning');
-                }
-                if (submitHint) {
-                    submitHint.textContent = 'Distribuisci tutti i 100 punti per continuare';
-                }
-            }
-        });
     }
 
     createInterviewerElement(quizData) {
