@@ -3,7 +3,6 @@ import {ResultCalculator} from "./ResultCalculator.js";
 import {CartesianPlane} from "./CartesianPlane.js";
 import {GoogleSheetsAPI} from "./GoogleSheetsAPI.js";
 
-
 export class QuizController {
     constructor(config, quizData) {
         this.quizData = quizData;
@@ -53,12 +52,15 @@ export class QuizController {
 
         // Show loading
         this.showSection('loading');
+        let interviewer = document.getElementById("interviewers").querySelector('select')
 
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
+            id:  this.quizData.title.substring(24, 35),
             userAgent: navigator.userAgent,
             result: result.category.title,
+            interviewer: interviewer.value,
             x: result.coordinates.x,
             y: result.coordinates.y,
             ...result.answers,
@@ -75,7 +77,6 @@ export class QuizController {
      * Display result to user
      */
     displayResult(result) {
-        console.log(result);
         document.getElementById('resultTitle').textContent = result.category.name;
         document.getElementById('resultDescription').textContent = result.category.description;
 

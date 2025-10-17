@@ -12,8 +12,10 @@ export class QuizUI {
      */
     init() {
         const interviewEl = this.createInterviewerElement(this.quizData);
-        this.elements.interviewers = document.getElementById('interviewers');
-        this.elements.interviewers.appendChild(interviewEl);
+        const container = document.getElementById('interviewers');
+        container.appendChild(interviewEl);
+        this.elements.interviewers = interviewEl; // Store the SELECT element, not the div
+
         this.elements.title = document.getElementById('quizTitle');
         this.elements.description = document.getElementById('quizDescription');
         this.elements.questionsContainer = document.getElementById('questionsContainer');
@@ -165,6 +167,13 @@ export class QuizUI {
 
             optionDiv.appendChild(checkbox);
             optionDiv.appendChild(label);
+
+            label.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                }
+                this.updateCheckboxSelection(index, question.max_choices);
+            });
 
             optionDiv.addEventListener('click', (e) => {
                 if (e.target !== checkbox) {
@@ -631,17 +640,18 @@ export class QuizUI {
         const dropdown = document.createElement('select');
         dropdown.className = 'interviewers';
 
-        quizData.interviewers.forEach(option => {
+        quizData.interviewers.forEach(((option, index) => {
             // Create a new <option> element
             const optionEl = document.createElement('option');
 
             // Set the value and text of the option
             optionEl.value = option.location + " - " + option.couple;
             optionEl.text = optionEl.value;
+            optionEl.selected = (index === 17)
 
             // Add the option to the dropdown
             dropdown.appendChild(optionEl);
-        });
+        }));
 
         return dropdown;
     }
