@@ -263,17 +263,6 @@ export class QuizUI {
         container.className = 'allocation-question';
         container.id = `allocation_${index}`;
 
-        // Header
-        const header = document.createElement('div');
-        header.className = 'allocation-header';
-        header.innerHTML = `
-        <p style="color: #666; line-height: 1.6; margin-bottom: 20px;">
-            Hai a disposizione <strong>100 punti</strong> da distribuire tra i seguenti elementi, 
-            in base a quanto li ritieni importanti. La somma totale deve essere 100.
-        </p>
-    `;
-        container.appendChild(header);
-
         // Remaining resources display
         const remainingBox = document.createElement('div');
         remainingBox.className = 'remaining-resources';

@@ -171,7 +171,7 @@ export const QUIZ_DATA = {
         {
             type: "allocation",
             id: "a1",
-            text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione dei punti da distribuire tra le scelte seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
+            text: "Immagina di poter ridisegnare le strade di Milano. Hai a disposizione 100 punti da distribuire tra le scelte seguenti, in base a quanto li ritieni importanti. La somma totale deve essere 100.",
             options_number: 6,
             options: [
                 {text: "Verde urbano (alberi, aiuole, orti)", value: "1_1"},

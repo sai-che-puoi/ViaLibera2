@@ -20,7 +20,7 @@ body {
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     max-width: 600px;
     width: 100%;
-    padding: 40px;
+    padding: 10px;
 }
 
 h1 {
@@ -278,8 +278,6 @@ h1 {
 /* Resource Allocation Styles */
 .allocation-question {
     margin: 30px 0;
-    padding: 20px;
-    background: #f8f9ff;
     border-radius: 10px;
 }
 
@@ -426,7 +424,6 @@ h1 {
 .slider-container {
     display: flex;
     align-items: center;
-    gap: 12px;
 }
 
 .allocation-slider {
@@ -460,7 +457,7 @@ h1 {
 }
 
 .number-input {
-    width: 60px;
+    width: 50px;
     padding: 6px;
     text-align: center;
     border: 0 solid #e5e7eb;
