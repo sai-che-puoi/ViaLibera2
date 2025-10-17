@@ -68,7 +68,8 @@ export const QUIZ_DATA = {
         { location: "Piazza Bettini", couple: "Armellin  - Cosso" },
         { location: "Piazza Bettini", couple: "Pellone  - Galuppini" },
         { location: "Piazza Bettini", couple: "Cella - Bonini" },
-        { location: "Piazza Bettini", couple: "Leone - Goisis" }
+        { location: "Piazza Bettini", couple: "Leone - Goisis" },
+        { location: "TEST", couple: "TEST" }
     ],
     questions: [
         {
