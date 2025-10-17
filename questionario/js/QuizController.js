@@ -59,7 +59,7 @@ export class QuizController {
             timestamp: result.timestamp,
             id:  this.ui.id,
             userAgent: navigator.userAgent,
-            result: result.category.title,
+            result: result.category.name,
             interviewer: interviewer.value,
             x: result.coordinates.x,
             y: result.coordinates.y,

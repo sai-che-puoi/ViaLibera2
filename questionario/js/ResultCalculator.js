@@ -55,71 +55,53 @@ export class ResultCalculator {
 
     /**
      * Calculates the user's archetype based on their quiz responses
-     * @param {number[]} responses - Array of 7 responses (values 0-5)
+     * @param responses - Array of 7 responses (values 0-5)
      * @returns {Object} - Archetype object with name and description
      */
     archetypeFor(responses) {
-        // Build mapping from question index to attitude
-        const mappingStatementsToAttitude = QUIZ_DATA.questions.map(q => q.attitude);
+        // Sort questions by value in descending order
+        const sorted = [...responses].filter((resp) => resp.type === "slider").sort((a, b) => parseInt(b.value) - parseInt(a.value));
 
-        // Build archetypes lookup table
-        const archetypesTable = this.buildArchetypesTable(QUIZ_DATA.archetypes);
+        // Get the highest score
+        const topScore = parseInt(sorted[0].value);
 
-        // 1) Calculate scores per attitude (mean of raw responses)
-        const groups = {};
-        mappingStatementsToAttitude.forEach((attitude, idx) => {
-            if (!groups[attitude]) {
-                groups[attitude] = [];
-            }
-            groups[attitude].push(idx);
-        });
+        // Find all questions with the top score
+        const topScored = sorted.filter(q => parseInt(q.value) === topScore);
 
-        const scores = {};
-        for (const attitude in groups) {
-            const indices = groups[attitude];
-            const values = indices
-                .map(i => responses[i])
-                .filter(val => val !== null && val !== undefined);
-
-            if (values.length > 0) {
-                scores[attitude] = this.mean(values);
-            }
+        // If we have more than 2 questions with the top score, randomly select 2
+        if (topScored.length > 2) {
+            const shuffled = [...topScored].sort(() => Math.random() - 0.5);
+            const slice = shuffled.slice(0, 2).map(q => q.attitude);
+            return this.findArchetype(slice[0], slice[1]);
         }
 
-        // 2) Get top-2 attitudes
-        const ordered = Object.keys(scores).sort((a, b) => {
-            const scoreDiff = scores[b] - scores[a];
-            if (scoreDiff !== 0) {
-                return scoreDiff; // descending by score
-            }
-            // Tie-breaker: original question order (first appearance)
-            const indexA = mappingStatementsToAttitude.indexOf(a);
-            const indexB = mappingStatementsToAttitude.indexOf(b);
-            return indexA - indexB;
-        });
-
-        if (ordered.length < 2) {
-            return {
-                name: "Archetipo non definito",
-                description: "Dati insufficienti"
-            };
+        // If we have exactly 2 we return them
+        if (topScored.length === 2) {
+            const topTwo = topScored.map(q => q.attitude);
+            return this.findArchetype(topTwo[0], topTwo[1]);
         }
 
-        const A1 = ordered[0];
-        const A2 = ordered[1];
+        // If only 1 question has the top score, get the second highest score
+        const secondScore = parseInt(sorted[1].value);
+        const secondScored = sorted.filter(q => parseInt(q.value) === secondScore);
 
-        // 3) Create canonical key (alphabetically sorted)
-        const key = this.canonicalKey(A1, A2);
-
-        // 4) Lookup archetype
-        if (key in archetypesTable) {
-            return archetypesTable[key];
-        } else {
-            return {
-                name: "Archetipo non definito",
-                description: `Coppia: ${key}`
-            };
+        // If multiple questions have the second highest score, randomly pick one
+        if (secondScored.length > 1) {
+            const randomSecond = secondScored[Math.floor(Math.random() * secondScored.length)];
+            return this.findArchetype(topScored[0].attitude, randomSecond.attitude);
         }
+
+        return this.findArchetype(topScored[0].attitude, secondScored[0].attitude);
+    }
+
+    findArchetype(attitude1, attitude2) {
+        const archetype = QUIZ_DATA.archetypes.find(archetype =>
+            archetype.base.length === 2 &&
+            archetype.base.includes(attitude1) &&
+            archetype.base.includes(attitude2)
+        );
+
+        return archetype || null; // or throw an error if preferred
     }
 
     /**
@@ -173,22 +155,19 @@ export class ResultCalculator {
         answers.forEach((answer) => {
             if (answer.type === 'slider') {
                 answerData[answer.id] = parseFloat(answer.value)
-            }
-            else if (answer.type === 'option') {
+            } else if (answer.type === 'option') {
                 const num = answer.value[0]?.split('_')[0];
                 for (let i = 1; i <= answer.options_number; i++) {
                     const key = `${num}_${i}`;
                     const id = `${answer.id}_${i}`;
                     answerData[id] = answer.value.includes(key) ? 1 : 0;
                 }
-            }
-            else if (answer.type === 'allocation') {
+            } else if (answer.type === 'allocation') {
                 for (let i = 1; i <= answer.options_number; i++) {
                     const id = `${answer.id}_${i}`;
-                    answerData[id] = answer.value[i-1];
+                    answerData[id] = answer.value[i - 1];
                 }
-            }
-            else {
+            } else {
                 answerData[answer.id] = answer.text;
             }
 
@@ -197,7 +176,7 @@ export class ResultCalculator {
         return {
             timestamp: new Date().toISOString(),
             coordinates: coords,
-            category,
+            category: category,
             answers: answerData
         };
     }

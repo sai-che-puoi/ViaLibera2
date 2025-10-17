@@ -507,7 +507,8 @@ export class QuizUI {
                     id: question.id,
                     type: 'slider',
                     value: slider.value,
-                    text: slider.value
+                    text: slider.value,
+                    attitude: question.attitude,
                 });
             } else if (question.type === 'radio') {
                 const selected = document.querySelector(`input[name="question${index}"]:checked`);
