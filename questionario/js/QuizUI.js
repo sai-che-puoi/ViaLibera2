@@ -115,7 +115,7 @@ export class QuizUI {
             radio.name = `question${index}`;
             radio.id = `${question.id}_${optIndex}`;
             radio.value = option.value;
-            radio.required = true;
+            radio.required = false;
             radio.dataset.text = option.text;
 
             const label = document.createElement('label');
