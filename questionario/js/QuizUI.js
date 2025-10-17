@@ -283,18 +283,18 @@ export class QuizUI {
         container.appendChild(remainingBox);
 
         // Error message
-        const errorMsg = document.createElement('div');
-        errorMsg.className = 'error-message';
-        errorMsg.id = `errorMessage_${index}`;
-        errorMsg.innerHTML = `
-        <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
-            <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
-            <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
-        </svg>
-        <span>Hai superato il limite di 100 punti. Riduci alcune allocazioni.</span>
-    `;
-        container.appendChild(errorMsg);
+        // const errorMsg = document.createElement('div');
+        // errorMsg.className = 'error-message';
+        // errorMsg.id = `errorMessage_${index}`;
+    //     errorMsg.innerHTML = `
+    //     <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    //         <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+    //         <line x1="12" y1="8" x2="12" y2="12" stroke-width="2"></line>
+    //         <line x1="12" y1="16" x2="12.01" y2="16" stroke-width="2"></line>
+    //     </svg>
+    //     <span>Hai superato il limite di 100 punti. Riduci alcune allocazioni.</span>
+    // `;
+    //     container.appendChild(errorMsg);
 
         // Options container
         const optionsContainer = document.createElement('div');
@@ -381,7 +381,7 @@ export class QuizUI {
             const remainingEl = document.getElementById(`remainingValue_${questionIndex}`);
             const progressBar = document.getElementById(`progressBar_${questionIndex}`);
             const allocatedEl = document.getElementById(`allocatedValue_${questionIndex}`);
-            const errorMsg = document.getElementById(`errorMessage_${questionIndex}`);
+            // const errorMsg = document.getElementById(`errorMessage_${questionIndex}`);
             const hint = document.getElementById(`submitHint_${questionIndex}`);
 
             remainingEl.textContent = remaining;
@@ -394,15 +394,15 @@ export class QuizUI {
             if (!isValid) {
                 remainingEl.className += 'invalid';
                 progressBar.className += 'invalid';
-                errorMsg.classList.add('show');
+                // errorMsg.classList.add('show');
             } else if (remaining === 0) {
                 remainingEl.className += 'valid';
                 progressBar.className += 'valid';
-                errorMsg.classList.remove('show');
+                // errorMsg.classList.remove('show');
             } else {
                 remainingEl.className += 'warning';
                 progressBar.className += 'warning';
-                errorMsg.classList.remove('show');
+                // errorMsg.classList.remove('show');
             }
 
             // Update progress bar
