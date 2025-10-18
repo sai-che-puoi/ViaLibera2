@@ -321,6 +321,7 @@ export class QuizUI {
                         min="0" 
                         max="100" 
                         value="0"
+                        step="5"
                         data-question="${index}"
                         data-option="${optIndex}"
                     >
