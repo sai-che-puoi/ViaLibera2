@@ -577,4 +577,39 @@ export class QuizUI {
 
         return dropdown;
     }
+
+    /**
+     * Reset the form
+     */
+    reset() {
+        this.elements.form.reset();
+        document.getElementById("quizTitle").textContent = "Questionario Via Libera - " + generateId();
+
+        document.querySelectorAll('.option').forEach(el => {
+            el.classList.remove('selected');
+            el.classList.remove('disabled');
+        });
+
+        // Reset checkboxes
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.disabled = false;
+        });
+
+        this.quizData.questions.forEach((question, index) => {
+            if (question.type === 'slider') {
+                const slider = document.getElementById(question.id || `q${index}slider`);
+                slider.value = question.defaultValue;
+                const valueDisplay = slider.nextElementSibling;
+                if (valueDisplay) {
+                    valueDisplay.textContent = slider.value;
+                }
+            } else if (question.type === 'option') {
+                const hint = document.getElementById(`checkbox_hint_${index}`);
+                if (hint) {
+                    hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
+                    hint.style.color = '#666';
+                }
+            }
+        });
+    }
 }

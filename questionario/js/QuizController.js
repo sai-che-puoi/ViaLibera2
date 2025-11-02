@@ -98,6 +98,8 @@ export class QuizController {
      * Restart the quiz
      */
     restart() {
-        location.reload();
+        // location.reload();
+        this.ui.reset();
+        this.showSection('form');
     }
 }
