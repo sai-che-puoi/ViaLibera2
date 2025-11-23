@@ -1,4 +1,3 @@
-
 export class ResultCalculator {
     constructor(questions) {
         this.questions = questions;
@@ -114,6 +113,12 @@ export class ResultCalculator {
                     const id = `${answer.id}_${i}`;
                     answerData[id] = answer.value[i - 1]; // The option text at position i
                 }
+            } else if (answer.type === 'input') {
+                var result = answer.text;
+                if (result === "Preferisco non rispondere") {
+                    result = "0"
+                }
+                answerData[answer.id] = result;
             } else {
                 answerData[answer.id] = answer.text;
             }
