@@ -116,7 +116,7 @@ export class ResultCalculator {
             } else if (answer.type === 'input') {
                 var result = answer.text;
                 if (result === "Preferisco non rispondere") {
-                    result = "0"
+                    result = "NA"
                 }
                 answerData[answer.id] = result;
             } else {
