@@ -1,3 +1,4 @@
+import {QUIZ_DATA} from './config.js';
 
 export class ResultCalculator {
     constructor(questions) {
@@ -51,6 +52,58 @@ export class ResultCalculator {
         return {x: xPct, y: yPct};
     }
 
+
+    /**
+     * Calculates the user's archetype based on their quiz responses
+     * @param responses - Array of 7 responses (values 0-5)
+     * @returns {Object} - Archetype object with name and description
+     */
+    archetypeFor(responses) {
+        // Sort questions by value in descending order
+        const sorted = [...responses].filter((resp) => resp.type === "slider").sort((a, b) => parseInt(b.value) - parseInt(a.value));
+
+        // Get the highest score
+        const topScore = parseInt(sorted[0].value);
+
+        // Find all questions with the top score
+        const topScored = sorted.filter(q => parseInt(q.value) === topScore);
+
+        // If we have more than 2 questions with the top score, randomly select 2
+        if (topScored.length > 2) {
+            const shuffled = [...topScored].sort(() => Math.random() - 0.5);
+            const slice = shuffled.slice(0, 2).map(q => q.attitude);
+            return this.findArchetype(slice[0], slice[1]);
+        }
+
+        // If we have exactly 2 we return them
+        if (topScored.length === 2) {
+            const topTwo = topScored.map(q => q.attitude);
+            return this.findArchetype(topTwo[0], topTwo[1]);
+        }
+
+        // If only 1 question has the top score, get the second highest score
+        const secondScore = parseInt(sorted[1].value);
+        const secondScored = sorted.filter(q => parseInt(q.value) === secondScore);
+
+        // If multiple questions have the second highest score, randomly pick one
+        if (secondScored.length > 1) {
+            const randomSecond = secondScored[Math.floor(Math.random() * secondScored.length)];
+            return this.findArchetype(topScored[0].attitude, randomSecond.attitude);
+        }
+
+        return this.findArchetype(topScored[0].attitude, secondScored[0].attitude);
+    }
+
+    findArchetype(attitude1, attitude2) {
+        const archetype = QUIZ_DATA.archetypes.find(archetype =>
+            archetype.base.length === 2 &&
+            archetype.base.includes(attitude1) &&
+            archetype.base.includes(attitude2)
+        );
+
+        return archetype || null; // or throw an error if preferred
+    }
+
     /**
      * Builds a lookup table from archetypes array
      * @param {Array} archetypes - Array of archetype objects
@@ -96,8 +149,9 @@ export class ResultCalculator {
      * Calculate complete result
      */
     calculate(answers) {
+        const coords = this.calculateCoordinates(answers);
+        const category = this.archetypeFor(answers);
         const answerData = {};
-
         answers.forEach((answer) => {
             if (answer.type === 'slider') {
                 answerData[answer.id] = parseFloat(answer.value)
@@ -108,20 +162,21 @@ export class ResultCalculator {
                     const id = `${answer.id}_${i}`;
                     answerData[id] = answer.value.includes(key) ? 1 : 0;
                 }
-            } else if (answer.type === 'sorting') {
-                // Create a column for each position
+            } else if (answer.type === 'allocation') {
                 for (let i = 1; i <= answer.options_number; i++) {
                     const id = `${answer.id}_${i}`;
-                    answerData[id] = answer.value[i - 1]; // The option text at position i
+                    answerData[id] = answer.value[i - 1];
                 }
             } else {
                 answerData[answer.id] = answer.text;
             }
+
         });
 
-        console.log(answerData);
         return {
             timestamp: new Date().toISOString(),
+            coordinates: coords,
+            category: category,
             answers: answerData
         };
     }
