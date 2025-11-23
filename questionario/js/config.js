@@ -29,12 +29,29 @@ export const QUIZ_DATA = {
                 "Non siamo del Comune e non vendiamo niente",
                 "È una breve intervista sugli spazi del quartiere, non chiediamo dati personali né facciamo riprese",
                 "Iniziare con 'Per caso abitate qua', invece di 'ti faccio qualche domanda'",
-                "Suggerimento aggiuntivo: C’è un regalo alla fine!"
+                "Suggerimento aggiuntivo: C’è un regalo alla fine!",
             ]
         },
         {
             type: "separator",
             text: ""
+        },
+        {
+            type: "description",
+            text: [
+                "Le tue risposte, insieme a quelle delle altre persone intervistate, saranno analizzate in forma anonima e utilizzate esclusivamente per scopi di ricerca.",
+                "I dati raccolti ci aiuteranno a creare una mappa dei desideri delle persone sugli spazi pubblici della città."
+            ]
+        },
+        {
+            type: "separator",
+            text: ""
+        },
+        {
+            type: "description",
+            text: [
+                "Quanto sei d'accordo, su una scala che va da 1 (completamente in disaccordo) a 10 (completamente d'accordo), con le seguenti affermazioni che riguardano Milano?"
+            ]
         },
         {
             id: 'q1',
@@ -220,9 +237,7 @@ export const QUIZ_DATA = {
         {
             type: "description",
             text: ["Ti ringrazio per il tempo che ci hai dedicato!",
-                   "Le tue risposte, insieme a quelle delle altre persone intervistate, saranno analizzate in forma anonima e utilizzate esclusivamente per scopi di ricerca.",
-                   "I dati raccolti ci aiuteranno a creare una mappa dei desideri delle persone sugli spazi pubblici della città.",
-                   "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
+                    "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
                    "Grazie per la disponibilità e buona giornata!"
                 ]
         }
