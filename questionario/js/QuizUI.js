@@ -395,7 +395,7 @@ export class QuizUI {
         <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <rect x="6" y="6" width="12" height="12" fill="currentColor"></rect>
         </svg>
-        <span>Ferma Registrazione</span>
+        <span>Termina Registrazione</span>
     `;
 
         const status = document.createElement('div');
