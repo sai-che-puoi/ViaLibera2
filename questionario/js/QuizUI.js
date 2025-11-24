@@ -22,9 +22,13 @@ export class QuizUI {
         this.elements.questionsContainer = document.getElementById('questionsContainer');
         this.elements.form = document.getElementById('quizForm');
 
-        this.elements.title.textContent = this.quizData.title + " - " + this.id;
+        this.elements.title.textContent = this.quizData.title;
 
         this.renderQuiz();
+        
+        // Initially hide form until interviewer is selected
+        this.selectedInterviewer = null;
+        this.toggleFormVisibility();
     }
 
     /**
@@ -414,7 +418,7 @@ export class QuizUI {
 
         startBtn.addEventListener('click', async () => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const stream = await navigator.mediaDevices.getUserMedia({audio: true});
                 mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
 
@@ -423,7 +427,7 @@ export class QuizUI {
                 };
 
                 mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioBlob = new Blob(audioChunks, {type: 'audio/webm'});
                     if (!this.recordings) this.recordings = {};
                     this.recordings[question.id || `recording_${index}`] = audioBlob;
 
@@ -933,7 +937,7 @@ export class QuizUI {
 
     async uploadRecordings(googleScriptUrl, formData) {
         if (!this.recordings || Object.keys(this.recordings).length === 0) {
-            return { success: true, message: 'No recordings to upload' };
+            return {success: true, message: 'No recordings to upload'};
         }
 
         const uploadPromises = [];
@@ -943,7 +947,7 @@ export class QuizUI {
             const base64Promise = new Promise((resolve, reject) => {
                 reader.onloadend = () => {
                     const base64data = reader.result.split(',')[1];
-                    resolve({ recordingId, base64data });
+                    resolve({recordingId, base64data});
                 };
                 reader.onerror = reject;
                 reader.readAsDataURL(audioBlob);
@@ -969,31 +973,140 @@ export class QuizUI {
                 })
             });
 
-            return { success: true, message: 'Recordings uploaded successfully' };
+            return {success: true, message: 'Recordings uploaded successfully'};
         } catch (error) {
             console.error('Error uploading recordings:', error);
-            return { success: false, message: 'Error uploading recordings', error };
+            return {success: false, message: 'Error uploading recordings', error};
         }
     }
 
     createInterviewerElement(quizData, interviewers) {
-        const dropdown = document.createElement('select');
-        dropdown.className = 'interviewers';
-
-        interviewers.forEach(((option, index) => {
-            const optionEl = document.createElement('option');
-            optionEl.value = option.location + " - " + option.couple;
-            optionEl.text = optionEl.value;
-            optionEl.selected = (index === 17)
-            dropdown.appendChild(optionEl);
-        }));
-
-        return dropdown;
+        const container = document.createElement('div');
+        container.className = 'interviewer-container';
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'dropdown-wrapper';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'interviewer-input';
+        input.placeholder = 'Seleziona o digita per filtrare intervistatore...';
+        input.autocomplete = 'off';
+        
+        const dropdownList = document.createElement('div');
+        dropdownList.className = 'dropdown-list';
+        dropdownList.style.display = 'none';
+        
+        // Store original interviewers data
+        this.interviewersData = interviewers;
+        this.selectedInterviewer = null;
+        
+        // Create dropdown options
+        this.updateDropdownList(dropdownList, interviewers, input);
+        
+        // Add event listeners
+        input.addEventListener('keydown', (e) => {
+            // Prevent form submission when pressing Enter in the dropdown
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                // If there's exactly one option visible, select it
+                const visibleOptions = dropdownList.querySelectorAll('.dropdown-option');
+                if (visibleOptions.length === 1) {
+                    const value = visibleOptions[0].dataset.value;
+                    input.value = value;
+                    this.selectedInterviewer = value;
+                    dropdownList.style.display = 'none';
+                    this.toggleFormVisibility();
+                }
+            }
+        });
+        
+        input.addEventListener('input', () => {
+            const filter = input.value.toLowerCase();
+            const filtered = interviewers.filter(interviewer => 
+                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            );
+            this.updateDropdownList(dropdownList, filtered, input);
+            dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
+            // Clear selection if input doesn't match exactly
+            const exactMatch = filtered.find(interviewer => 
+                (interviewer.location + ' - ' + interviewer.couple).toLowerCase() === filter
+            );
+            if (!exactMatch) {
+                this.selectedInterviewer = null;
+                this.toggleFormVisibility();
+            }
+        });
+        
+        input.addEventListener('focus', () => {
+            const filter = input.value.toLowerCase();
+            const filtered = interviewers.filter(interviewer => 
+                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            );
+            this.updateDropdownList(dropdownList, filtered, input);
+            dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
+        });
+        
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!wrapper.contains(e.target)) {
+                dropdownList.style.display = 'none';
+            }
+        });
+        
+        wrapper.appendChild(input);
+        wrapper.appendChild(dropdownList);
+        container.appendChild(wrapper);
+        
+        // Don't set default selection - let user choose
+        this.selectedInterviewer = null;
+        
+        return container;
+    }
+    
+    updateDropdownList(dropdownList, interviewers, input) {
+        dropdownList.innerHTML = '';
+        
+        interviewers.forEach(interviewer => {
+            const option = document.createElement('div');
+            option.className = 'dropdown-option';
+            const value = interviewer.location + ' - ' + interviewer.couple;
+            option.textContent = value;
+            option.dataset.value = value;
+            
+            option.addEventListener('click', () => {
+                input.value = value;
+                this.selectedInterviewer = value;
+                dropdownList.style.display = 'none';
+                this.toggleFormVisibility();
+            });
+            
+            dropdownList.appendChild(option);
+        });
+    }
+    
+    toggleFormVisibility() {
+        const questionsContainer = document.getElementById('questionsContainer');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        if (this.selectedInterviewer) {
+            questionsContainer.classList.add('visible');
+            submitBtn.classList.add('visible');
+        } else {
+            questionsContainer.classList.remove('visible');
+            submitBtn.classList.remove('visible');
+        }
     }
 
     reset() {
+        // Store current interviewer selection
+        const currentInterviewer = this.selectedInterviewer;
+        
         this.elements.form.reset();
-        document.getElementById("quizTitle").textContent = "Questionario Via Libera - " + generateId();
+        
+        // Generate new ID but keep the interviewer selection
+        this.id = generateId();
+        document.getElementById("quizTitle").textContent = this.quizData.title;
 
         document.querySelectorAll('.option').forEach(el => {
             el.classList.remove('selected');
@@ -1007,10 +1120,12 @@ export class QuizUI {
         this.quizData.questions.forEach((question, index) => {
             if (question.type === 'slider') {
                 const slider = document.getElementById(question.id || `q${index}slider`);
-                slider.value = question.defaultValue;
-                const valueDisplay = slider.nextElementSibling;
-                if (valueDisplay) {
-                    valueDisplay.textContent = slider.value;
+                if (slider) {
+                    slider.value = question.defaultValue;
+                    const valueDisplay = slider.nextElementSibling;
+                    if (valueDisplay) {
+                        valueDisplay.textContent = slider.value;
+                    }
                 }
             } else if (question.type === 'option') {
                 const hint = document.getElementById(`checkbox_hint_${index}`);
@@ -1026,5 +1141,17 @@ export class QuizUI {
                 }
             }
         });
+        
+        // Restore interviewer selection and keep form visible
+        if (currentInterviewer) {
+            const interviewerInput = document.querySelector('.interviewer-input');
+            if (interviewerInput) {
+                interviewerInput.value = currentInterviewer;
+                this.selectedInterviewer = currentInterviewer;
+            }
+        }
+        
+        // Ensure form remains visible with interviewer selected
+        this.toggleFormVisibility();
     }
 }

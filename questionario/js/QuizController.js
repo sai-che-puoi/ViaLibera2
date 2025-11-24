@@ -47,7 +47,7 @@ export class QuizController {
 
         // Show loading
         this.showSection('loading');
-        let interviewer = document.getElementById("interviewers").querySelector('select')
+        let interviewerInput = document.getElementById("interviewers").querySelector('.interviewer-input');
 
         // Prepare submission data
         const submissionData = {
@@ -55,17 +55,20 @@ export class QuizController {
             id:  this.ui.id,
             userAgent: navigator.userAgent,
             // result: result.category.name,
-            interviewer: interviewer.value,
+            interviewer: interviewerInput.value,
             // x: result.coordinates.x,
             // y: result.coordinates.y,
             ...result.answers,
         };
 
-        // Display result
-        this.displayResult(result);
-
         // Send to API
         await this.api.send(submissionData);
+        
+        // Display result briefly
+        this.displayResult(result);
+        
+        // After successful submission, immediately restart the quiz
+        this.restart();
     }
 
     /**

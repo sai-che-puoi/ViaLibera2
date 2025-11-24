@@ -643,6 +643,73 @@ h1 {
     margin-bottom: 30px;
 }
 
+/* Interviewer Selection Styles */
+.interviewer-container {
+    margin-bottom: 30px;
+}
+
+/* Form visibility control */
+#questionsContainer,
+#submitBtn {
+    display: none;
+}
+
+#questionsContainer.visible,
+#submitBtn.visible {
+    display: block;
+}
+
+.dropdown-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.interviewer-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.interviewer-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-option:hover {
+    background-color: #f8fafc;
+}
+
+.dropdown-option:last-child {
+    border-bottom: none;
+}
+
 .interviewers {
     align-items: center;
     padding: 5px;

@@ -17,7 +17,7 @@ export function generateId() {
 }
 
 export const QUIZ_DATA = {
-    title: "Questionario Via Libera",
+    title: "Questionario Via Libera 2",
 
     questions: [
         {
@@ -237,9 +237,9 @@ export const QUIZ_DATA = {
         {
             type: "description",
             text: ["Ti ringrazio per il tempo che ci hai dedicato!",
-                    "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
-                   "Grazie per la disponibilità e buona giornata!"
-                ]
+                "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
+                "Grazie per la disponibilità e buona giornata!"
+            ]
         }
     ]
 };
