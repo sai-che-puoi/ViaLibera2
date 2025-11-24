@@ -138,7 +138,14 @@ export const QUIZ_DATA = {
         {
             type: "sorting",
             id: "o1",
-            text: "Immagina di essere il sindaco di Milano. Ti elenchiamo alcune aree su cui la città potrebbe lavorare nei prossimi anni. Metti in ordine di importanza quelle che, secondo te, dovrebbero essere le priorità: dalla più importante alla meno urgente.",
+            text: [
+                "Immagina di essere il sindaco di Milano. Ti elenchiamo alcune aree su cui la città potrebbe lavorare nei prossimi anni. Metti in ordine di importanza quelle che, secondo te, dovrebbero essere le priorità: dalla più importante alla meno urgente.",
+                "- Verde urbano (alberi, aiuole, orti)",
+                "- Mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
+                "- Spazi di socialità (panchine, spazi comunitari, eventi)",
+                "- Bambini e famiglie (giochi, spazi sicuri)",
+                "- Cultura e sport (arte urbana, campetti, attività)",
+                "- Parcheggi e circolazione delle auto"],
             options: [
                 "Verde urbano (alberi, aiuole, orti)",
                 "Mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",

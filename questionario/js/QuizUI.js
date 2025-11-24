@@ -810,7 +810,7 @@ export class QuizUI {
         text.className = 'question-text';
 
         // Handle description type with array of text
-        if (question.type === 'description' && Array.isArray(question.text)) {
+        if ((question.type === 'description' || question.type === 'sorting') && Array.isArray(question.text)) {
             text.innerHTML = question.text.join('<br><br>');
         } else {
             text.textContent = `${question.text}`;
