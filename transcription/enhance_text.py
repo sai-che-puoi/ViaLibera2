@@ -49,7 +49,7 @@ def enhance_text(input_text, api_url, api_key, model, params=None):
     if params:
         payload.update(params)
 
-    response = requests.post(api_url, headers=headers, json=payload, verify=False)
+    response = requests.post(api_url, headers=headers, json=payload)
 
     if response.status_code == 200:
         result = response.json()
