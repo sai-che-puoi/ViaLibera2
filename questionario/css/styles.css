@@ -631,7 +631,8 @@ h1 {
 .slider-labels {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    align-items: center;
+    margin-top: 40px;
     font-size: 14px;
     color: #666;
     width: 100%;
@@ -639,6 +640,18 @@ h1 {
 
 .slider-labels span {
     display: inline-block;
+}
+
+.slider-value-center {
+    font-size: 20px;
+    font-weight: 600;
+    color: #667eea !important;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid #667eea;
+    min-width: 40px;
+    text-align: center;
 }
 
 .separator {

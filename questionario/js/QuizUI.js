@@ -247,6 +247,7 @@ export class QuizUI {
         const valueDisplay = document.createElement('div');
         valueDisplay.className = 'slider-value';
         valueDisplay.textContent = slider.value;
+        valueDisplay.style.display = 'none'; // Hide the original value display
 
         slider.addEventListener('input', () => {
             valueDisplay.textContent = slider.value;
@@ -260,8 +261,16 @@ export class QuizUI {
         labels.style.width = '100%';
         labels.innerHTML = `
         <span>${question.minLabel}</span>
+        <span class="slider-value-center">${slider.value}</span>
         <span>${question.maxLabel}</span>
     `;
+
+        // Update the value display function to also update the center value
+        const centerValueSpan = labels.querySelector('.slider-value-center');
+        slider.addEventListener('input', () => {
+            valueDisplay.textContent = slider.value;
+            centerValueSpan.textContent = slider.value;
+        });
 
         container.appendChild(wrapper);
         container.appendChild(labels);
@@ -1125,6 +1134,11 @@ export class QuizUI {
                     const valueDisplay = slider.nextElementSibling;
                     if (valueDisplay) {
                         valueDisplay.textContent = slider.value;
+                    }
+                    // Also reset the center value display in labels
+                    const centerValueSpan = slider.closest('.question-slider-container').querySelector('.slider-value-center');
+                    if (centerValueSpan) {
+                        centerValueSpan.textContent = question.defaultValue;
                     }
                 }
             } else if (question.type === 'option') {
