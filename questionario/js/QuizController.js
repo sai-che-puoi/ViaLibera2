@@ -1,6 +1,6 @@
 import { QuizUI } from './QuizUI.js';
 import {ResultCalculator} from "./ResultCalculator.js";
-import {GoogleSheetsAPI} from "./GoogleSheetsAPI.js";
+import {GoogleAPI} from "./GoogleAPI.js";
 
 export class QuizController {
     constructor(config, quizData, interviewers) {
@@ -8,7 +8,7 @@ export class QuizController {
 
         this.ui = new QuizUI(document.body, quizData, interviewers);
         this.calculator = new ResultCalculator(quizData.questions);
-        this.api = new GoogleSheetsAPI(config);
+        this.api = new GoogleAPI(config);
 
         this.sections = {
             form: document.getElementById('formSection'),
@@ -43,11 +43,20 @@ export class QuizController {
      */
     async handleSubmit() {
         const answers = this.ui.collectAnswers();
+        const audioData = this.ui.getRecording();
+
         const result = this.calculator.calculate(answers);
 
         // Show loading
         this.showSection('loading');
         let interviewerInput = document.getElementById("interviewers").querySelector('.interviewer-input');
+
+        // send audio file to google drive
+        let fileUrl = "";
+        if (audioData) {
+            const filename = this.ui.id + ".webm";
+            fileUrl = await this.api.writeAudioBlobToGoogleDrive(audioData, filename);
+        }
 
         // Prepare submission data
         const submissionData = {
@@ -58,13 +67,12 @@ export class QuizController {
             interviewer: interviewerInput.value,
             // x: result.coordinates.x,
             // y: result.coordinates.y,
+            audioFileUrl: fileUrl,
             ...result.answers,
         };
 
-        // Send to API
-        await this.api.send(submissionData);
-        
-        // Display result briefly
+        await this.api.sendFormToSheet(submissionData);
+
         this.displayResult(result);
         
         // After successful submission, immediately restart the quiz

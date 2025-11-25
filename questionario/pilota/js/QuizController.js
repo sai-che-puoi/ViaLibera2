@@ -70,7 +70,7 @@ export class QuizController {
         this.displayResult(result);
 
         // Send to API
-        await this.api.send(submissionData);
+        await this.api.sendFormToSheet(submissionData);
     }
 
     /**

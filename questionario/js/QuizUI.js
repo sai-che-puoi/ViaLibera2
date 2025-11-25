@@ -435,9 +435,7 @@ export class QuizUI {
                 };
 
                 mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, {type: 'audio/webm'});
-                    if (!this.recordings) this.recordings = {};
-                    this.recordings[question.id || `recording_${index}`] = audioBlob;
+                    this.recording = new Blob(audioChunks, {type: 'audio/webm'});
 
                     const statusText = status.querySelector('.status-text');
                     statusText.textContent = 'Registrazione salvata';
@@ -480,6 +478,10 @@ export class QuizUI {
         });
 
         return container;
+    }
+
+    getRecording() {
+        return this.recording || null;
     }
 
     createSeparator() {

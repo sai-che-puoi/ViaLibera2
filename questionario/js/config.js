@@ -1,8 +1,8 @@
-import {googleScriptUrl} from "./script_key.js";
+import {googleSheetScriptUrl} from "./script_key.js";
 
 export const CONFIG = {
     // API Configuration
-    googleScriptUrl: googleScriptUrl,
+    googleScriptUrl: googleSheetScriptUrl,
     enableDataCollection: true,
 };
 
