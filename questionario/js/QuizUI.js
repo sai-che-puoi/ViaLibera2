@@ -6,7 +6,6 @@ export class QuizUI {
         this.interviewers = interviewers;
         this.quizData = quizData;
         this.elements = {};
-        this.id = generateId();
     }
 
     /**
@@ -1091,6 +1090,7 @@ export class QuizUI {
         
         if (this.selectedInterviewer) {
             questionsContainer.classList.add('visible');
+            this.id = generateId(this.selectedInterviewer)
             submitBtn.classList.add('visible');
         } else {
             questionsContainer.classList.remove('visible');
@@ -1104,8 +1104,6 @@ export class QuizUI {
         
         this.elements.form.reset();
         
-        // Generate new ID but keep the interviewer selection
-        this.id = generateId();
         document.getElementById("quizTitle").textContent = this.quizData.title;
 
         document.querySelectorAll('.option').forEach(el => {

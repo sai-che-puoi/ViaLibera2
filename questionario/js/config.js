@@ -6,14 +6,13 @@ export const CONFIG = {
     enableDataCollection: true,
 };
 
-export function generateId() {
+export function generateId(selectedInterviewer) {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const seconds = String(now.getSeconds()).padStart(2, '0');
-    const random = Math.floor(Math.random() * 100);
 
-    return `${hours}.${minutes}.${seconds}-${random}`;
+    return `${hours}.${minutes}.${seconds}-${selectedInterviewer}`;
 }
 
 export const QUIZ_DATA = {
