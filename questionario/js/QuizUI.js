@@ -553,24 +553,16 @@ export class QuizUI {
             optionDiv.appendChild(checkbox);
             optionDiv.appendChild(label);
 
-            label.addEventListener('click', (e) => {
-                if (e.target !== checkbox) {
-                    checkbox.checked = !checkbox.checked;
-                }
-                this.updateCheckboxSelection(index, question.max_choices);
-            });
-
             optionDiv.addEventListener('click', (e) => {
-                if (e.target !== checkbox) {
+                if (e.target !== checkbox && e.target !== label && !checkbox.disabled) {
                     checkbox.checked = !checkbox.checked;
+                    this.updateCheckboxSelection(index, question.max_choices);
                 }
-                this.updateCheckboxSelection(index, question.max_choices);
             });
 
             checkbox.addEventListener('change', () => {
                 this.updateCheckboxSelection(index, question.max_choices);
             });
-
             container.appendChild(optionDiv);
         });
 
@@ -593,12 +585,11 @@ export class QuizUI {
         const checkboxes = container.querySelectorAll('input[type="checkbox"]');
         const hint = document.getElementById(`checkbox_hint_${questionIndex}`);
         const wrapper = container.parentElement;
-
         let checkedCount = 0;
         checkboxes.forEach(cb => {
             if (cb.checked) checkedCount++;
         });
-
+        console.log("index, checkedCount", questionIndex, checkedCount);
         checkboxes.forEach(cb => {
             const optionDiv = cb.closest('.option');
             if (cb.checked) {
