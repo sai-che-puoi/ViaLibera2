@@ -272,8 +272,8 @@ export class QuizUI {
             centerValueSpan.textContent = slider.value;
         });
 
-        container.appendChild(wrapper);
         container.appendChild(labels);
+        container.appendChild(wrapper);
 
         return container;
     }
