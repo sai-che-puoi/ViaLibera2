@@ -68,14 +68,15 @@ export class GoogleAPI {
                 body: JSON.stringify(payload)
             });
 
-            // const result = await response.json();
-            //
-            // if (result.success) {
-            //     console.log('Upload successful:', result);
-            //     return result.filename;
-            // } else {
-            //     throw new Error(result.error || 'Upload failed');
-            // }
+            const result = await response.json();
+            // console.log(result);
+
+            if (result.success) {
+                console.log('Upload successful:', result);
+                return result.url;
+            } else {
+                throw new Error(result.error || 'Upload failed');
+            }
             return filename;
         } catch (error) {
             console.error('Error uploading recording:', error);
