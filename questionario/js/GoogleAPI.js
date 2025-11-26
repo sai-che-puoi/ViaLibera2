@@ -64,6 +64,7 @@ export class GoogleAPI {
             // Send to Google Apps Script
             const response = await fetch(googleDriveFolderScriptUrl, {
                 method: 'POST',
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
             });
 
@@ -76,7 +77,6 @@ export class GoogleAPI {
             } else {
                 throw new Error(result.error || 'Upload failed');
             }
-            return filename;
         } catch (error) {
             console.error('Error uploading recording:', error);
             throw error;
