@@ -64,7 +64,6 @@ export class GoogleAPI {
             // Send to Google Apps Script
             const response = await fetch(googleDriveFolderScriptUrl, {
                 method: 'POST',
-                mode: 'no-cors',
                 body: JSON.stringify(payload)
             });
 
