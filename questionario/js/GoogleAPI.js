@@ -65,7 +65,7 @@ export class GoogleAPI {
             const response = await fetch(googleDriveFolderScriptUrl, {
                 method: 'POST',
                 redirect: 'follow',
-                headers: {'Content-Type': 'application/json'},
+                headers: {'Content-Type': 'text/plain'},
                 body: JSON.stringify(payload)
             });
 
