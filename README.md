@@ -2,7 +2,7 @@
 
 Repository del questionario per il pilota di Via Libera 2. 
 
-## 
+## Questionario
 Il questionario e' una pagina statica hostata qui su github pages e disponibile all'URL: https://sai-che-puoi.github.io/ViaLibera2/questionario
 
 La pagina viene creata dinamicamente partendo dal file di configurazione [config.js](questionario/js/config.js).
