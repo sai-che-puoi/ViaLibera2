@@ -1,5 +1,3 @@
-import {generateId} from "./config.js";
-
 export class QuizUI {
     constructor(container, quizData, interviewers) {
         this.container = container;
@@ -1047,12 +1045,22 @@ export class QuizUI {
         
         if (this.selectedInterviewer) {
             questionsContainer.classList.add('visible');
-            this.id = generateId(this.selectedInterviewer)
+            this.id = this.generateId(this.selectedInterviewer)
             submitBtn.classList.add('visible');
         } else {
             questionsContainer.classList.remove('visible');
             submitBtn.classList.remove('visible');
         }
+    }
+
+
+    generateId(selectedInterviewer) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        return `${hours}.${minutes}.${seconds}-${selectedInterviewer}`;
     }
 
     reset() {
