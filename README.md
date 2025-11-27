@@ -10,7 +10,7 @@ Quando di invia il form, la funzione handle fa due cose:
 1. chiama un [endpoint](https://script.google.com/home/projects/1D38nCxqOT0fnzNbGjqHGUJZdcQG2WiDJHeD210qzrI20AXAsKv1VMKgu/edit) su Google App Script con il blob audio (codificato in base64); lo script salva il file audio su google drive e restituisce l'URL del file audio salvato
 2. chiama un altro [endpoint](https://script.google.com/u/0/home/projects/1Y4NMybya_z6hyLZ31yT84zCBGLzNeJN2IqskSKjUNL2TdlN9knxrCDTD/edit) su Google App Script con i dati del questionario e il file URL ottenuto dall'altro endpoint; lo script salva questi dati su un [foglio](https://docs.google.com/spreadsheets/d/1kA2w9puir-od51z3KHZwNI9q6pnsw5_RoYbvgCR8o4Y/edit?gid=0#gid=0) di google sheet
 
-A questo punto l'interfaccia viene resettata con i valori di default e si po' partire con un'altra intervista.
+A questo punto l'interfaccia viene resettata con i valori di default e si puo' partire con un'altra intervista.
 
 
 ## Script per la trascrizione
