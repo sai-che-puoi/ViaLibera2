@@ -936,51 +936,6 @@ export class QuizUI {
         return answers;
     }
 
-    async uploadRecordings(googleScriptUrl, formData) {
-        if (!this.recordings || Object.keys(this.recordings).length === 0) {
-            return {success: true, message: 'No recordings to upload'};
-        }
-
-        const uploadPromises = [];
-
-        for (const [recordingId, audioBlob] of Object.entries(this.recordings)) {
-            const reader = new FileReader();
-            const base64Promise = new Promise((resolve, reject) => {
-                reader.onloadend = () => {
-                    const base64data = reader.result.split(',')[1];
-                    resolve({recordingId, base64data});
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(audioBlob);
-            });
-
-            uploadPromises.push(base64Promise);
-        }
-
-        try {
-            const recordings = await Promise.all(uploadPromises);
-
-            const response = await fetch(googleScriptUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    type: 'audio_upload',
-                    formId: formData.id || this.id,
-                    interviewer: formData.interviewer,
-                    recordings: recordings
-                })
-            });
-
-            return {success: true, message: 'Recordings uploaded successfully'};
-        } catch (error) {
-            console.error('Error uploading recordings:', error);
-            return {success: false, message: 'Error uploading recordings', error};
-        }
-    }
-
     createInterviewerElement(quizData, interviewers) {
         const container = document.createElement('div');
         container.className = 'interviewer-container';
