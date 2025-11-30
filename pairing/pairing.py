@@ -250,14 +250,19 @@ def _(couples, np, singles, time_area_slots):
         G.add_edge(c, s, capacity=2, weight=cost / 2)
 
     # slot_tempo_luogo -> destinazione
-    # Ogni slot_tempo_luogo *deve* ricevere 2 iscritti (capacity=2).
+    # Ogni slot_tempo_luogo *deve* ricevere almeno 2 iscritti (capacity=2).
     # Più gruppi sono in uno slot, più costa (è meglio riempire altri slot)
     # Numero righe qui è il massimo numero di gruppi per slot
     for s in g_slots:
-        G.add_edge(s, 'destination', capacity=2, weight=0)
-        G.add_edge(s, 'destination', capacity=2, weight=20)
-        G.add_edge(s, 'destination', capacity=2, weight=40)
-        G.add_edge(s, 'destination', capacity=2, weight=80)
+        G.add_edge(s, 'destination', capacity=2, weight=10)
+        G.add_edge(s, 'destination', capacity=1, weight=12)
+        G.add_edge(s, 'destination', capacity=1, weight=14)
+        G.add_edge(s, 'destination', capacity=1, weight=16)
+        G.add_edge(s, 'destination', capacity=1, weight=18)
+        G.add_edge(s, 'destination', capacity=1, weight=20)
+        G.add_edge(s, 'destination', capacity=1, weight=22)
+        G.add_edge(s, 'destination', capacity=1, weight=24)
+        G.add_edge(s, 'destination', capacity=1, weight=26)
 
     # Opzionale: stampa del grafo in json
     # import json
