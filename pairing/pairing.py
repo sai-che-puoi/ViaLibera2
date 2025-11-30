@@ -286,34 +286,51 @@ def _(couples, np, singles, time_area_slots):
                 total_cost += flow_on_edge * edge_cost
 
         print(f"\nAccoppiamenti ottimali (Costo totale: {total_cost}):")
+        output = []
+        total_flow = 0
         for s in g_slots:
             print(f"  slot_tempo_luogo '{time_area_slots[s]}':")
             flow_in_slot = 0
 
+            slot_surnames = []
+
             for u in g_users:
                 if u in flow_dict and s in flow_dict[u] and sum(flow_dict[u][s].values()) == 1:
-                    print(f"    - {g_users[u]["user"]["name"]} (costo: {g_user_costs[(u,s)]})")
+                    uu = g_users[u]["user"]
+                    print(f"    - {uu["name"]} {uu["surname"]} (costo: {g_user_costs[(u,s)]})")
+                    slot_surnames.append(uu["surname"])
                     flow_in_slot += 1
 
             for c in g_couples:
                 if c in flow_dict and s in flow_dict[c] and sum(flow_dict[c][s].values()) == 2:
-                    print(f"    - {g_couples[c]["users"][0]["name"]} & {g_couples[c]["users"][1]["name"]} (costo: {g_couple_costs[(c,s)]})")
+                    u1 = g_couples[c]["users"][0]
+                    u2 = g_couples[c]["users"][1]
+                    print(f"    - {u1["name"]} {u1["surname"]} & {u2["name"]} {u2["surname"]} (costo: {g_couple_costs[(c,s)]})")
+                    slot_surnames.append(u1["surname"])
+                    slot_surnames.append(u2["surname"])
                     flow_in_slot += 2
+            output.append({
+                "time": time_area_slots[s][0],
+                "location": time_area_slots[s][1],
+                "couple": " - ".join(slot_surnames)
+            })
 
-            if flow_in_slot == 0:
-                print("    - (vuoto)")
-            elif flow_in_slot % 2 != 0:
-                 print(f"    -> (ATTENZIONE: slot con {flow_in_slot} persone)")
+            print(f"    -> Totale slot: {flow_in_slot}")
+            total_flow += flow_in_slot
+
+        assert(total_flow == demand)
 
     except nx.NetworkXUnfeasible:
         print("Errore: Il problema non ha una soluzione fattibile.")
     except nx.NetworkXError:
         print("Errore: Problema con il grafo (es. domanda non bilanciata).")
-    return
+    return (output,)
 
 
 @app.cell
-def _():
+def _(output):
+    import json
+    print(f"export const interviewers = {json.dumps(output)}")
     return
 
 
