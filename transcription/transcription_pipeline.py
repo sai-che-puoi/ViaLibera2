@@ -60,16 +60,33 @@ def main():
                     file_id = audio_link.split("/d/")[1].split("/")[0]
                 else:
                     raise ValueError("Invalid Google Drive link format")
+                
+                # Check if row is already fully processed
+                if row[headers.index(TRANSCRIPTION_COLUMN_NAME)] and row[headers.index(ENHANCED_COLUMN_NAME)]:
+                    print("      Row already fully processed, skipping...")
+                    updated_values.append(row)
+                    continue
 
-                # Download audio file
-                local_path = download_audio_file(access_token, file_id, f"temp_audio.{AUDIO_EXTENSION}")
+                # Check if transcription is already present
+                if row[headers.index(TRANSCRIPTION_COLUMN_NAME)]:
+                    print("      Transcription already present")
+                    transcription = row[headers.index(TRANSCRIPTION_COLUMN_NAME)]
+                else: # Download audio file and transcribe audio using AssemblyAI
+                    print("      Downloading audio file...")
+                    local_path = download_audio_file(access_token, file_id, f"temp_audio.{AUDIO_EXTENSION}")
+                    print("      Transcribing audio...")
+                    transcription = transcribe_audio(local_path, ASSEMBLYAI_API_URL, ASSEMBLYAI_API_KEY)
 
-                # Transcribe audio using AssemblyAI
-                transcription = transcribe_audio(local_path, ASSEMBLYAI_API_URL, ASSEMBLYAI_API_KEY)
-
-                # Enhance transcription using OpenAI
-                if transcription:
-                    enhanced = enhance_text(transcription, OPENAI_API_URL, OPENAI_API_KEY, OPENAI_MODEL)
+                # Check if enhanced transcription is already present
+                if row[headers.index(ENHANCED_COLUMN_NAME)]:
+                    print("      Enhanced transcription already present")
+                    enhanced = row[headers.index(ENHANCED_COLUMN_NAME)]
+                else: # Enhance transcription using OpenAI
+                    if transcription:
+                        print("      Enhancing transcription...")
+                        enhanced = enhance_text(transcription, OPENAI_API_URL, OPENAI_API_KEY, OPENAI_MODEL)
+                    else:
+                        print("      Skipping enhancement (no transcription)")
 
             except Exception as e:
                 print(f"      Error processing row: {e}")
