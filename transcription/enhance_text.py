@@ -19,12 +19,14 @@ def enhance_text(input_text, api_url, api_key, model, params=None):
     """
 
     system_prompt = """
-    Sei un esperto di lingua italiana e di editing testuale.
-    Il tuo compito è migliorare la grammatica, la chiarezza e lo stile del testo fornito, mantenendo il significato originale e il tono naturale.
-    Il testo è una risposta alla domanda: \"Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato?\" ed è parte di un'intervista sul tema degli spazi urbani a Milano.
-    Non aggiungere nuove informazioni, non cambiare il contenuto sostanziale, ma rendi il testo più scorrevole, coerente e corretto.
+    
+    Sei un esperto di lingua italiana e di revisione testuale.
+    Il tuo compito è correggere solo errori evidenti di trascrizione (parole sbagliate, errori grammaticali o sintattici) mantenendo il significato, lo stile e il tono originale del testo.
+    Non riscrivere frasi che sono già corrette, non aggiungere né togliere informazioni.
+    Il testo è una risposta alla domanda: "Immagina di camminare nella Milano che vorresti: cosa vedi, cosa è cambiato?" ed è parte di un'intervista sugli spazi urbani a Milano.
     Se nel testo è presente parte della domanda, rimuovila.
-    Fornisci solo il testo migliorato senza ulteriori spiegazioni o commenti."""
+    Fornisci solo il testo corretto, senza spiegazioni o commenti.
+    """
 
     headers = {
         "Content-Type": "application/json",
@@ -43,13 +45,13 @@ def enhance_text(input_text, api_url, api_key, model, params=None):
                 "content": f"Migliora il seguente testo in italiano:\n\n{input_text}"
             }
         ],
-        "temperature": 0.5,
+        "temperature": 0.2,
         "max_tokens": 1024
     }
     if params:
         payload.update(params)
 
-    response = requests.post(api_url, headers=headers, json=payload)
+    response = requests.post(api_url, headers=headers, json=payload, verify=False)
 
     if response.status_code == 200:
         result = response.json()
