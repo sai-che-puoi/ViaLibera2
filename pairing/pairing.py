@@ -171,7 +171,7 @@ def _(
                 }
 
                 couple = {
-                    "users": [user, partner],    
+                    "users": [user, partner],
                 } | slots
                 couples.append(couple)
 
@@ -199,9 +199,7 @@ def _(
 
 
 @app.cell
-def _(couples, np, singles, time_area_slots):
-    import networkx as nx
-
+def pair_fun(couples, np, singles, time_area_slots):
     g_users = {f"s{i}": user for i, user in enumerate(singles)}
     g_couples = {f"c{i}": couple for i, couple in enumerate(couples)}
     g_slots = np.arange(len(time_area_slots))
@@ -212,118 +210,196 @@ def _(couples, np, singles, time_area_slots):
     g_user_costs = { (k, s) : 10 for k, u in g_users.items() for s in u["time_area_slots"] }
     g_couple_costs = { (k, s) : 10 for k, c in g_couples.items() for s in c["time_area_slots"] }
 
-    G = nx.MultiDiGraph()
-
     # Setup del problema come flow graph
-    # source -> iscritti -> slot_tempo_luogo -> destination
+    import pulp
+    prob = pulp.LpProblem("Gestione_Iscritti_MIP", pulp.LpMinimize)
 
-    # Inserimento nodi
-    demand = len(g_users) + len(g_couples) * 2
-    G.add_node('source', demand=-demand) 
-    G.add_node('destination', demand=demand) 
+    # --- 2. Create Decision Variables ---
+    x = pulp.LpVariable.dicts("single",
+                              ((u, s) for u in g_users for s in g_slots),
+                              cat='Binary')
 
-    for u in g_users.keys():
-        G.add_node(u, demand=0)
-    for c in g_couples.keys():
-        G.add_node(c, demand=0)
+    y = pulp.LpVariable.dicts("couple",
+                              ((c, s) for c in g_couples for s in g_slots),
+                              cat='Binary')
+
+    # --- 3. Modeling the Slot Capacity & Penalty ---
+
+    # We want:
+    # 1 person  -> Cost: 10 + PENALTY
+    # 2 people  -> Cost: 20 (10 + 10)
+    # 3 people  -> Cost: 30 (10 + 10 + 10)
+    # 4+ people -> Higher tiers (20 each, etc.)
+
+    PENALTY_LONELY = 1000 # Cost added if only 1 person is in a slot
+
+    slot_vars = {}
     for s in g_slots:
-        G.add_node(s, demand=0)
+        # First two people
+        slot_vars[s] = [
+            (pulp.LpVariable(f"slot_{s}_p1", cat='Binary'), 10 + PENALTY_LONELY),
+            (pulp.LpVariable(f"slot_{s}_p2", cat='Binary'), 10 - PENALTY_LONELY)
+        ]
 
-    # Inserimento edge
+        rest_tier_defs = [
+            (1, 10), # Important that this is 10 otherwise solver gets stuck?
+            (1, 20),
+            (1, 30),
+            (1, 50),
+            (1, 100),
+            (1, 180),
+            (1, 300),
+            (1, 500),
+            (1, 1000),
+        ]
 
-    # sorgente -> iscritti
-    # Ogni iscritto vale come una persona (capacity=1)
-    # Ogni coppia vale due (capacity=2)
-    for u in g_users.keys():
-        G.add_edge('source', u, capacity=1, weight=0)
-    for c in g_couples.keys():
-        G.add_edge('source', c, capacity=2, weight=0)
+        for idx, (cap, cost) in enumerate(rest_tier_defs):
+            t_var = pulp.LpVariable(f"slot_{s}_tier_{idx}", lowBound=0, upBound=cap, cat='Integer')
+            slot_vars[s].append((t_var, cost))
 
-    # iscritti -> slot_tempo_luogo
-    # Qui usiamo i punteggi di preferenza come 'costo' (weight)
-    # Un iscritto può riempire uno slot_tempo_luogo solo una volta (capacity=1)
-    # Una coppia può riempire uno slot_tempo_luogo solo una volta (capacity=2)
-    # - Peso di coppia è dimezzato perchè viene moltiplicato da capacity
-    for (u, s), cost in g_user_costs.items():
-        G.add_edge(u, s, capacity=1, weight=cost)
-    for (c, s), cost in g_couple_costs.items():
-        G.add_edge(c, s, capacity=2, weight=cost / 2)
 
-    # slot_tempo_luogo -> destinazione
-    # Ogni slot_tempo_luogo *deve* ricevere almeno 2 iscritti (capacity=2).
-    # Più gruppi sono in uno slot, più costa (è meglio riempire altri slot)
-    # Numero righe qui è il massimo numero di gruppi per slot
+    # --- 4. Constraints ---
+
+    # A & B: Assignment constraints (same as before)
+    for u in g_users:
+        valid_slots = [s for s in g_slots if (u, s) in g_user_costs]
+        prob += pulp.lpSum([x[u, s] for s in valid_slots]) == 1
+
+    for c in g_couples:
+        valid_slots = [s for s in g_slots if (c, s) in g_couple_costs]
+        prob += pulp.lpSum([y[c, s] for s in valid_slots]) == 1
+
+    # C. Link People to the Sequential Buckets
     for s in g_slots:
-        G.add_edge(s, 'destination', capacity=2, weight=10)
-        G.add_edge(s, 'destination', capacity=1, weight=12)
-        G.add_edge(s, 'destination', capacity=1, weight=14)
-        G.add_edge(s, 'destination', capacity=1, weight=16)
-        G.add_edge(s, 'destination', capacity=1, weight=18)
-        G.add_edge(s, 'destination', capacity=1, weight=20)
-        G.add_edge(s, 'destination', capacity=1, weight=22)
-        G.add_edge(s, 'destination', capacity=1, weight=24)
-        G.add_edge(s, 'destination', capacity=1, weight=26)
+        # 1. Calculate actual people assigned to this slot
+        people_in_slot = (
+            pulp.lpSum([x[u, s] for u in g_users if (u, s) in g_user_costs]) +
+            pulp.lpSum([2 * y[c, s] for c in g_couples if (c, s) in g_couple_costs])
+        )
 
-    # Opzionale: stampa del grafo in json
-    # import json
-    # G_int = nx.relabel_nodes(G, lambda x: str(x))
-    # print(json.dumps(nx.to_dict_of_dicts(G_int), sort_keys=True, indent=4))
+        # 2. Sum of all buckets must equal people_in_slot
+        sv = slot_vars[s]
+        prob += people_in_slot == pulp.lpSum([t[0] for t in sv])
 
-    print("Esecuzione del solver...")
-    # Calcola il modo più economico per soddisfare tutta la 'domanda'
-    # rispettando le capacità e minimizzando i costi (weight)
-    try:
-        flow_dict = nx.min_cost_flow(G)
-        print("Solver terminato.")
+        # 3. Enforce Sequence (Cannot fill b2 unless b1 is full)
+        # This prevents the solver from just picking the "Discounted" b2 and skipping the expensive b1.
+        prob += sv[1][0] <= sv[0][0]
+        prob += sv[2][0] <= sv[1][0]
+        prob += sv[3][0] <= sv[2][0]
+        prob += sv[4][0] <= sv[3][0]
 
-        # Calcolo manuale del costo per MultiDiGraph
-        total_cost = 0
-        for u, v, key, data in G.edges(data=True, keys=True):
-            flow_on_edge = flow_dict.get(u, {}).get(v, {}).get(key, 0)
+    preference_cost = (
+        pulp.lpSum([x[u, s] * cost for (u, s), cost in g_user_costs.items()]) +
+        pulp.lpSum([y[c, s] * cost for (c, s), cost in g_couple_costs.items()])
+    )
 
-            if flow_on_edge > 0:
-                edge_cost = data.get('weight', 0)
-                total_cost += flow_on_edge * edge_cost
+    # Sum up costs of b1, b2, b3 and the tiers
+    filling_cost = 0
+    for s in g_slots:
+        for t_var, t_cost in slot_vars[s]:
+            filling_cost += t_var * t_cost
 
-        print(f"\nAccoppiamenti ottimali (Costo totale: {total_cost}):")
-        output = []
-        total_flow = 0
+    prob += preference_cost + filling_cost
+
+    # --- 6. Solve ---
+    print("Esecuzione del solver PuLP...")
+    # msg=False hides the verbose solver logs
+    prob.solve(pulp.PULP_CBC_CMD(msg=False))
+    print("Solver terminato.")
+
+    # --- 7. Output Formatting ---
+
+    output = []
+    min_flow = 10
+    max_flow = 0
+    empty_slots = 0
+    if prob.status != pulp.LpStatusOptimal:
+        print("Errore: Il problema non ha trovato una soluzione ottimale (Infeasible).")
+    else:
+        print(f"\nAccoppiamenti ottimali (Objective Value: {pulp.value(prob.objective)}):")
+
+        total_people_assigned = 0
+
         for s in g_slots:
             print(f"  slot_tempo_luogo '{time_area_slots[s]}':")
             flow_in_slot = 0
-
             slot_surnames = []
 
+            # Find Singles in this slot
             for u in g_users:
-                if u in flow_dict and s in flow_dict[u] and sum(flow_dict[u][s].values()) == 1:
+                if (u, s) in g_user_costs and pulp.value(x[u, s]) == 1:
                     uu = g_users[u]["user"]
-                    print(f"    - {uu["name"]} {uu["surname"]} (costo: {g_user_costs[(u,s)]})")
+                    print(f"    - {uu['name']} {uu['surname']} (costo: {g_user_costs[(u,s)]})")
                     slot_surnames.append(uu["surname"])
                     flow_in_slot += 1
 
+            # Find Couples in this slot
             for c in g_couples:
-                if c in flow_dict and s in flow_dict[c] and sum(flow_dict[c][s].values()) == 2:
+                if (c, s) in g_couple_costs and pulp.value(y[c, s]) == 1:
                     u1 = g_couples[c]["users"][0]
                     u2 = g_couples[c]["users"][1]
-                    print(f"    - {u1["name"]} {u1["surname"]} & {u2["name"]} {u2["surname"]} (costo: {g_couple_costs[(c,s)]})")
+                    print(f"    - {u1['name']} {u1['surname']} & {u2['name']} {u2['surname']} (costo: {g_couple_costs[(c,s)]})")
                     slot_surnames.append(u1["surname"])
                     slot_surnames.append(u2["surname"])
                     flow_in_slot += 2
-            output.append({
-                "time": time_area_slots[s][0],
-                "location": time_area_slots[s][1],
-                "couple": " - ".join(slot_surnames)
-            })
 
-            print(f"    -> Totale slot: {flow_in_slot}")
-            total_flow += flow_in_slot
+            if flow_in_slot == 0:
+                print("    (vuoto)")
+                empty_slots += 1
+            else:
+                print(f"    -> Totale slot: {flow_in_slot}")
+                output.append({
+                    "time": time_area_slots[s][0],
+                    "location": time_area_slots[s][1],
+                    "couple": " - ".join(slot_surnames)
+                })
 
-        assert(total_flow == demand)
+                total_people_assigned += flow_in_slot
+                min_flow = min(min_flow, flow_in_slot)
+                max_flow = max(max_flow, flow_in_slot)
 
-    except nx.NetworkXUnfeasible:
-        print("Errore: Il problema non ha una soluzione fattibile.")
-    except nx.NetworkXError:
-        print("Errore: Problema con il grafo (es. domanda non bilanciata).")
+        expected_demand = len(g_users) + len(g_couples) * 2
+        print(f"Total people: {total_people_assigned}, Expected: {expected_demand}")
+        print(f"Min group size: {min_flow}, Max group size: {max_flow}")
+        print(f"Empty slots: {empty_slots}")
+
+        print("\n" + "="*40)
+        print("      ISTOGRAMMA RIEMPIMENTO SLOT")
+        print("="*40)
+
+        import collections
+        # 1. Calculate actual population for every slot
+        slot_populations = []
+
+        for s in g_slots:
+            # Sum Singles (x variables)
+            s_count = sum(pulp.value(x[u, s]) for u in g_users if (u, s) in g_user_costs)
+            # Sum Couples (y variables * 2)
+            c_count = sum(pulp.value(y[c, s]) * 2 for c in g_couples if (c, s) in g_couple_costs)
+
+            total = int(s_count + c_count)
+            slot_populations.append(total)
+
+        # 2. Aggregates counts (How many slots have exactly N people?)
+        hist_data = collections.Counter(slot_populations)
+        limit = 11  # Your hard limit
+
+        # 3. Print ASCII Histogram
+        for n in range(limit + 1):
+            count = hist_data.get(n, 0)
+
+            # Visual bar (use '█' for a solid look, or '#' for standard ascii)
+            bar = "█" * count
+
+            # Only print rows that aren't empty, or print all to show gaps
+            if count > 0 or n == 0:
+                # Format: " 3 people: █████ (5)"
+                print(f"{n:>2} persone: {bar:<20} ({count} slot)")
+            else:
+                # Optional: Print faint line for empty bins
+                print(f"{n:>2} persone: -")
+
+        print("="*40)
     return (output,)
 
 
