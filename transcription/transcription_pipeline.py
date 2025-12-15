@@ -43,7 +43,11 @@ def main():
 
     print("Start processing rows...")
     for i, row in enumerate(rows[1:], start=1):
-        print(f"   Processing row {i}")
+        
+        id_index = headers.index("ID")  # Find the index of the "ID" column
+        id_value = row[id_index]        # Get the value from that column in the current row
+
+        print(f"   Processing row {i} with id {id_value}")
         while len(row) < len(headers):
             row.append("")  # Ensure row length matches headers
 
@@ -51,7 +55,13 @@ def main():
         transcription = ""
         enhanced = ""
 
-        if audio_link:
+        
+        if not audio_link:
+            print("      No audio link found, skipping row...")
+            updated_values.append(row)
+            continue
+
+        else:
             try:
                 # Extract file ID from Google Drive link
                 if "id=" in audio_link:

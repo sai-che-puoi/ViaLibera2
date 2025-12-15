@@ -1,8 +1,8 @@
-
 import os
 import json
 import pickle
 import requests
+import subprocess  # Added for running OAuth flow
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -29,7 +29,19 @@ if not refresh_token:
     refresh_token = os.getenv('GOOGLE_REFRESH_TOKEN')
 
 if not refresh_token:
-    raise EnvironmentError("Refresh token not found. Run OAuth flow first or set GOOGLE_REFRESH_TOKEN in .env.")
+    # Launch OAuth flow if no token found
+    print("No refresh token found. Running OAuth flow...")
+    try:
+        subprocess.run(["python", "oauth_flow.py"], cwd=os.path.dirname(__file__), check=True)
+        # Reload token after OAuth
+        if os.path.exists(TOKEN_PICKLE_FILE):
+            with open(TOKEN_PICKLE_FILE, 'rb') as token_file:
+                creds = pickle.load(token_file)
+                refresh_token = getattr(creds, 'refresh_token', None)
+        if not refresh_token:
+            raise EnvironmentError("OAuth flow completed, but no refresh token found.")
+    except subprocess.CalledProcessError as e:
+        raise EnvironmentError(f"OAuth flow failed: {e}")
 
 # Disable SSL verification globally for requests
 VERIFY_SSL = False
