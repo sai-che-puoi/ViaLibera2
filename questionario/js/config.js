@@ -76,7 +76,7 @@ export const QUIZ_DATA = {
         {
             id: 'q4',
             type: "slider",
-            text: "E' normale che le macchine siano parcheggiate per strada.",
+            text: "Mi sta bene che le auto in sosta occupino una parte importante dello spazio pubblico.",
             min: 1,
             max: 10,
             defaultValue: 5,
@@ -96,7 +96,7 @@ export const QUIZ_DATA = {
         {
             id: 'q6',
             type: "slider",
-            text: "Riconvertire i parcheggi in spazi di aggregazione porterebbe solo rumore e disturbo sotto casa.",
+            text: "Mi preoccupa che nuovi spazi di aggregazione nel mio quartiere possano aumentare rumore e confusione.",
             min: 1,
             max: 10,
             defaultValue: 5,
@@ -130,32 +130,31 @@ export const QUIZ_DATA = {
             id: "o1",
             text: [
                 "Immagina di essere il sindaco di Milano. Ti elenchiamo alcune aree su cui la città potrebbe lavorare nei prossimi anni. Metti in ordine di importanza quelle che, secondo te, dovrebbero essere le priorità: dalla più importante alla meno urgente.",
-                "- Verde urbano (alberi, aiuole, orti)",
-                "- Mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
-                "- Spazi di socialità (panchine, spazi comunitari, eventi)",
-                "- Bambini e famiglie (giochi, spazi sicuri)",
-                "- Cultura e sport (arte urbana, campetti, attività)",
-                "- Parcheggi e circolazione delle auto"],
+                "- Più verde urbano (alberi, aiuole, orti)",
+                "- Incentivare la mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
+                "- Più spazi per la socialità e per le famiglie (giochi, panchine, spazi comunitari, luoghi sicuri)",
+                "- Più spazi culturali e per lo sport (eventi, arte urbana, campetti)",
+                "- Più parcheggi per auto e moto",
+                "- Migliorare la circolazione e la viabilità delle auto (onde verdi, corsie preferenziali per auto/moto)"],
             options: [
-                "Verde urbano (alberi, aiuole, orti)",
-                "Mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
-                "Spazi di socialità (panchine, spazi comunitari, eventi)",
-                "Bambini e famiglie (giochi, spazi sicuri)",
-                "Cultura e sport (arte urbana, campetti, attività)",
-                "Parcheggi e circolazione delle auto",
+                "Più verde urbano",
+                "Mobilità sostenibile",
+                "Spazi di socialità e famiglie",
+                "Spazi culturali e sport",
+                "Più parcheggi",
+                "Migliorare la circolazione delle auto",
             ]
-        },
+},
         {
             type: "radio",
             id: "r1",
             text: "Alcune persone ritengono che limitare le auto migliori la vivibilità, altre persone che renda più difficile spostarsi. Tu come la vedi? (Scegli una sola risposta)",
             options: [
                 {text: "Ridurrei le auto se ci fossero buone alternative di trasporto", value: "3_1"},
-                {text: "Limitare le auto migliorerebbe la qualità della vita nel quartiere", value: "3_2"},
-                {text: "Le auto sono necessarie per la vita quotidiana (lavoro, famiglia, etc.)", value: "3_3"},
-                {text: "Dipende da come vengono organizzati parcheggi e trasporto pubblico", value: "3_4"},
-                {text: "Non sento il bisogno di cambiare la situazione attuale", value: "3_5"},
-                {text: "Non ho un’opinione precisa a riguardo", value: "3_6"},
+                {text: "Limiterei le auto per migliorare la qualità della vita in città", value: "3_2"},
+                {text: "Trovo che le auto siano necessarie per la vita quotidiana", value: "3_3"},
+                {text: "Non sento il bisogno di cambiare la situazione attuale", value: "3_4"},
+                {text: "Non ho un’opinione precisa a riguardo", value: "3_5"}
             ]
         },
         {
