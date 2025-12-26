@@ -1101,12 +1101,101 @@ export class QuizUI {
                     hint.textContent = `Seleziona fino a ${question.max_choices} opzion${question.max_choices > 1 ? 'i' : 'e'}`;
                     hint.style.color = '#666';
                 }
+                const wrapper = document.getElementById(`option_${index}`)?.parentElement;
+                if (wrapper) {
+                    wrapper.dataset.valid = 'false';
+                }
             } else if (question.type === 'sorting') {
-                const hint = document.getElementById(`sorting_hint_${index}`);
+                // Reset all select elements for this sorting question
+                this.resetSorting(index, question.options.length);
+            } else if (question.type === 'allocation') {
+                // Reset allocation question
+                question.options.forEach((option, optIndex) => {
+                    const slider = document.getElementById(`slider_${index}_${optIndex}`);
+                    const numberInput = document.getElementById(`number_${index}_${optIndex}`);
+                    const valueDisplay = document.getElementById(`value_${index}_${optIndex}`);
+
+                    if (slider) {
+                        slider.value = 0;
+                        slider.style.background = `linear-gradient(to right, #667eea 0%, #e5e7eb 0%)`;
+                    }
+                    if (numberInput) {
+                        numberInput.value = 0;
+                    }
+                    if (valueDisplay) {
+                        valueDisplay.textContent = 0;
+                    }
+                });
+
+                // Reset the allocation display
+                const remainingEl = document.getElementById(`remainingValue_${index}`);
+                const progressBar = document.getElementById(`progressBar_${index}`);
+                const allocatedEl = document.getElementById(`allocatedValue_${index}`);
+                const hint = document.getElementById(`submitHint_${index}`);
+
+                if (remainingEl) {
+                    remainingEl.textContent = 100;
+                    remainingEl.className = 'remaining-value warning';
+                }
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    progressBar.className = 'progress-bar warning';
+                }
+                if (allocatedEl) {
+                    allocatedEl.textContent = 0;
+                }
                 if (hint) {
-                    hint.textContent = `Ordina tutte le ${question.options.length} opzioni`;
+                    hint.textContent = 'Distribuisci tutti i 100 punti per continuare';
                     hint.style.color = '#666';
                 }
+
+                const container = document.getElementById(`allocation_${index}`);
+                if (container) {
+                    container.dataset.valid = 'false';
+                }
+            } else if (question.type === 'input') {
+                // Reset input with alt option
+                const radio1 = document.getElementById(`${question.id}_input_enable`);
+                const input = document.getElementById(question.id || `input_${index}`);
+
+                if (radio1) {
+                    radio1.checked = true;
+                }
+                if (input) {
+                    input.value = '';
+                    input.disabled = false;
+                }
+
+                // Update visual state
+                const option1 = radio1?.closest('.option');
+                const option2 = document.getElementById(`${question.id}_input_alt`)?.closest('.option');
+
+                if (option1) {
+                    option1.classList.add('selected');
+                }
+                if (option2) {
+                    option2.classList.remove('selected');
+                }
+            }
+        });
+
+        // Clear the audio blob
+        this.recording = null;
+
+        // Reset recording UI if present
+        document.querySelectorAll('.recording-wrapper').forEach(wrapper => {
+            const startBtn = wrapper.querySelector('.start-btn');
+            const stopBtn = wrapper.querySelector('.stop-btn');
+            const status = wrapper.querySelector('.recording-status');
+
+            if (startBtn) startBtn.style.display = 'flex';
+            if (stopBtn) stopBtn.style.display = 'none';
+            if (status) {
+                status.classList.remove('recording', 'saved', 'error');
+                const statusText = status.querySelector('.status-text');
+                const statusTime = status.querySelector('.status-time');
+                if (statusText) statusText.textContent = 'Pronto per registrare';
+                if (statusTime) statusTime.textContent = '00:00';
             }
         });
         
