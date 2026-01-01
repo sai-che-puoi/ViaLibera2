@@ -144,11 +144,11 @@ export const QUIZ_DATA = {
                 "Più parcheggi",
                 "Migliorare la circolazione delle auto",
             ]
-},
+        },
         {
             type: "radio",
             id: "r1",
-            text: "Alcune persone ritengono che limitare le auto migliori la vivibilità, altre persone che renda più difficile spostarsi. Tu come la vedi? (Scegli una sola risposta)",
+            text: "Quale delle seguenti affermazioni sulla presenza di automobili a Milano senti più vicina a te? (Scegli una sola risposta)",
             options: [
                 {text: "Ridurrei le auto se ci fossero buone alternative di trasporto", value: "3_1"},
                 {text: "Limiterei le auto per migliorare la qualità della vita in città", value: "3_2"},
