@@ -6,6 +6,17 @@ export const CONFIG = {
     enableDataCollection: true,
 };
 
+// Define attitudes based on the questions
+const ATTITUDES = {
+    SPAZIO_AUTO: "Troppo spazio alle auto",
+    TRASPORTO_INEFFICIENTE: "Trasporto pubblico inefficiente", 
+    CLIMA: "Priorità al clima",
+    AUTO_OK: "Le auto in sosta vanno bene",
+    PIU_VERDE: "Più verde urbano",
+    RUMORE_PREOCCUPA: "Preoccupazione per il rumore",
+    AGGREGAZIONE: "Spazi di aggregazione"
+};
+
 export const QUIZ_DATA = {
     title: "Questionario Via Libera 2",
 
@@ -45,6 +56,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q1',
+            attitude: ATTITUDES.SPAZIO_AUTO,
             type: "slider",
             text: "Troppo spazio cittadino è dedicato alle auto.",
             min: 1,
@@ -55,6 +67,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q2',
+            attitude: ATTITUDES.TRASPORTO_INEFFICIENTE,
             type: "slider",
             text: "Le persone preferiscono utilizzare l’auto perché il trasporto pubblico locale è inefficiente.",
             min: 1,
@@ -65,6 +78,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q3',
+            attitude: ATTITUDES.CLIMA,
             type: "slider",
             text: "Ridurre le auto è essenziale per contrastare il cambiamento climatico.",
             min: 1,
@@ -75,6 +89,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q4',
+            attitude: ATTITUDES.AUTO_OK,
             type: "slider",
             text: "Mi sta bene che le auto in sosta occupino una parte importante dello spazio pubblico.",
             min: 1,
@@ -85,6 +100,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q5',
+            attitude: ATTITUDES.PIU_VERDE,
             type: "slider",
             text: "Sarebbe meglio avere più verde nel mio quartiere, anche a costo di perdere qualche parcheggio.",
             min: 1,
@@ -95,6 +111,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q6',
+            attitude: ATTITUDES.RUMORE_PREOCCUPA,
             type: "slider",
             text: "Mi preoccupa che nuovi spazi di aggregazione nel mio quartiere possano aumentare rumore e confusione.",
             min: 1,
@@ -105,6 +122,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q7',
+            attitude: ATTITUDES.AGGREGAZIONE,
             type: "slider",
             text: "Alcuni parcheggi nel mio quartiere potrebbero diventare luoghi di aggregazione o gioco.",
             min: 1,
@@ -236,6 +254,69 @@ export const QUIZ_DATA = {
                 "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
                 "Grazie per la disponibilità e buona giornata!"
             ]
+        }
+    ],
+
+    archetypes: [
+        {
+            name: "Riformatori Urbani",
+            description: "Vogliono meno auto e più spazi verdi per il bene della città e del clima.",
+            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.CLIMA]
+        },
+        {
+            name: "Ecologisti Sociali",
+            description: "Uniscono la passione per il verde con il desiderio di spazi di aggregazione.",
+            base: [ATTITUDES.PIU_VERDE, ATTITUDES.AGGREGAZIONE]
+        },
+        {
+            name: "Pragmatici del Verde",
+            description: "Amano la natura ma sono preoccupati dal caos che potrebbero portare i cambiamenti.",
+            base: [ATTITUDES.PIU_VERDE, ATTITUDES.RUMORE_PREOCCUPA]
+        },
+        {
+            name: "Visionari del Clima",
+            description: "Vedono negli spazi di aggregazione un modo per costruire comunità sostenibili.",
+            base: [ATTITUDES.CLIMA, ATTITUDES.AGGREGAZIONE]
+        },
+        {
+            name: "Realisti del Trasporto",
+            description: "Riconoscono i problemi del trasporto pubblico ma vogliono meno spazio alle auto.",
+            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.TRASPORTO_INEFFICIENTE]
+        },
+        {
+            name: "Conservatori Verdi",
+            description: "Vogliono più verde ma accettano lo status quo sui parcheggi.",
+            base: [ATTITUDES.PIU_VERDE, ATTITUDES.AUTO_OK]
+        },
+        {
+            name: "Ambientalisti Silenziosi",
+            description: "Credono nel cambiamento climatico ma temono il rumore dei nuovi spazi.",
+            base: [ATTITUDES.CLIMA, ATTITUDES.RUMORE_PREOCCUPA]
+        },
+        {
+            name: "Scettici Socievoli",
+            description: "Vogliono spazi di aggregazione ma pensano che il problema non siano le auto.",
+            base: [ATTITUDES.AGGREGAZIONE, ATTITUDES.AUTO_OK]
+        },
+        {
+            name: "Tradizionalisti Pragmatici",
+            description: "Accettano le auto parcheggiate e pensano che il vero problema sia il trasporto pubblico.",
+            base: [ATTITUDES.AUTO_OK, ATTITUDES.TRASPORTO_INEFFICIENTE]
+        },
+        {
+            name: "Nostalgici del Silenzio",
+            description: "Preferiscono mantenere tutto com'è pur di evitare nuovi rumori e confusione.",
+            base: [ATTITUDES.AUTO_OK, ATTITUDES.RUMORE_PREOCCUPA]
+        },
+        {
+            name: "Critici Equilibrati",
+            description: "Vedono sia i problemi delle auto che quelli del trasporto pubblico.",
+            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.PIU_VERDE]
+        },
+        {
+            name: "Sognatori Cauti",
+            description: "Vorrebbero cambiamenti per il clima ma sono frenati dalle preoccupazioni pratiche.",
+            base: [ATTITUDES.CLIMA, ATTITUDES.AUTO_OK]
         }
     ]
 };

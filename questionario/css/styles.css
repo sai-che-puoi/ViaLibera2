@@ -992,3 +992,247 @@ h1 {
         gap: 15px;
     }
 }
+/* Result Section Styles */
+#resultSection {
+    display: none;
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#resultSection.show {
+    display: block;
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Cartesian Plane Styles */
+.cartesian-plane-container {
+    background: white;
+    border-radius: 12px;
+    padding: 0rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#planeSvg {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+#resultPoint {
+    cursor: pointer;
+    transition: opacity 0.5s ease-in;
+}
+
+#resultPoint:hover {
+    r: 5;
+}
+
+/* Result Recording Section */
+.result-recording-section {
+    width: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.result-recording-section h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.result-recording-section p {
+    margin: 0 0 1.5rem 0;
+    color: #666;
+}
+
+/* Result Buttons */
+.result-buttons {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.result-buttons button {
+    flex: 1;
+    min-width: 200px;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#submitRecordingBtn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+#submitRecordingBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+#submitRecordingBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.skip-btn {
+    background: #f3f4f6;
+    color: #666;
+}
+
+.skip-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cartesian-plane-container {
+        padding: 1rem;
+    }
+
+    #planeSvg {
+        width: 100%;
+        height: auto;
+    }
+
+    .result-buttons {
+        flex-direction: column;
+    }
+
+    .result-buttons button {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Animation for result section appearance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#resultSection.show .result-content {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.result-content > * {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.result-content > *:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.result-content > *:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.result-content > *:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Archetype Section Styles */
+.archetype-section {
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.archetype-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.archetype-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { transform: translateX(-100%) translateY(-100%); }
+    50% { transform: translateX(100%) translateY(100%); }
+}
+
+.archetype-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.archetype-name {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.archetype-description {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+/* Responsive adjustments for archetype */
+@media (max-width: 768px) {
+    .archetype-card {
+        padding: 2rem 1.5rem;
+        margin: 0 1rem 2rem 1rem;
+    }
+    
+    .archetype-icon {
+        font-size: 2.5rem;
+    }
+    
+    .archetype-name {
+        font-size: 1.5rem;
+    }
+    
+    .archetype-description {
+        font-size: 1rem;
+    }
+}

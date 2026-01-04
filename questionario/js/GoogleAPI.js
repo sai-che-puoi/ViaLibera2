@@ -83,4 +83,34 @@ export class GoogleAPI {
             throw error;
         }
     }
+
+    /**
+     * Update existing row in Google Sheets with second audio file URL
+     */
+    async updateRowWithSecondAudio(originalId, secondAudioUrl) {
+        if (!this.enabled) {
+            console.log('Data collection disabled');
+            return {success: true, disabled: true};
+        }
+        
+        try {
+            console.log('Updating row with second audio:', {originalId, secondAudioUrl});
+            
+            const response = await fetch(this.url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    originalId: originalId,
+                    secondAudioUrl: secondAudioUrl
+                })
+            });
+
+            console.log('Update request sent (no-cors mode - cannot verify response)');
+            return {success: true};
+        } catch (error) {
+            console.error('Error updating row:', error);
+            return {success: false, error: error.message};
+        }
+    }
 }

@@ -1,6 +1,7 @@
 import { QuizUI } from './QuizUI.js';
-import {ResultCalculator} from "./ResultCalculator.js";
-import {GoogleAPI} from "./GoogleAPI.js";
+import { ResultCalculator } from "./ResultCalculator.js";
+import { GoogleAPI } from "./GoogleAPI.js";
+import { ResultUI } from "./ResultUI.js";
 
 export class QuizController {
     constructor(config, quizData, interviewers) {
@@ -9,6 +10,7 @@ export class QuizController {
         this.ui = new QuizUI(document.body, quizData, interviewers);
         this.calculator = new ResultCalculator(quizData.questions);
         this.api = new GoogleAPI(config);
+        this.resultUI = new ResultUI(this.api);
 
         this.sections = {
             form: document.getElementById('formSection'),
@@ -22,6 +24,7 @@ export class QuizController {
      */
     init() {
         this.ui.init();
+        this.resultUI.init();
         this.attachEventListeners();
     }
 
@@ -61,32 +64,43 @@ export class QuizController {
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
-            id:  this.ui.id,
+            id: this.ui.id,
             userAgent: navigator.userAgent,
-            // result: result.category.name,
             interviewer: interviewerInput.value,
-            // x: result.coordinates.x,
-            // y: result.coordinates.y,
             audioFileUrl: fileUrl,
             ...result.answers,
         };
 
         await this.api.sendFormToSheet(submissionData);
 
-        this.displayResult(result);
-        
-        // After successful submission, immediately restart the quiz
-        this.restart();
+        // Calculate coordinates using the new algorithm
+        const coordinates = this.calculator.calculateCoordinates(answers);
+
+        // Show result with cartesian plane
+        this.displayResult(result, coordinates);
     }
+
 
     /**
      * Display result to user
      */
-    displayResult(result) {
-        document.getElementById('resultTitle').textContent = "title";
-        document.getElementById('resultDescription').textContent = "desrciption";
+    displayResult(result, coordinates) {
+        document.getElementById('resultTitle').textContent = "Il tuo risultato";
+        document.getElementById('resultDescription').textContent = "Ecco la tua posizione e il tuo profilo basati sulle risposte fornite";
 
-        // this.plane.update(result.coordinates.x, result.coordinates.y);
+        // Pass archetype to ResultUI for display
+        if (result.archetype) {
+            this.resultUI.setArchetype(result.archetype);
+        } else {
+            console.log('No archetype found in result:', result);
+        }
+
+        // Update the cartesian plane with coordinates
+        this.resultUI.updatePlane(coordinates.x, coordinates.y);
+
+        // Store current submission ID for the audio recording
+        this.resultUI.setSubmissionId(this.ui.id + "_followup");
+        this.resultUI.setOriginalId(this.ui.id);
 
         this.showSection('result');
     }
@@ -97,15 +111,15 @@ export class QuizController {
     showSection(section) {
         this.sections.form.classList.toggle('hidden', section !== 'form');
         this.sections.loading.classList.toggle('show', section === 'loading');
-        // this.sections.result.classList.toggle('show', section === 'result');
+        this.sections.result.classList.toggle('show', section === 'result');
     }
 
     /**
      * Restart the quiz
      */
     restart() {
-        // location.reload();
         this.ui.reset();
+        this.resultUI.reset();
         this.showSection('form');
     }
 }
