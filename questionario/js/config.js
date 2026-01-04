@@ -6,15 +6,15 @@ export const CONFIG = {
     enableDataCollection: true,
 };
 
-// Define attitudes based on the questions
+// Define attitudes based on the questions  
 const ATTITUDES = {
-    SPAZIO_AUTO: "Troppo spazio alle auto",
-    TRASPORTO_INEFFICIENTE: "Trasporto pubblico inefficiente", 
-    CLIMA: "Priorità al clima",
-    AUTO_OK: "Le auto in sosta vanno bene",
-    PIU_VERDE: "Più verde urbano",
-    RUMORE_PREOCCUPA: "Preoccupazione per il rumore",
-    AGGREGAZIONE: "Spazi di aggregazione"
+    VIVO_SENZA_AUTO: "Vivo anche senza auto",
+    GRETA: "Siamo con Greta!",
+    VERDE: "Più verde c'è meglio è",
+    PIAZZA: "La piazza è la mia casa",
+    FATEMI_DORMIRE: "Fatemi dormire",
+    STATUS_QUO: "Lascia stare, perchè cambiare?",
+    NON_VIVO_SENZA_AUTO: "Non posso vivere senza auto"
 };
 
 export const QUIZ_DATA = {
@@ -56,7 +56,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q1',
-            attitude: ATTITUDES.SPAZIO_AUTO,
+            attitude: ATTITUDES.VIVO_SENZA_AUTO,
             type: "slider",
             text: "Troppo spazio cittadino è dedicato alle auto.",
             min: 1,
@@ -67,7 +67,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q2',
-            attitude: ATTITUDES.TRASPORTO_INEFFICIENTE,
+            attitude: ATTITUDES.NON_VIVO_SENZA_AUTO,
             type: "slider",
             text: "Le persone preferiscono utilizzare l’auto perché il trasporto pubblico locale è inefficiente.",
             min: 1,
@@ -78,7 +78,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q3',
-            attitude: ATTITUDES.CLIMA,
+            attitude: ATTITUDES.GRETA,
             type: "slider",
             text: "Ridurre le auto è essenziale per contrastare il cambiamento climatico.",
             min: 1,
@@ -89,7 +89,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q4',
-            attitude: ATTITUDES.AUTO_OK,
+            attitude: ATTITUDES.STATUS_QUO,
             type: "slider",
             text: "Mi sta bene che le auto in sosta occupino una parte importante dello spazio pubblico.",
             min: 1,
@@ -100,7 +100,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q5',
-            attitude: ATTITUDES.PIU_VERDE,
+            attitude: ATTITUDES.VERDE,
             type: "slider",
             text: "Sarebbe meglio avere più verde nel mio quartiere, anche a costo di perdere qualche parcheggio.",
             min: 1,
@@ -111,7 +111,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q6',
-            attitude: ATTITUDES.RUMORE_PREOCCUPA,
+            attitude: ATTITUDES.FATEMI_DORMIRE,
             type: "slider",
             text: "Mi preoccupa che nuovi spazi di aggregazione nel mio quartiere possano aumentare rumore e confusione.",
             min: 1,
@@ -122,7 +122,7 @@ export const QUIZ_DATA = {
         },
         {
             id: 'q7',
-            attitude: ATTITUDES.AGGREGAZIONE,
+            attitude: ATTITUDES.PIAZZA,
             type: "slider",
             text: "Alcuni parcheggi nel mio quartiere potrebbero diventare luoghi di aggregazione o gioco.",
             min: 1,
@@ -259,64 +259,109 @@ export const QUIZ_DATA = {
 
     archetypes: [
         {
-            name: "Riformatori Urbani",
-            description: "Vogliono meno auto e più spazi verdi per il bene della città e del clima.",
-            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.CLIMA]
+            name: "Gli Ecociclisti",
+            description: "Vivono bene senza auto, amano il verde e respirare meglio.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.VERDE]
         },
         {
-            name: "Ecologisti Sociali",
-            description: "Uniscono la passione per il verde con il desiderio di spazi di aggregazione.",
-            base: [ATTITUDES.PIU_VERDE, ATTITUDES.AGGREGAZIONE]
+            name: "I Socialpedoni",
+            description: "Amano muoversi a piedi o in bici e incontrare gente sotto casa.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.PIAZZA]
         },
         {
-            name: "Pragmatici del Verde",
-            description: "Amano la natura ma sono preoccupati dal caos che potrebbero portare i cambiamenti.",
-            base: [ATTITUDES.PIU_VERDE, ATTITUDES.RUMORE_PREOCCUPA]
+            name: "Gli Zen del cortile",
+            description: "Camminano o pedalano ma vogliono silenzio e calma nel quartiere.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.FATEMI_DORMIRE]
         },
         {
-            name: "Visionari del Clima",
-            description: "Vedono negli spazi di aggregazione un modo per costruire comunità sostenibili.",
-            base: [ATTITUDES.CLIMA, ATTITUDES.AGGREGAZIONE]
+            name: "I Rivoluzionari gentili",
+            description: "Ambientalisti convinti, sostengono la trasformazione urbana.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.GRETA]
         },
         {
-            name: "Realisti del Trasporto",
-            description: "Riconoscono i problemi del trasporto pubblico ma vogliono meno spazio alle auto.",
-            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.TRASPORTO_INEFFICIENTE]
+            name: "Gli Indifferenti mobili",
+            description: "Non usano l'auto ma non vedono motivo per cambiare altro.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.STATUS_QUO]
         },
         {
-            name: "Conservatori Verdi",
-            description: "Vogliono più verde ma accettano lo status quo sui parcheggi.",
-            base: [ATTITUDES.PIU_VERDE, ATTITUDES.AUTO_OK]
+            name: "Gli Autoverdi",
+            description: "Amano alberi e ombra, ma non rinunciano al parcheggio sotto casa.",
+            base: [ATTITUDES.NON_VIVO_SENZA_AUTO, ATTITUDES.VERDE]
         },
         {
-            name: "Ambientalisti Silenziosi",
-            description: "Credono nel cambiamento climatico ma temono il rumore dei nuovi spazi.",
-            base: [ATTITUDES.CLIMA, ATTITUDES.RUMORE_PREOCCUPA]
+            name: "I Baristi del cofano",
+            description: "Vogliono chiacchierare in piazza ma con la macchina lì vicino.",
+            base: [ATTITUDES.NON_VIVO_SENZA_AUTO, ATTITUDES.PIAZZA]
         },
         {
-            name: "Scettici Socievoli",
-            description: "Vogliono spazi di aggregazione ma pensano che il problema non siano le auto.",
-            base: [ATTITUDES.AGGREGAZIONE, ATTITUDES.AUTO_OK]
+            name: "Gli Automiti",
+            description: "Dipendono dall'auto ma odiano il casino sotto casa.",
+            base: [ATTITUDES.NON_VIVO_SENZA_AUTO, ATTITUDES.FATEMI_DORMIRE]
         },
         {
-            name: "Tradizionalisti Pragmatici",
-            description: "Accettano le auto parcheggiate e pensano che il vero problema sia il trasporto pubblico.",
-            base: [ATTITUDES.AUTO_OK, ATTITUDES.TRASPORTO_INEFFICIENTE]
+            name: "I Contraddittori verdi",
+            description: "Parlano di sostenibilità ma non sanno vivere senza auto.",
+            base: [ATTITUDES.NON_VIVO_SENZA_AUTO, ATTITUDES.GRETA]
         },
         {
-            name: "Nostalgici del Silenzio",
-            description: "Preferiscono mantenere tutto com'è pur di evitare nuovi rumori e confusione.",
-            base: [ATTITUDES.AUTO_OK, ATTITUDES.RUMORE_PREOCCUPA]
+            name: "I Tradizionalisti a quattro ruote",
+            description: "Vogliono che tutto resti com'è, soprattutto i parcheggi.",
+            base: [ATTITUDES.NON_VIVO_SENZA_AUTO, ATTITUDES.STATUS_QUO]
         },
         {
-            name: "Critici Equilibrati",
-            description: "Vedono sia i problemi delle auto che quelli del trasporto pubblico.",
-            base: [ATTITUDES.SPAZIO_AUTO, ATTITUDES.PIU_VERDE]
+            name: "I Giardinieri sociali",
+            description: "Verde e convivialità: l'ideale è chiacchierare all'ombra di un albero.",
+            base: [ATTITUDES.VERDE, ATTITUDES.PIAZZA]
         },
         {
-            name: "Sognatori Cauti",
-            description: "Vorrebbero cambiamenti per il clima ma sono frenati dalle preoccupazioni pratiche.",
-            base: [ATTITUDES.CLIMA, ATTITUDES.AUTO_OK]
+            name: "Gli Amanti del verde quieto",
+            description: "Vogliono piante e natura, ma non rumore e movida.",
+            base: [ATTITUDES.VERDE, ATTITUDES.FATEMI_DORMIRE]
+        },
+        {
+            name: "Gli Ecopionieri",
+            description: "Credono nel verde come leva per il cambiamento climatico.",
+            base: [ATTITUDES.VERDE, ATTITUDES.GRETA]
+        },
+        {
+            name: "I Verdi prudenti",
+            description: "Vogliono più alberi ma non rivoluzioni urbanistiche.",
+            base: [ATTITUDES.VERDE, ATTITUDES.STATUS_QUO]
+        },
+        {
+            name: "I Contraddittori da cortile",
+            description: "Amano la vita di quartiere, ma solo se non fa rumore.",
+            base: [ATTITUDES.PIAZZA, ATTITUDES.FATEMI_DORMIRE]
+        },
+        {
+            name: "I Visionari di quartiere",
+            description: "Sognano città vivibili, piazze piene e auto lontane.",
+            base: [ATTITUDES.PIAZZA, ATTITUDES.GRETA]
+        },
+        {
+            name: "Gli Apatici socievoli",
+            description: "Vorrebbero spazi vivi ma senza cambiare troppe abitudini.",
+            base: [ATTITUDES.PIAZZA, ATTITUDES.STATUS_QUO]
+        },
+        {
+            name: "Gli Ambientalisti selettivi",
+            description: "A favore del verde e del clima, ma non del rumore dei bambini.",
+            base: [ATTITUDES.FATEMI_DORMIRE, ATTITUDES.GRETA]
+        },
+        {
+            name: "I Conservatori del silenzio",
+            description: "Vogliono pace, parcheggio e nessuna novità.",
+            base: [ATTITUDES.FATEMI_DORMIRE, ATTITUDES.STATUS_QUO]
+        },
+        {
+            name: "Gli Scettici riformisti",
+            description: "A parole progressisti, ma di fatto temono i cambiamenti.",
+            base: [ATTITUDES.GRETA, ATTITUDES.STATUS_QUO]
+        },
+        {
+            name: "I Paradossali del volante",
+            description: "Dicono di non usare l'auto, ma non riescono a farne a meno.",
+            base: [ATTITUDES.VIVO_SENZA_AUTO, ATTITUDES.NON_VIVO_SENZA_AUTO]
         }
     ]
 };
