@@ -382,11 +382,17 @@ export class ResultUI {
      */
     async handleComplete() {
         const completeBtn = this.elements.completeBtn;
+        const resultSection = document.getElementById('resultSection');
+        
+        // Create and show loading overlay
+        const loadingOverlay = this.createLoadingOverlay();
+        resultSection.appendChild(loadingOverlay);
+        
         completeBtn.disabled = true;
         
         if (this.recording) {
             // Audio was recorded, submit it
-            completeBtn.textContent = 'Invio registrazione in corso...';
+            this.updateLoadingMessage(loadingOverlay, 'Caricamento registrazione audio...', 'file-audio');
             
             try {
                 const filename = this.submissionId + ".webm";
@@ -396,23 +402,107 @@ export class ResultUI {
                 console.log('originalId:', this.originalId);
                 console.log('Second audio URL:', secondAudioUrl);
                 
+                this.updateLoadingMessage(loadingOverlay, 'Aggiornamento database...', 'database');
+                
                 if (this.originalId && secondAudioUrl) {
                     await this.api.updateRowWithSecondAudio(this.originalId, secondAudioUrl);
-                    alert('Registrazione inviata con successo!');
+                    
+                    // Show success message briefly
+                    this.updateLoadingMessage(loadingOverlay, 'Registrazione inviata con successo!', 'check-circle', true);
+                    await new Promise(resolve => setTimeout(resolve, 1500));
                 } else {
-                    alert("Si e' verificato un errore: filename " + filename + ', audio url '+ secondAudioUrl);
+                    this.updateLoadingMessage(loadingOverlay, "Errore nell'invio della registrazione", 'x-circle', false, true);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
                 }
             } catch (error) {
                 console.error('Error submitting recording:', error);
-                alert('Errore nell\'invio della registrazione');
+                this.updateLoadingMessage(loadingOverlay, 'Errore nell\'invio della registrazione', 'x-circle', false, true);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Remove loading overlay and restore button
+                resultSection.removeChild(loadingOverlay);
                 completeBtn.disabled = false;
                 completeBtn.textContent = 'Concludi e Ricomincia';
                 return;
             }
+        } else {
+            // No recording to submit
+            this.updateLoadingMessage(loadingOverlay, 'Completamento in corso...', 'check');
+            await new Promise(resolve => setTimeout(resolve, 800));
         }
+        
+        // Remove loading overlay
+        resultSection.removeChild(loadingOverlay);
         
         // Restart quiz
         window.restartQuiz();
+    }
+
+    /**
+     * Create loading overlay
+     */
+    createLoadingOverlay() {
+        const overlay = document.createElement('div');
+        overlay.className = 'loading-overlay';
+        overlay.innerHTML = `
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <div class="loading-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                    </svg>
+                </div>
+                <p class="loading-message">Operazione in corso...</p>
+            </div>
+        `;
+        return overlay;
+    }
+
+    /**
+     * Update loading message and icon
+     */
+    updateLoadingMessage(overlay, message, iconType, isSuccess = false, isError = false) {
+        const messageElement = overlay.querySelector('.loading-message');
+        const iconElement = overlay.querySelector('.loading-icon svg');
+        const contentElement = overlay.querySelector('.loading-content');
+        
+        messageElement.textContent = message;
+        
+        // Icon mappings
+        const icons = {
+            'file-audio': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <path d="M9 18V5l12-2v13M9 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM21 16c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
+            </svg>`,
+            'database': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 3 4 3 9 3s9 0 9-3V5"/>
+                <path d="M3 12c0 3 4 3 9 3s9 0 9-3"/>
+            </svg>`,
+            'check-circle': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
+            </svg>`,
+            'x-circle': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
+                <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>`,
+            'check': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <polyline points="20,6 9,17 4,12"/>
+            </svg>`
+        };
+        
+        if (icons[iconType]) {
+            iconElement.innerHTML = icons[iconType];
+        }
+        
+        // Update colors based on status
+        if (isSuccess) {
+            contentElement.classList.add('success');
+            contentElement.classList.remove('error');
+        } else if (isError) {
+            contentElement.classList.add('error');
+            contentElement.classList.remove('success');
+        } else {
+            contentElement.classList.remove('success', 'error');
+        }
     }
 
     /**
