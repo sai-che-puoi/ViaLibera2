@@ -448,7 +448,7 @@ export class ResultUI {
             <div class="loading-content">
                 <div class="loading-spinner"></div>
                 <div class="loading-icon">
-                    <svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                    <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                         <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
                     </svg>
                 </div>
@@ -470,21 +470,21 @@ export class ResultUI {
         
         // Icon mappings
         const icons = {
-            'file-audio': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            'file-audio': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <path d="M9 18V5l12-2v13M9 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM21 16c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
             </svg>`,
-            'database': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            'database': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 3 4 3 9 3s9 0 9-3V5"/>
                 <path d="M3 12c0 3 4 3 9 3s9 0 9-3"/>
             </svg>`,
-            'check-circle': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            'check-circle': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/>
             </svg>`,
-            'x-circle': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            'x-circle': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/>
                 <line x1="9" y1="9" x2="15" y2="15"/>
             </svg>`,
-            'check': `<svg width="40" height="40" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+            'check': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <polyline points="20,6 9,17 4,12"/>
             </svg>`
         };
