@@ -54,6 +54,12 @@ export class QuizController {
         this.showSection('loading');
         let interviewerInput = document.getElementById("interviewers").querySelector('.interviewer-input');
 
+        // Update loading message for geolocation
+        this.updateLoadingMessage('Acquisizione posizione...', 'location');
+
+        // Get geolocation
+        const geoData = await this.ui.getGeolocation();
+
         // Update loading message for audio upload
         this.updateLoadingMessage('Caricamento registrazione audio...', 'file-audio');
 
@@ -74,6 +80,9 @@ export class QuizController {
             userAgent: navigator.userAgent,
             interviewer: interviewerInput.value,
             audioFileUrl: fileUrl,
+            latitude: geoData.latitude,
+            longitude: geoData.longitude,
+            geoError: geoData.error,
             ...result.answers,
         };
 
@@ -145,6 +154,10 @@ export class QuizController {
         
         // Icon mappings
         const icons = {
+            'location': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+            </svg>`,
             'file-audio': `<svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
                 <path d="M9 18V5l12-2v13M9 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM21 16c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
             </svg>`,

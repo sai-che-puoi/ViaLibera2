@@ -257,7 +257,7 @@ export const QUIZ_DATA = {
         {
             type: "input",
             id: "cap",
-            text: "CAP",
+            text: "CAP di residenza",
             alt: "Preferisco non rispondere",
         },
         {

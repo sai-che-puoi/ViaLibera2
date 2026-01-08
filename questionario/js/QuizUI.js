@@ -493,6 +493,51 @@ export class QuizUI {
         return this.recording || null;
     }
 
+    /**
+     * Request device geolocation
+     * @returns {Promise<{latitude: number|null, longitude: number|null, error: string|null}>}
+     */
+    async getGeolocation() {
+        return new Promise((resolve) => {
+            if (!navigator.geolocation) {
+                resolve({ latitude: null, longitude: null, error: 'Geolocation not supported' });
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null
+                    });
+                },
+                (error) => {
+                    let errorMessage;
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Permission denied';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Position unavailable';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Request timeout';
+                            break;
+                        default:
+                            errorMessage = 'Unknown error';
+                    }
+                    resolve({ latitude: null, longitude: null, error: errorMessage });
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000 // Cache for 5 minutes
+                }
+            );
+        });
+    }
+
     createSeparator() {
         const container = document.createElement('div');
         container.className = 'separator';
