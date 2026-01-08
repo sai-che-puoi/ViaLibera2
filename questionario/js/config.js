@@ -172,7 +172,8 @@ export const QUIZ_DATA = {
                 "Spazi culturali e sport",
                 "Più parcheggi",
                 "Migliorare la circolazione delle auto",
-            ]
+            ],
+            max: 3
         },
         {
             type: "radio",

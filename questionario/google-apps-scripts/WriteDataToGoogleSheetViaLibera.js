@@ -1,5 +1,3 @@
-// apps script page: https://script.google.com/u/1/home/projects/1Y4NMybya_z6hyLZ31yT84zCBGLzNeJN2IqskSKjUNL2TdlN9knxrCDTD/edit
-
 function doPost(e) {
     try {
         const data = JSON.parse(e.postData.contents);
@@ -78,9 +76,6 @@ function handleFormSubmission(data) {
             'Primo posto',
             'Secondo posto',
             'Terzo posto',
-            'Quarto posto',
-            'Quinto posto',
-            'Sesto posto',
             'Limitare le auto migliora o peggiora',
             'Età',
             'Lavoro',
@@ -117,9 +112,6 @@ function handleFormSubmission(data) {
         data.o1_1,
         data.o1_2,
         data.o1_3,
-        data.o1_4,
-        data.o1_5,
-        data.o1_6,
         data.r1,
         data.eta,
         data.lavoro,
