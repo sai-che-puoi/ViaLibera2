@@ -22,15 +22,19 @@ export const QUIZ_DATA = {
 
     questions: [
         {
+            type: "description_light",
+            text: [
+                "Ecco alcuni modi che abbiamo testato per avvicinare le persone:",
+            ]
+        },
+        {
             type: "description",
             text: [
                 "Ciao, hai 5 minuti per partecipare a un gioco sul tuo quartiere? è anonimo!",
+                "",
                 "Ciao stiamo mappando i sogni delle persone di Milano su come gestire spazio pubblico della città, ti va di dirci il tuo sogno?",
-                "Ti va di giocare a un gioco sul quartiere?",
-                "Non siamo del Comune e non vendiamo niente",
-                "È una breve intervista sugli spazi del quartiere, non chiediamo dati personali né facciamo riprese",
-                "Iniziare con 'Per caso abitate qua', invece di 'ti faccio qualche domanda'",
-                "Suggerimento aggiuntivo: C’è un regalo alla fine!",
+                "",
+                "Ti va di giocare a un gioco sul quartiere?  C’è un regalo alla fine!"
             ]
         },
         {
@@ -38,10 +42,10 @@ export const QUIZ_DATA = {
             text: ""
         },
         {
-            type: "description",
+            type: "description_light",
             text: [
-                "Le tue risposte, insieme a quelle delle altre persone intervistate, saranno analizzate in forma anonima e utilizzate esclusivamente per scopi di ricerca.",
-                "I dati raccolti ci aiuteranno a creare una mappa dei desideri delle persone sugli spazi pubblici della città."
+                "\"Ti farò alcune domande, le tue risposte, insieme a quelle delle altre persone intervistate, saranno analizzate in forma anonima e utilizzate esclusivamente per scopi di ricerca.",
+                "I dati raccolti ci aiuteranno a creare una mappa dei desideri delle persone sugli spazi pubblici della città. Ok?\""
             ]
         },
         {
@@ -49,9 +53,10 @@ export const QUIZ_DATA = {
             text: ""
         },
         {
-            type: "description",
+            type: "description_light",
             text: [
-                "Quanto sei d'accordo, su una scala che va da 1 (completamente in disaccordo) a 10 (completamente d'accordo), con le seguenti affermazioni che riguardano Milano?"
+                "\"Ora ti dirò alcune frasi.",
+                "Per ognuna di queste ti chiedo di dirmi quanto sei d’accordo su una scala che va da 1 a 10, dove 1 è per niente d’accordo e 10 è completamente d’accordo.\""
             ]
         },
         {
@@ -69,7 +74,7 @@ export const QUIZ_DATA = {
             id: 'q2',
             attitude: ATTITUDES.NON_VIVO_SENZA_AUTO,
             type: "slider",
-            text: "Le persone preferiscono utilizzare l’auto perché il trasporto pubblico locale è inefficiente.",
+            text: "Le persone preferiscono utilizzare l’auto perché i mezzi pubblici non funzionano bene.",
             min: 1,
             max: 10,
             defaultValue: 5,
@@ -80,7 +85,7 @@ export const QUIZ_DATA = {
             id: 'q3',
             attitude: ATTITUDES.GRETA,
             type: "slider",
-            text: "Ridurre le auto è essenziale per contrastare il cambiamento climatico.",
+            text: "Ridurre le auto è fondamentale per contrastare il cambiamento climatico.",
             min: 1,
             max: 10,
             defaultValue: 5,
@@ -144,10 +149,16 @@ export const QUIZ_DATA = {
             text: ""
         },
         {
+            type: "description_light",
+            text: [
+                "\"Immagina di essere il sindaco di Milano. Ora ti propongo alcune cose che potrebbero essere fatte a Milano nei prossimi anni. Devi scegliere quelle che per te sono le 3 più importanti, in ordine di priorità.\"",
+            ]
+        },
+
+        {
             type: "sorting",
             id: "o1",
             text: [
-                "Immagina di essere il sindaco di Milano. Ti elenchiamo alcune aree su cui la città potrebbe lavorare nei prossimi anni. Metti in ordine di importanza quelle che, secondo te, dovrebbero essere le priorità: dalla più importante alla meno urgente.",
                 "- Più verde urbano (alberi, aiuole, orti)",
                 "- Incentivare la mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
                 "- Più spazi per la socialità e per le famiglie (giochi, panchine, spazi comunitari, luoghi sicuri)",
@@ -161,12 +172,13 @@ export const QUIZ_DATA = {
                 "Spazi culturali e sport",
                 "Più parcheggi",
                 "Migliorare la circolazione delle auto",
-            ]
+            ],
+            max: 3
         },
         {
             type: "radio",
             id: "r1",
-            text: "Quale delle seguenti affermazioni sulla presenza di automobili a Milano senti più vicina a te? (Scegli una sola risposta)",
+            text: "Ora ti elenco alcune affermazioni. Quale di queste senti più vicina al tuo pensiero?  (Scegli una sola risposta)",
             options: [
                 {text: "Ridurrei le auto se ci fossero buone alternative di trasporto", value: "3_1"},
                 {text: "Limiterei le auto per migliorare la qualità della vita in città", value: "3_2"},
@@ -245,7 +257,7 @@ export const QUIZ_DATA = {
         {
             type: "input",
             id: "cap",
-            text: "CAP",
+            text: "CAP di residenza",
             alt: "Preferisco non rispondere",
         },
         {

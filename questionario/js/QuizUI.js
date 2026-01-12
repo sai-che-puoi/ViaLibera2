@@ -51,8 +51,8 @@ export class QuizUI {
         const sortingContainer = document.createElement('div');
         sortingContainer.className = 'sorting-container';
 
-        // Create a dropdown for each position
-        question.options.forEach((_, posIndex) => {
+        // Create 'max' dropdowns
+        for (let posIndex = 0; posIndex < question.max; posIndex++) {
             const positionDiv = document.createElement('div');
             positionDiv.className = 'sorting-position';
 
@@ -85,13 +85,13 @@ export class QuizUI {
 
             // Add change listener
             select.addEventListener('change', () => {
-                this.updateSortingOptions(index, question.options.length);
+                this.updateSortingOptions(index, question.max);
             });
 
             positionDiv.appendChild(label);
             positionDiv.appendChild(select);
             sortingContainer.appendChild(positionDiv);
-        });
+        }
 
         container.appendChild(sortingContainer);
 
@@ -113,13 +113,13 @@ export class QuizUI {
             Ricomincia
         `;
         resetBtn.addEventListener('click', () => {
-            this.resetSorting(index, question.options.length);
+            this.resetSorting(index, question.max);
         });
 
         const hint = document.createElement('div');
         hint.className = 'sorting-hint';
         hint.id = `sorting_hint_${index}`;
-        hint.textContent = `Ordina tutte le ${question.options.length} opzioni`;
+        hint.textContent = `Seleziona le tue ${question.max} priorità`;
 
         bottomContainer.appendChild(resetBtn);
         bottomContainer.appendChild(hint);
@@ -278,6 +278,17 @@ export class QuizUI {
     createDescription() {
         const container = document.createElement('div');
         container.className = 'description';
+        return container;
+    }
+
+    createDescriptionLight(question) {
+        const container = document.createElement('div');
+        container.className = 'description-light';
+        if (Array.isArray(question.text)) {
+            container.innerHTML = question.text.join('<br><br>');
+        } else {
+            container.textContent = question.text;
+        }
         return container;
     }
 
@@ -480,6 +491,51 @@ export class QuizUI {
 
     getRecording() {
         return this.recording || null;
+    }
+
+    /**
+     * Request device geolocation
+     * @returns {Promise<{latitude: number|null, longitude: number|null, error: string|null}>}
+     */
+    async getGeolocation() {
+        return new Promise((resolve) => {
+            if (!navigator.geolocation) {
+                resolve({ latitude: null, longitude: null, error: 'Geolocation not supported' });
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    resolve({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude,
+                        error: null
+                    });
+                },
+                (error) => {
+                    let errorMessage;
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = 'Permission denied';
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = 'Position unavailable';
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = 'Request timeout';
+                            break;
+                        default:
+                            errorMessage = 'Unknown error';
+                    }
+                    resolve({ latitude: null, longitude: null, error: errorMessage });
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 300000 // Cache for 5 minutes
+                }
+            );
+        });
     }
 
     createSeparator() {
@@ -796,6 +852,12 @@ export class QuizUI {
         const div = document.createElement('div');
         div.className = 'question';
 
+        // For description_light, skip the question-text div entirely
+        if (question.type === 'description_light') {
+            div.appendChild(this.createDescriptionLight(question));
+            return div;
+        }
+
         const text = document.createElement('div');
         text.className = 'question-text';
 
@@ -887,16 +949,16 @@ export class QuizUI {
                 });
             } else if (question.type === 'sorting') {
                 const sortedValues = [];
-                question.options.forEach((_, posIndex) => {
+                for (let posIndex = 0; posIndex < question.max; posIndex++) {
                     const select = document.getElementById(`sorting_${index}_${posIndex}`);
                     sortedValues.push(select.value);
-                });
+                }
                 answers.push({
                     id: question.id,
                     type: 'sorting',
                     value: sortedValues,
                     text: sortedValues.join(' > '),
-                    options_number: question.options.length
+                    options_number: question.max
                 });
             } else if (question.type === 'input') {
                 const radio1 = document.getElementById(`${question.id}_input_enable`);
@@ -1107,7 +1169,7 @@ export class QuizUI {
                 }
             } else if (question.type === 'sorting') {
                 // Reset all select elements for this sorting question
-                this.resetSorting(index, question.options.length);
+                this.resetSorting(index, question.max);
             } else if (question.type === 'allocation') {
                 // Reset allocation question
                 question.options.forEach((option, optIndex) => {
