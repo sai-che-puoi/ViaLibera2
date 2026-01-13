@@ -1,0 +1,20 @@
+{
+    "name": "first_contact",
+    "language": "it",
+    "category": "utility",
+    "parameter_format": "named",
+    "components": [
+        {
+            "type": "body",
+            "text": "Thank you, {{first_name}}! Your registration is complete.",
+            "example": {
+                "body_text_named_params": [
+                    {
+                        "param_name": "first_name",
+                        "example": "Pablo"
+                    }
+                ]
+            }
+        }
+    ]
+}
