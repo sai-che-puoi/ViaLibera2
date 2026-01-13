@@ -47,7 +47,7 @@ def main():
         id_index = headers.index("ID")  # Find the index of the "ID" column
         id_value = row[id_index]        # Get the value from that column in the current row
 
-        print(f"   Processing row {i} with id {id_value}")
+        print(f"   Processing row {i+1} with id {id_value}")
         while len(row) < len(headers):
             row.append("")  # Ensure row length matches headers
 
