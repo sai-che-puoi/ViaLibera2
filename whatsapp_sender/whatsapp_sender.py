@@ -96,8 +96,8 @@ def send_whatsapp_messages(urls, wait_time_range=(5, 60)):
 def main():
     # Your WhatsApp URLs here
     urls = [
-        "https://web.whatsapp.com/send?phone=393495646599&text=ciao%21%0Avolevamo%20ricordarti%20il%20https%3A%2F%2Ftinyurl.com%2FCSBSEPDF",
-        "https://web.whatsapp.com/send?phone=393495646599&text=ciao%21%0Asecondo%20messaggio",
+        "https://web.whatsapp.com/send?phone=390000000000&text=ciao%21%0Avolevamo%20ricordarti%20il%20https%3A%2F%2Ftinyurl.com%2FCSBSEPDF",
+        "https://web.whatsapp.com/send?phone=390000000000&text=ciao%21%0Asecondo%20messaggio",
         # Add more URLs here as needed
     ]
 
