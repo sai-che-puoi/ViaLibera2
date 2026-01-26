@@ -18,11 +18,11 @@ MAX_LOCATIONS = 4
 MIN_TIME_SLOTS = 1
 MAX_TIME_SLOTS = 4
 
-# --- DATA: THE 88 DISTRICTS CLUSTERED BY MACRO-ZONE (MUNICIPI) ---
+# --- DATA: THE 88 DISTRICTS (NIL) CLUSTERED BY MACRO-ZONE (MUNICIPI) ---
 # This grouping ensures "Adjacency". If we pick from a cluster,
 # the districts are guaranteed to be neighbors or very close.
 
-area_slots = np.array([
+area_slots_base = np.array([
     "01. Duomo", "02. Brera", "03. Giardini Porta Venezia", "04. Guastalla",
     "05. Porta Vigentina - Porta Lodovica", "06. Porta Ticinese - Conca del Naviglio",
     "07. Magenta- San Vittore", "08. Parco Sempione", "09. Porta Garibaldi - Porta Nuova",
@@ -54,10 +54,8 @@ area_slots = np.array([
     "85. Parco delle Abbazie", "86. Parco dei Navigli", "87. Assiano",
     "88. Parco Bosco in città"
 ])
-time_slots = np.array(["Sabato mattina", "Sabato pomeriggio", "Domenica mattina", "Domenica pomeriggio"])
-time_area_slots = np.array(list(itertools.product(time_slots, area_slots)))
 
-ZONE_CLUSTERS = {
+ZONE_CLUSTERS_BASE = {
     "Zone 1": [0, 1, 2, 3, 4, 5, 6, 7],
     "Zone 2": [8, 9, 10, 11, 12, 13, 14, 15, 16, 83],
     "Zone 3": [17, 18, 19, 20, 21, 22, 23, 24],
@@ -67,6 +65,25 @@ ZONE_CLUSTERS = {
     "Zone 7": [52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 86, 87],
     "Zone 8": [63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74],
     "Zone 9": [75, 76, 77, 78, 79, 80, 81, 82]
+}
+
+print("Gen area slots...")
+
+# We decided for two addresses per NIL
+area_slots = np.array(
+    [f"{name} A" for name in area_slots_base] +
+    [f"{name} B" for name in area_slots_base]
+)
+
+time_slots = np.array(["Sabato mattina", "Sabato pomeriggio", "Domenica mattina", "Domenica pomeriggio"])
+time_area_slots = np.array(list(itertools.product(time_slots, area_slots)))
+
+print("Gen zone clusters...")
+
+# Same as ZONE_CLUSTERS, but related to area_slots
+ZONE_CLUSTERS = {
+    zone: [2*i for i in indices] + [2*i + 1 for i in indices]
+    for zone, indices in ZONE_CLUSTERS_BASE.items()
 }
 
 def get_user_area_slots():
@@ -128,6 +145,8 @@ def generate_users(count):
 
     return users, couples
 
+print("Gen users & couples...")
+
 # --- EXECUTION ---
 users, couples = generate_users(TOTAL_USERS)
 
@@ -143,4 +162,6 @@ users, couples = generate_users(TOTAL_USERS)
 
 from pairing import pair_fun
 
-pair_fun.run (np=np, couples=couples, singles=users, time_area_slots=time_area_slots)
+print("Pairing...")
+
+pair_fun.run (couples=couples, singles=users, time_area_slots=time_area_slots)

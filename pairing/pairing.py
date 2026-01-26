@@ -321,15 +321,15 @@ def pair_fun(couples, np, singles, time_area_slots):
         total_people_assigned = 0
 
         for s in g_slots:
-            print(f"  slot_tempo_luogo '{time_area_slots[s]}':")
             flow_in_slot = 0
             slot_surnames = []
+            lines_to_print = []
 
             # Find Singles in this slot
             for u in g_users:
                 if (u, s) in g_user_costs and pulp.value(x[u, s]) == 1:
                     uu = g_users[u]["user"]
-                    print(f"    - {uu['name']} {uu['surname']} (costo: {g_user_costs[(u,s)]})")
+                    lines_to_print.append(f"    - {uu['name']} {uu['surname']} (costo: {g_user_costs[(u,s)]})")
                     slot_surnames.append(uu["surname"])
                     flow_in_slot += 1
 
@@ -338,16 +338,16 @@ def pair_fun(couples, np, singles, time_area_slots):
                 if (c, s) in g_couple_costs and pulp.value(y[c, s]) == 1:
                     u1 = g_couples[c]["users"][0]
                     u2 = g_couples[c]["users"][1]
-                    print(f"    - {u1['name']} {u1['surname']} & {u2['name']} {u2['surname']} (costo: {g_couple_costs[(c,s)]})")
+                    lines_to_print.append(f"    - {u1['name']} {u1['surname']} & {u2['name']} {u2['surname']} (costo: {g_couple_costs[(c,s)]})")
                     slot_surnames.append(u1["surname"])
                     slot_surnames.append(u2["surname"])
                     flow_in_slot += 2
 
             if flow_in_slot == 0:
-                print("    (vuoto)")
+                # print("    (vuoto)")
                 empty_slots += 1
             else:
-                print(f"    -> Totale slot: {flow_in_slot}")
+                lines_to_print.append(f"    -> Totale slot: {flow_in_slot}")
                 output.append({
                     "time": time_area_slots[s][0],
                     "location": time_area_slots[s][1],
@@ -357,6 +357,11 @@ def pair_fun(couples, np, singles, time_area_slots):
                 total_people_assigned += flow_in_slot
                 min_flow = min(min_flow, flow_in_slot)
                 max_flow = max(max_flow, flow_in_slot)
+
+            if len(lines_to_print) > 0:
+                print(f"  slot_tempo_luogo '{time_area_slots[s]}':")
+                for l in lines_to_print:
+                    print(l)
 
         expected_demand = len(g_users) + len(g_couples) * 2
         print(f"Total people: {total_people_assigned}, Expected: {expected_demand}")
@@ -384,17 +389,29 @@ def pair_fun(couples, np, singles, time_area_slots):
         hist_data = collections.Counter(slot_populations)
         limit = 11  # Your hard limit
 
+        # Print normalization
+        MAX_BAR_WIDTH = 40
+        COUNT_WIDTH = 3
+
+        max_count = max(1, max(hist_data.values(), default=1))
+
+
         # 3. Print ASCII Histogram
         for n in range(limit + 1):
             count = hist_data.get(n, 0)
 
+            # Normalize bar length
+            bar_len = int(round(count / max_count * MAX_BAR_WIDTH))
+
             # Visual bar (use '█' for a solid look, or '#' for standard ascii)
-            bar = "█" * count
+            filled = "█" * bar_len
+            empty = "." * (MAX_BAR_WIDTH - bar_len)
+            bar = filled + empty
 
             # Only print rows that aren't empty, or print all to show gaps
             if count > 0 or n == 0:
                 # Format: " 3 people: █████ (5)"
-                print(f"{n:>2} persone: {bar:<20} ({count} slot)")
+                print(f"{n:>2} persone: {bar} ({count:>{COUNT_WIDTH}} slot)")
             else:
                 # Optional: Print faint line for empty bins
                 print(f"{n:>2} persone: -")
