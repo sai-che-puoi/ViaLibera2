@@ -62,9 +62,9 @@ https://web.whatsapp.com/send?phone=<COUNTRY_CODE><PHONE_NUMBER>&text=<URL_ENCOD
 ```
 
 **Example:**
-- Phone: +39 349 5646599
+- Phone: +39 349 0000000
 - Message: "Ciao! Come stai?"
-- URL: `https://web.whatsapp.com/send?phone=393495646599&text=Ciao%21%20Come%20stai%3F`
+- URL: `https://web.whatsapp.com/send?phone=393490000000&text=Ciao%21%20Come%20stai%3F`
 
 You can URL-encode your message using online tools or Python's `urllib.parse.quote()`.
 
