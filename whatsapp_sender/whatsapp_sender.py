@@ -25,9 +25,10 @@ from google.oauth2.service_account import Credentials
 ### DESSE ACCESSO AD UNA PERSONA QUALSIASI)
 SOURCE_TABLE_URL = "https://docs.google.com/spreadsheets/d/1B3h7TWd4T5mqpa6t3ii8exTpdk1gPBgRSSEQKVdnBvI"
 SHEET_TABLE_NAME = "Risposte del modulo 1"
-WHATSAPP_LINK_COLUMN_NAME = "Link messaggio di benvenuto"
-SENT_COLUMN_NAME = "Messaggio di benvenuto inviato"
-
+WHATSAPP_LINK_COLUMN_NAME = "Link messaggio di benvenuto intervistatore 1"
+WHATSAPP_LINK_COLUMN_NAME_2 = "Link messaggio di benvenuto intervistatore 2"
+SENT_COLUMN_NAME = "Messaggio di benvenuto inviato intervistatore 1"
+SENT_COLUMN_NAME_2 = "Messaggio di benvenuto inviato intervistatore 2"
 
 ##########################################################################################
 
@@ -42,41 +43,46 @@ def get_google_sheet():
     return sheet
 
 
-def get_column_index(sheet):
+def get_column_index(sheet, col_name):
     headers = sheet.row_values(1)
     try:
-        return headers.index(SENT_COLUMN_NAME) + 1
+        return headers.index(col_name) + 1
     except ValueError:
-        raise RuntimeError(f"Column '{SENT_COLUMN_NAME}' not found")
+        raise RuntimeError(f"Column '{col_name}' not found")
 
 
 def load_pending_urls(sheet):
     records = sheet.get_all_records()
-    sent_col_idx = get_column_index(sheet)
+
+    sent_col_idx_1 = get_column_index(sheet, SENT_COLUMN_NAME)
+    sent_col_idx_2 = get_column_index(sheet, SENT_COLUMN_NAME_2)
 
     tasks = []
 
     for row_num, record in enumerate(records, start=2):
-        url = str(record.get(WHATSAPP_LINK_COLUMN_NAME, "")).strip()
-        sent = record.get(SENT_COLUMN_NAME, "")
+        for (wlink, sentname, sent_col_idx) in [(WHATSAPP_LINK_COLUMN_NAME, SENT_COLUMN_NAME, sent_col_idx_1), 
+                                                (WHATSAPP_LINK_COLUMN_NAME_2, SENT_COLUMN_NAME_2, sent_col_idx_2)]:
+            url = str(record.get(wlink, "")).strip()
 
-        # Skip if URL is empty
-        if not url:
-            continue
+            # Skip if URL is empty
+            if not url:
+                continue
 
-        # Skip if already sent (check for TRUE, True, "TRUE", "Yes", or any truthy value)
-        if sent in [True, "TRUE", "True", "true", "YES", "Yes", "yes", 1, "1"]:
-            print(f"  Skipping row {row_num}: already sent")
-            continue
+            sent = record.get(sentname, "")
 
-        # Closure capturing row_num
-        def make_callback(r=row_num):
-            def callback():
-                sheet.update_cell(r, sent_col_idx, True)
+            # Skip if already sent (check for TRUE, True, "TRUE", "Yes", or any truthy value)
+            if sent in [True, "TRUE", "True", "true", "YES", "Yes", "yes", 1, "1"]:
+                print(f"  Skipping row {row_num}: already sent")
+                continue
 
-            return callback
+            # Closure capturing row_num
+            def make_callback(r=row_num, c=sent_col_idx):
+                def callback():
+                    sheet.update_cell(r, c, True)
 
-        tasks.append((url, make_callback()))
+                return callback
+
+            tasks.append((url, make_callback()))
 
     return tasks
 
@@ -122,9 +128,9 @@ def send_whatsapp_messages(urls, wait_time_range=(5, 60)):
         driver.get("https://web.whatsapp.com/")
 
         # Wait for QR code on first run or for auto-login on subsequent runs
-        print("Waiting for WhatsApp Web to load...")
-        print("If this is your first run, scan the QR code now.")
-        time.sleep(20)  # Give user time to scan QR code or for auto-login
+        # print("Waiting for WhatsApp Web to load...")
+        # print("If this is your first run, scan the QR code now.")
+        # time.sleep(20)  # Give user time to scan QR code or for auto-login
 
         print(f"\nProcessing {len(urls)} messages...\n")
 
@@ -137,8 +143,8 @@ def send_whatsapp_messages(urls, wait_time_range=(5, 60)):
                 # The send button has aria-label="Send"
                 print("  Waiting for send button...")
                 send_button = WebDriverWait(driver, 30).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Send"]'))
-                )
+                        EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[aria-label="Send"]'))
+                        )
 
                 # Small delay before clicking
                 time.sleep(1)
