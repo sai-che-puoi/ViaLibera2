@@ -6,6 +6,7 @@ Automates sending WhatsApp messages from pre-filled URLs using Selenium
 
 import time
 import random
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -22,10 +23,11 @@ from google.oauth2.service_account import Credentials
 ### IMPORTANTE: IL SERVICE ACCOUNT (BOT) DI GOOGLE CONFIGURATO IN `credentials.json` DEVE AVERE ACCESSO ALLA SHEET.
 ### PER DARGLIELO BASTA APRIRE IL FILE JSON, E AGGIUNGERE IN MODALITÀ EDITOR L'EMAIL DEL BOT NELLA SHEET (COME SE SI
 ### DESSE ACCESSO AD UNA PERSONA QUALSIASI)
-SOURCE_TABLE_URL = "https://docs.google.com/spreadsheets/d/10ygghSp3dRymRewUs8DmugPAKAlYBTvA4InKzj3B4xo"
-SHEET_TABLE_NAME = "Sheet1"
-WHATSAPP_LINK_COLUMN_NAME = "Link Messaggio"
-SENT_COLUMN_NAME = "Inviato?"
+SOURCE_TABLE_URL = "https://docs.google.com/spreadsheets/d/1B3h7TWd4T5mqpa6t3ii8exTpdk1gPBgRSSEQKVdnBvI"
+SHEET_TABLE_NAME = "Risposte del modulo 1"
+WHATSAPP_LINK_COLUMN_NAME = "Link messaggio di benvenuto"
+SENT_COLUMN_NAME = "Messaggio di benvenuto inviato"
+
 
 ##########################################################################################
 
@@ -39,12 +41,14 @@ def get_google_sheet():
     sheet = client.open_by_url(SOURCE_TABLE_URL).worksheet(SHEET_TABLE_NAME)
     return sheet
 
+
 def get_column_index(sheet):
     headers = sheet.row_values(1)
     try:
         return headers.index(SENT_COLUMN_NAME) + 1
     except ValueError:
         raise RuntimeError(f"Column '{SENT_COLUMN_NAME}' not found")
+
 
 def load_pending_urls(sheet):
     records = sheet.get_all_records()
@@ -54,56 +58,77 @@ def load_pending_urls(sheet):
 
     for row_num, record in enumerate(records, start=2):
         url = str(record.get(WHATSAPP_LINK_COLUMN_NAME, "")).strip()
-        sent = record.get(SENT_COLUMN_NAME, False)
+        sent = record.get(SENT_COLUMN_NAME, "")
 
-        if not url or sent is True:
+        # Skip if URL is empty
+        if not url:
+            continue
+
+        # Skip if already sent (check for TRUE, True, "TRUE", "Yes", or any truthy value)
+        if sent in [True, "TRUE", "True", "true", "YES", "Yes", "yes", 1, "1"]:
+            print(f"  Skipping row {row_num}: already sent")
             continue
 
         # Closure capturing row_num
         def make_callback(r=row_num):
             def callback():
                 sheet.update_cell(r, sent_col_idx, True)
+
             return callback
 
         tasks.append((url, make_callback()))
 
     return tasks
 
+
 ##########################################################################################
 ##########################################################################################
 
-def send_whatsapp_messages(urls_callbacks, wait_time_range=(5, 60)):
+def send_whatsapp_messages(urls, wait_time_range=(5, 60)):
     """
     Opens WhatsApp URLs one at a time and clicks the send button.
 
     Args:
-        urls: List of WhatsApp web URLs with pre-filled messages
+        urls: List of tuples (url, success_callback) with WhatsApp web URLs and callbacks
         wait_time_range: Tuple of (min, max) seconds to wait between messages
     """
     # Set up Chrome options
     options = webdriver.ChromeOptions()
+
+    # Use a persistent profile to save WhatsApp Web login
+    # it assumes you already have launched the create_chromium_profile.py script
+    profile_path = os.path.expanduser("~/selenium-chromium-profile")
+    options.add_argument(f"user-data-dir={profile_path}")
+
+    # Additional options to help with profile creation
+    options.add_argument("--no-first-run")
+    options.add_argument("--no-default-browser-check")
+    options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+
     # Keep the browser open to maintain WhatsApp Web session
     options.add_experimental_option("detach", True)
     # Optional: start maximized for better visibility
     options.add_argument("--start-maximized")
 
     # Initialize the driver
-    # driver = webdriver.Chrome(options=options)
     service = Service('/usr/bin/chromedriver')
+    options.binary_location = "/usr/bin/chromium-browser"
     driver = webdriver.Chrome(service=service, options=options)
 
     try:
         print("Opening WhatsApp Web...")
-        print("Please scan the QR code if you haven't already logged in.")
-        print("Waiting 20 seconds for you to log in...")
 
         # Open WhatsApp Web first to allow login
         driver.get("https://web.whatsapp.com/")
-        time.sleep(20)  # Give user time to scan QR code
+
+        # Wait for QR code on first run or for auto-login on subsequent runs
+        print("Waiting for WhatsApp Web to load...")
+        print("If this is your first run, scan the QR code now.")
+        time.sleep(20)  # Give user time to scan QR code or for auto-login
 
         print(f"\nProcessing {len(urls)} messages...\n")
 
-        for index, (url, success_callback) in enumerate(urls_callbacks, 1):
+        for index, (url, success_callback) in enumerate(urls, 1):
             print(f"[{index}/{len(urls)}] Opening URL...")
             driver.get(url)
 
@@ -125,6 +150,7 @@ def send_whatsapp_messages(urls_callbacks, wait_time_range=(5, 60)):
                 time.sleep(2)
                 print("  ✓ Message sent successfully!")
 
+                # Mark as sent in the spreadsheet
                 success_callback()
 
             except TimeoutException:
@@ -152,18 +178,17 @@ def send_whatsapp_messages(urls_callbacks, wait_time_range=(5, 60)):
         # Don't close the driver automatically - let user close it
         print("\nScript finished. Browser remains open for your inspection.")
 
+
 def main():
     sheet = get_google_sheet()
     urls = load_pending_urls(sheet)
 
     # Validate URLs
     if not urls:
-        print("Error: No URLs provided!")
+        print("No pending messages to send!")
         return
 
-    return
-
-    print(f"Ready to send {len(urls)} WhatsApp message(s)")
+    print(f"\nReady to send {len(urls)} WhatsApp message(s)")
     print("Random wait time between messages: 5-60 seconds")
     print("\nPress Ctrl+C at any time to stop.\n")
 
