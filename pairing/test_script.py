@@ -12,11 +12,13 @@ fake.seed_instance(1)
 
 # --- CONFIGURATION ---
 TOTAL_USERS = 300
-PAIR_CHANCE = 0.30  # 30% chance a user is part of a pair
-MIN_LOCATIONS = 3
-MAX_LOCATIONS = 4
+PAIR_CHANCE = 0.20  # 50% chance a user is part of a pair
+AREA_AVAILABLE_CHANCE = 0.50
+TIME_AVAILABLE_CHANCE = 0.50
+MIN_LOCATIONS = 1
+MAX_LOCATIONS = 3
 MIN_TIME_SLOTS = 1
-MAX_TIME_SLOTS = 4
+MAX_TIME_SLOTS = 2
 
 # --- DATA: THE 88 DISTRICTS (NIL) CLUSTERED BY MACRO-ZONE (MUNICIPI) ---
 # This grouping ensures "Adjacency". If we pick from a cluster,
@@ -69,24 +71,29 @@ ZONE_CLUSTERS_BASE = {
 
 print("Gen area slots...")
 
+area_slots = area_slots_base
 # We decided for two addresses per NIL
-area_slots = np.array(
-    [f"{name} A" for name in area_slots_base] +
-    [f"{name} B" for name in area_slots_base]
-)
+# area_slots = np.array(
+#     [f"{name} A" for name in area_slots_base] +
+#     [f"{name} B" for name in area_slots_base]
+# )
 
 time_slots = np.array(["Sabato mattina", "Sabato pomeriggio", "Domenica mattina", "Domenica pomeriggio"])
 time_area_slots = np.array(list(itertools.product(time_slots, area_slots)))
 
 print("Gen zone clusters...")
 
+ZONE_CLUSTERS = ZONE_CLUSTERS_BASE
 # Same as ZONE_CLUSTERS, but related to area_slots
-ZONE_CLUSTERS = {
-    zone: [2*i for i in indices] + [2*i + 1 for i in indices]
-    for zone, indices in ZONE_CLUSTERS_BASE.items()
-}
+# ZONE_CLUSTERS = {
+#     zone: [2*i for i in indices] + [2*i + 1 for i in indices]
+#     for zone, indices in ZONE_CLUSTERS_BASE.items()
+# }
 
 def get_user_area_slots():
+    all_available = (random.random() < AREA_AVAILABLE_CHANCE)
+    if all_available:
+        return np.arange(len(area_slots), dtype=int)
     zone_indices = random.choice(list(ZONE_CLUSTERS.values()))
     num_picks = random.randint(MIN_LOCATIONS, MAX_LOCATIONS)
 
@@ -98,6 +105,9 @@ def get_user_area_slots():
     return np.array(selected_indices, dtype=int)
 
 def get_user_time_slots():
+    all_available = (random.random() < TIME_AVAILABLE_CHANCE)
+    if all_available:
+        return np.arange(len(time_slots), dtype=int)
     num_picks = random.randint(MIN_TIME_SLOTS, MAX_TIME_SLOTS)
     return np.array(random.sample(list(np.arange(len(time_slots))), num_picks), dtype=int)
 
@@ -162,6 +172,6 @@ users, couples = generate_users(TOTAL_USERS)
 
 from pairing import pair_fun
 
-print("Pairing...")
 
+print("Pairing...")
 pair_fun.run (couples=couples, singles=users, time_area_slots=time_area_slots)
