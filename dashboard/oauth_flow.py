@@ -39,6 +39,7 @@ def main():
             pickle.dump(creds, token)
     
     print("OAuth flow completed. Token saved to token.pickle.")
+    print(f"Refresh token: {creds.refresh_token}")
 
 if __name__ == '__main__':
     main()

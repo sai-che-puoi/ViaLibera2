@@ -7,7 +7,6 @@ import pydeck as pdk  # make sure pydeck is installed
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
-from dotenv import load_dotenv
 from streamlit_autorefresh import st_autorefresh
 
 # Ensure project root is importable (since app.py is in dashboard/)
@@ -15,16 +14,14 @@ ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 if ROOT_DIR not in sys.path:
     sys.path.append(ROOT_DIR)
 
+# Import after sys.path fix
 from google_api import get_access_token, get_sheet_data
 from config import SPREADSHEET_ID, SHEET_NAME
 
+# Optional: disable SSL warnings if verify_ssl=False in secrets
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# Load .env (used locally; on Streamlit Cloud you'll use st.secrets)
-BASE_DIR = os.path.dirname(__file__)
-dotenv_path = os.path.join(ROOT_DIR, ".env")  # adjust if needed
-load_dotenv(dotenv_path=dotenv_path)
-
+# Streamlit page config
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
 st.title("Google Sheet Live Dashboard")
 
