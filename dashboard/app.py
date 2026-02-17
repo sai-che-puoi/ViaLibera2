@@ -96,6 +96,8 @@ gender_counts = gender_series.dropna().value_counts()
 
 # Get answers to question "Limitare le auto migliora o peggiora"
 auto_migliora_peggiora = df["Limitare le auto migliora o peggiora"].dropna().value_counts().to_dict()
+# Remove empty keys if any (in case of empty strings)
+auto_migliora_peggiora.pop("", None)
 
 # Pre-processing for heatmap
 if "Latitude" in df.columns and "Longitude" in df.columns:
@@ -128,7 +130,7 @@ def render_gauge():
             number={"font": {"size": 75}},
             gauge={
                 "axis": {"range": [0, 1000],
-                         "tickfont":{"size": 20}},
+                         "tickfont":{"size": 25}},
                 "bar": {"color": "darkblue"},
                 "steps": [
                     {"range": [0, 250], "color": "#e0f3ff"},
@@ -213,9 +215,9 @@ def render_heatmap():
 
     # Center on Milan (approximate center)
     view_state = pdk.ViewState(
-        latitude=45.4642,
+        latitude=45.45,
         longitude=9.19,
-        zoom=10.5,    # tweak as you like (10–13)
+        zoom=10.8,    # tweak as you like (10–13)
         pitch=0,
         bearing=0,
     )
@@ -227,7 +229,7 @@ def render_heatmap():
         tooltip={"text": "NIL: {NIL}"},
     )
 
-    st.pydeck_chart(deck)
+    st.pydeck_chart(deck, width='stretch', height=650)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -250,6 +252,14 @@ def render_age_distribution():
         # title="Age Distribution",
         xaxis_title="Età",
         yaxis_title="Numero",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
@@ -269,13 +279,13 @@ def render_gender_distribution():
                 hole=0.5,
                 textinfo="percent+label",
                 textposition="outside",
-                textfont={"size": 20}
+                textfont={"size": 25}
             )
         ]
     )
     donut_fig.update_layout(
         showlegend=False,
-        margin=dict(t=20, b=20, l=20, r=20),
+        margin=dict(t=20, b=80, l=20, r=20),
     )
     st.plotly_chart(donut_fig, width='stretch')
 
@@ -293,8 +303,9 @@ def render_auto_migliora_peggiora():
     ampp_fig = go.Figure(
         data=[
             go.Bar(
-                x=ampp_df["Response"],
-                y=ampp_df["Count"],
+                y=ampp_df["Response"],
+                x=ampp_df["Count"],
+                orientation="h",
                 marker_color="coral"
             )
         ]
@@ -302,8 +313,16 @@ def render_auto_migliora_peggiora():
 
     ampp_fig.update_layout(
         # title="Opinioni su limitare le auto",
-        xaxis_title="Risposta",
-        yaxis_title="Conteggio",
+        # yaxis_title="Risposta",
+        xaxis_title="Conteggio",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
@@ -352,15 +371,29 @@ def render_likert_heatmap():
             x=[str(s) for s in matrix.columns],
             y=matrix.index.tolist(),
             colorscale="Blues",
-            colorbar=dict(title="Count"),
+            colorbar=dict(
+                title=dict(
+                    text="Conteggio",
+                    font=dict(size=25)
+                ),
+                tickfont=dict(size=25)
+            ),
         )
     )
 
     heatmap_fig.update_layout(
         # title="Distribution of Scores per Statement",
-        xaxis_title="Score (1–10)",
-        yaxis_title="Statement",
-        yaxis=dict(automargin=True),
+        xaxis_title="Punteggio (1-10)",
+        #yaxis_title="Statement",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25),
+            automargin=True
+        ),
         margin=dict(l=120, r=20, t=40, b=40),
     )
 
@@ -380,13 +413,13 @@ def lavoro_donut():
                 hole=0.5,
                 textinfo="percent+label",
                 textposition="outside",
-                textfont={"size": 20}
+                textfont={"size": 25}
             )
         ]
     )
     donut_fig.update_layout(
         showlegend=False,
-        margin=dict(t=20, b=20, l=20, r=20),
+        margin=dict(t=20, b=80, l=20, r=20),
     )
     st.plotly_chart(donut_fig, width='stretch')
 
