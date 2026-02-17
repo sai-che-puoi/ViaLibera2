@@ -156,15 +156,22 @@ def render_squadra_barchart():
                 marker_color="steelblue",
                 text=squadra_counts.values,
                 textposition="inside",
-                textfont={"size": 20},
+                textfont={"size": 25},
             )
         ]
     )
 
     bar_fig.update_layout(
-        # title="Squadra - Most Common Values",
         xaxis_title="Squadra",
         yaxis_title="Interviste",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
         margin=dict(t=40, b=20, l=20, r=20)
     )
 
