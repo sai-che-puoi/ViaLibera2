@@ -160,14 +160,13 @@ print("Gen users & couples...")
 # --- EXECUTION ---
 users, couples = generate_users(TOTAL_USERS)
 
-from pairing import pair_fun
+import pairing_algorithm
 
 compute = True
 save = True
 if compute:
     print("Pairing...")
-    _, defs = pair_fun.run (couples=couples, singles=users, time_area_slots=time_area_slots, area_slots=area_slots) # time_slots=time_slots,
-    output = defs['output']
+    output = pairing_algorithm.pair (couples=couples, singles=users, time_area_slots=time_area_slots, area_slots=area_slots)
     if save:
         np.save("output.npy", output)
 else:
