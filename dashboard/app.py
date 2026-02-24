@@ -23,7 +23,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Streamlit page config
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
-st.title("Google Sheet Live Dashboard")
+# st.title("Google Sheet Live Dashboard")
 
 
 # -----------------------------
@@ -59,7 +59,18 @@ likert_cols = [
     "Da parcheggi ad aggregazione",
 ]
 
-required_cols = ["ID", "Lavoro", "Squadra", "Età", "Latitude", "Longitude", "Genere", "Limitare le auto migliora o peggiora"] + likert_cols
+transport_modes = [
+    "Auto",
+    "Bici",
+    "Mezzi pubblici",
+    "Piedi",
+    "Moto/scooter",
+    "Taxi",
+    "Monopattino",
+    "Altro"
+]
+
+required_cols = ["ID", "Lavoro", "Squadra", "Età", "Latitude", "Longitude", "Genere", "Limitare le auto migliora o peggiora"] + likert_cols + transport_modes
 missing = [c for c in required_cols if c not in df.columns]
 if missing:
     st.error(f"Missing required columns in sheet: {', '.join(missing)}")
@@ -73,9 +84,9 @@ unique_ids_count = id_series.dropna().nunique()
 lavoro_series = df["Lavoro"].replace("", pd.NA)
 lavoro_counts = lavoro_series.dropna().value_counts()
 
-# Count top 10 values in "Squadra" column (if it exists)
+# Count top 5 values in "Squadra" column (if it exists)
 squadra_series = df["Squadra"].replace("", pd.NA)
-squadra_counts = squadra_series.dropna().value_counts().head(10)  # top 10 values
+squadra_counts = squadra_series.dropna().value_counts().head(5)  # top 5 values
 
 age_series = df["Età"].replace("", pd.NA).replace("NA", pd.NA).dropna().astype(float)
 
@@ -108,6 +119,16 @@ if "Latitude" in df.columns and "Longitude" in df.columns:
     latlon_df["Longitude"] = latlon_df["Longitude"].astype(float)
 else:
     latlon_df = pd.DataFrame()
+
+# Pre-processing for transportation modes (sum aggregation)
+transport_sums = {}
+for mode in transport_modes:
+    if mode in df.columns:
+        # Convert to numeric, handle empty strings and NA values
+        mode_series = df[mode].replace("", pd.NA).dropna()
+        transport_sums[mode] = pd.to_numeric(mode_series, errors="coerce").sum()
+    else:
+        transport_sums[mode] = 0
 
 @st.cache_data
 def load_nil_geojson():
@@ -300,6 +321,9 @@ def render_auto_migliora_peggiora():
         "Count": list(auto_migliora_peggiora.values())
     })
 
+    # Sort by count ascending for better visualization
+    ampp_df = ampp_df.sort_values("Count", ascending=True)
+
     ampp_fig = go.Figure(
         data=[
             go.Bar(
@@ -423,14 +447,58 @@ def lavoro_donut():
     )
     st.plotly_chart(donut_fig, width='stretch')
 
+def render_transport_modes_barchart():
+    """Render bar chart for transportation modes aggregated by sum."""
+    if not transport_sums or all(v == 0 for v in transport_sums.values()):
+        st.info("No data found for transportation modes.")
+        return
+
+    transport_df = pd.DataFrame({
+        "Mode": list(transport_sums.keys()),
+        "Count": list(transport_sums.values())
+    })
+
+    # Sort by count descending for better visualization
+    transport_df = transport_df.sort_values("Count", ascending=True)
+
+    transport_fig = go.Figure(
+        data=[
+            go.Bar(
+                y=transport_df["Mode"],
+                x=transport_df["Count"],
+                orientation="h",
+                marker_color="teal",
+                text=transport_df["Count"],
+                textposition="inside",
+                textfont={"size": 20}
+            )
+        ]
+    )
+
+    transport_fig.update_layout(
+        xaxis_title="Conteggio",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        margin=dict(t=20, b=20, l=20, r=20)
+    )
+
+    st.plotly_chart(transport_fig, width='stretch')
+
 
 # List of charts in the carousel (you can add more later)
 
 CHARTS = [
     ("Numero di interviste", render_gauge),
-    ("Top 10 Squadre", render_squadra_barchart),
+    ("Top 5 Squadre", render_squadra_barchart),
     ("Mappa densità", render_heatmap),
     ("Distribuzione età", render_age_distribution),
+    ("Modalità di trasporto", render_transport_modes_barchart),
     ("Distribuzione genere", render_gender_distribution),
     ("Distribuzione occupazione", lavoro_donut),
     ("Opinioni su limitare le auto", render_auto_migliora_peggiora),
@@ -444,7 +512,7 @@ CHARTS = [
 # -----------------------------
 
 # 1. Auto-refresh
-REFRESH_INTERVAL_MS = 20_000  # 20 seconds
+REFRESH_INTERVAL_MS = 15_000  # 15 seconds
 refresh_count = st_autorefresh(
     interval=REFRESH_INTERVAL_MS,
     limit=None,
@@ -461,9 +529,9 @@ st.session_state.chart_index = refresh_count % len(CHARTS)
 current_title, current_renderer = CHARTS[st.session_state.chart_index]
 
 # 3. Optional: show current slide indicator
-st.markdown(
-    f"**Slide {st.session_state.chart_index + 1} / {len(CHARTS)}** &nbsp; | &nbsp; _auto-rotating every {REFRESH_INTERVAL_MS // 1000}s_"
-)
+# st.markdown(
+#     f"**Slide {st.session_state.chart_index + 1} / {len(CHARTS)}** &nbsp; | &nbsp; _auto-rotating every {REFRESH_INTERVAL_MS // 1000}s_"
+# )
 
 st.subheader(current_title)
 current_renderer()
