@@ -134,6 +134,8 @@ function handleFormSubmission(data) {
         data.genere,
         data.cap,
         data.audioFileUrl,
+        '',
+        '',
         data.x_coord,
         data.y_coord
     ];
