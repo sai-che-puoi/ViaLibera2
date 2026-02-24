@@ -73,6 +73,9 @@ export class QuizController {
         // Update loading message for form submission
         this.updateLoadingMessage('Invio dati questionario...', 'form');
 
+        // Calculate coordinates using the new algorithm
+        const coordinates = this.calculator.calculateCoordinates(answers);
+
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
@@ -83,8 +86,8 @@ export class QuizController {
             latitude: geoData.latitude,
             longitude: geoData.longitude,
             geoError: geoData.error,
-            x_coord: result.coordinates.x,
-            y_coord: result.coordinates.y,
+            x_coord: coordinates.x,
+            y_coord: coordinates.y,
             ...result.answers,
         };
 
@@ -92,9 +95,6 @@ export class QuizController {
 
         // Update loading message for final processing
         this.updateLoadingMessage('Elaborazione risultati...', 'chart');
-
-        // Calculate coordinates using the new algorithm
-        const coordinates = this.calculator.calculateCoordinates(answers);
 
         // Small delay to show the final loading message
         await new Promise(resolve => setTimeout(resolve, 800));
