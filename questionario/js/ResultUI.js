@@ -84,18 +84,20 @@ export class ResultUI {
         svg.appendChild(yLabelBottom);
 
         const yLabelTop1 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        yLabelTop1.setAttribute('x', '10');
+        yLabelTop1.setAttribute('x', '-10');
         yLabelTop1.setAttribute('y', '-90');
         yLabelTop1.setAttribute('font-size', '6');
         yLabelTop1.setAttribute('fill', '#666');
+        yLabelTop1.setAttribute('text-anchor', 'end');
         yLabelTop1.textContent = 'Cambiamo lo spazio';
         svg.appendChild(yLabelTop1);
-        
+
         const yLabelTop2 = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        yLabelTop2.setAttribute('x', '10');
+        yLabelTop2.setAttribute('x', '-10');
         yLabelTop2.setAttribute('y', '-80');
         yLabelTop2.setAttribute('font-size', '6');
         yLabelTop2.setAttribute('fill', '#666');
+        yLabelTop2.setAttribute('text-anchor', 'end');
         yLabelTop2.textContent = 'pubblico';
         svg.appendChild(yLabelTop2);
 

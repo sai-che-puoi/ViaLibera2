@@ -94,7 +94,9 @@ function handleFormSubmission(data) {
             'CAP',
             'Registrazione Audio Originale',
             'Trascrizione',
-            'Trascrizione rivista da LLM'
+            'Trascrizione rivista da LLM',
+            'Coordinata X',
+            'Coordinata Y'
         ];
         sheet.appendRow(headers);
     }
@@ -131,7 +133,9 @@ function handleFormSubmission(data) {
         data.o3_8,
         data.genere,
         data.cap,
-        data.audioFileUrl
+        data.audioFileUrl,
+        data.x_coord,
+        data.y_coord
     ];
 
     // Append the row
