@@ -83,6 +83,8 @@ export class QuizController {
             latitude: geoData.latitude,
             longitude: geoData.longitude,
             geoError: geoData.error,
+            x_coord: result.coordinates.x,
+            y_coord: result.coordinates.y,
             ...result.answers,
         };
 
