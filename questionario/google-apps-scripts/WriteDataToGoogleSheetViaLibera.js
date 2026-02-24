@@ -95,6 +95,7 @@ function handleFormSubmission(data) {
             'Registrazione Audio Originale',
             'Trascrizione',
             'Trascrizione rivista da LLM',
+            'Second Audio URL',
             'Coordinata X',
             'Coordinata Y'
         ];
@@ -134,6 +135,7 @@ function handleFormSubmission(data) {
         data.genere,
         data.cap,
         data.audioFileUrl,
+        '',
         '',
         '',
         data.x_coord,
