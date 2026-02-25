@@ -266,109 +266,115 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+
 def render_cartesian_heatmap():
-    """Heatmap on a [-100, 100] Cartesian plane, with gridlines and highlighted axes."""
+    """Cartesian heatmap on [-100, 100] with gridlines and highlighted axes (no map)."""
 
     if coord_df.empty:
         st.info("No valid 'Coordinata X' and 'Coordinata Y' data available.")
         return
 
-    # Use X/Y as generic Cartesian coordinates (no renaming to Longitude/Latitude needed conceptually)
-    df = coord_df.rename(columns={
-        "Coordinata X": "x",
-        "Coordinata Y": "y",
-    })
+    x = coord_df["Coordinata X"].to_numpy()
+    y = coord_df["Coordinata Y"].to_numpy()
 
-    # -----------------------
-    # 1) Build grid line data
-    # -----------------------
+    # Keep only points inside the plane (optional safety)
+    mask = (x >= -100) & (x <= 100) & (y >= -100) & (y <= 100)
+    x = x[mask]
+    y = y[mask]
+
+    if x.size == 0:
+        st.info("No points within [-100, 100] range to display.")
+        return
+
+    # 2D histogram for density
+    bins = 40  # adjust resolution
+    heatmap, x_edges, y_edges = np.histogram2d(
+        x, y,
+        bins=bins,
+        range=[[-100, 100], [-100, 100]],
+    )
+
+    # Bin centers for plotting
+    x_centers = 0.5 * (x_edges[:-1] + x_edges[1:])
+    y_centers = 0.5 * (y_edges[:-1] + y_edges[1:])
+
+    fig = go.Figure(
+        data=go.Heatmap(
+            x=x_centers,
+            y=y_centers,
+            z=heatmap.T,          # transpose so axes match
+            colorscale="Viridis",
+            colorbar=dict(title="Density"),
+        )
+    )
+
+    # Gridlines + axes
     min_val, max_val = -100, 100
     step = 25
+    shapes = []
 
-    grid_lines = []  # minor grid
-    axes_lines = []  # main axes (x=0, y=0)
+    # Vertical lines
+    for xv in range(min_val, max_val + 1, step):
+        is_axis = (xv == 0)
+        shapes.append(
+            dict(
+                type="line",
+                x0=xv, x1=xv,
+                y0=min_val, y1=max_val,
+                line=dict(
+                    color="black" if is_axis else "rgba(150,150,150,0.5)",
+                    width=3 if is_axis else 1,
+                ),
+                layer="above",
+            )
+        )
 
-    # Vertical lines (constant x, varying y)
-    for x in range(min_val, max_val + 1, step):
-        line = {"path": [[x, min_val], [x, max_val]]}
-        if x == 0:
-            axes_lines.append(line)
-        else:
-            grid_lines.append(line)
+    # Horizontal lines
+    for yv in range(min_val, max_val + 1, step):
+        is_axis = (yv == 0)
+        shapes.append(
+            dict(
+                type="line",
+                x0=min_val, x1=max_val,
+                y0=yv, y1=yv,
+                line=dict(
+                    color="black" if is_axis else "rgba(150,150,150,0.5)",
+                    width=3 if is_axis else 1,
+                ),
+                layer="above",
+            )
+        )
 
-    # Horizontal lines (constant y, varying x)
-    for y in range(min_val, max_val + 1, step):
-        line = {"path": [[min_val, y], [max_val, y]]}
-        if y == 0:
-            axes_lines.append(line)
-        else:
-            grid_lines.append(line)
-
-    # -----------------------
-    # 2) Grid layers (Cartesian)
-    # -----------------------
-    grid_layer = pdk.Layer(
-        "PathLayer",
-        data=grid_lines,
-        get_path="path",
-        get_color=[180, 180, 180, 120],
-        width_scale=1,
-        width_min_pixels=1,
-        get_width=1,
-        coordinate_system=CoordinateSystem.CARTESIAN,
+    fig.update_layout(
+        shapes=shapes,
+        xaxis=dict(
+            title="Coordinata X",
+            range=[-100, 100],
+            dtick=25,
+            showgrid=False,
+            zeroline=False,
+            scaleanchor="y",
+            scaleratio=1,
+        ),
+        yaxis=dict(
+            title="Coordinata Y",
+            range=[-100, 100],
+            dtick=25,
+            showgrid=False,
+            zeroline=False,
+            scaleanchor="x",
+            scaleratio=1,
+        ),
+        width=700,
+        height=700,
+        margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    axes_layer = pdk.Layer(
-        "PathLayer",
-        data=axes_lines,
-        get_path="path",
-        get_color=[0, 0, 0, 220],
-        width_scale=1,
-        width_min_pixels=3,
-        get_width=1,
-        coordinate_system=CoordinateSystem.CARTESIAN,
-    )
-
-    # -----------------------
-    # 3) Heatmap layer for points (Cartesian)
-    # -----------------------
-    heatmap_layer = pdk.Layer(
-        "HeatmapLayer",
-        data=df,
-        get_position=["x", "y"],
-        aggregation="MEAN",
-        intensity=1.0,
-        threshold=0.01,
-        radiusPixels=30,
-        coordinate_system=CoordinateSystem.CARTESIAN,
-    )
-
-    # -----------------------
-    # 4) View: Orthographic (non-geo)
-    # -----------------------
-    # For OrthographicView, x/y are interpreted as generic units in a flat plane.
-    view_state = pdk.ViewState(
-        target=[0, 0, 0],   # center of the scene in (x, y, z)
-        zoom=0,             # adjust to fit [-100, 100] nicely; tweak if needed
-        bearing=0,
-        pitch=0,
-    )
-
-    ortho_view = pdk.View(
-        type="OrthographicView",  # non-map, purely Cartesian
-        controller=True,
-    )
-
-    deck = pdk.Deck(
-        layers=[grid_layer, axes_layer, heatmap_layer],
-        initial_view_state=view_state,
-        views=[ortho_view],
-        map_provider=None,   # extra safety; but OrthographicView ignores basemaps
-        map_style=None,
-        tooltip=None,
-    )
-
-    st.pydeck_chart(deck, width='stretch', height=650)
+    # Streamlit render (using the new width API you mentioned)
+    st.plotly_chart(fig, width='stretch')
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
