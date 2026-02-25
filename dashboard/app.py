@@ -265,7 +265,7 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
-def render_cartesian_heatmap(coord_df):
+def render_cartesian_heatmap():
     """Render a cartesian 2D heatmap based on 'Coordinata X' and 'Coordinata Y'."""
     if coord_df.empty:
         st.info("No valid 'Coordinata X' and 'Coordinata Y' data available for cartesian heatmap.")
