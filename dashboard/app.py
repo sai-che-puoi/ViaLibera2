@@ -359,7 +359,7 @@ def render_cartesian_heatmap():
     view_state = pdk.ViewState(
         longitude=0,   # center at (0,0) in your Cartesian plane
         latitude=0,
-        zoom=3.5,      # tweak this to see the whole [-100, 100] area nicely
+        zoom=3,      # tweak this to see the whole [-100, 100] area nicely
         pitch=0,
         bearing=0,
     )
@@ -367,6 +367,7 @@ def render_cartesian_heatmap():
     deck = pdk.Deck(
         layers=[grid_layer, axes_layer, heatmap_layer],
         initial_view_state=view_state,
+        map_provider=None,
         map_style=None,   # 🚫 No cartographic base layer
         tooltip=None,
     )
