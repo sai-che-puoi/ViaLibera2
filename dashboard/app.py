@@ -373,7 +373,7 @@ def render_cartesian_heatmap():
     )
 
     # Streamlit render
-    st.pydeck_chart(deck, width='stretch', height=650)
+    st.pydeck_chart(deck, use_container_width=True, height=650)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
