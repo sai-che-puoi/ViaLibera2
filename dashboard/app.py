@@ -338,6 +338,7 @@ def render_cartesian_heatmap():
             zeroline=False,
             scaleanchor="y",
             scaleratio=1,
+            constrain="range",
         ),
         yaxis=dict(
             title="Coordinata Y",
@@ -346,6 +347,7 @@ def render_cartesian_heatmap():
             zeroline=False,
             scaleanchor="x",
             scaleratio=1,
+            constrain="range",
         ),
         margin=dict(t=20, b=20, l=20, r=20),
     )
