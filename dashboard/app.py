@@ -213,7 +213,7 @@ def render_squadra_barchart():
         margin=dict(t=40, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(bar_fig, width='stretch')
+    st.plotly_chart(bar_fig, width='stretch', height=600)
 
 def render_heatmap():
     """Heatmap over Milan NIL polygons, using local GeoJSON (no external tiles)."""
@@ -349,10 +349,12 @@ def render_cartesian_heatmap():
             scaleratio=1,
             constrain="range",
         ),
+        width=600,
+        height=600,
         margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    st.plotly_chart(fig, width='stretch', height=700)
+    st.plotly_chart(fig)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -386,7 +388,7 @@ def render_age_distribution():
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(age_fig, width='stretch')
+    st.plotly_chart(age_fig, width='stretch', height=600)
 
 def render_gender_distribution():
     """Render donut chart for gender distribution."""
@@ -410,7 +412,7 @@ def render_gender_distribution():
         showlegend=False,
         margin=dict(t=20, b=80, l=20, r=20),
     )
-    st.plotly_chart(donut_fig, width='stretch')
+    st.plotly_chart(donut_fig, width='stretch', height=600)
 
 def render_auto_migliora_peggiora():
     """Render bar chart for 'Limitare le auto migliora o peggiora' question."""
@@ -452,7 +454,7 @@ def render_auto_migliora_peggiora():
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(ampp_fig, width='stretch')
+    st.plotly_chart(ampp_fig, width='stretch', height=600)
 
 def render_likert_heatmap():
     """Heatmap of score frequencies for the 7 affirmations (1-10)."""
@@ -523,7 +525,7 @@ def render_likert_heatmap():
         margin=dict(l=120, r=20, t=40, b=40),
     )
 
-    st.plotly_chart(heatmap_fig, width='stretch')
+    st.plotly_chart(heatmap_fig, width='stretch', height=600)
 
 def lavoro_donut():
     """Render donut chart for 'Lavoro' distribution."""
@@ -547,7 +549,7 @@ def lavoro_donut():
         showlegend=False,
         margin=dict(t=20, b=80, l=20, r=20),
     )
-    st.plotly_chart(donut_fig, width='stretch')
+    st.plotly_chart(donut_fig, width='stretch', height=600)
 
 def render_transport_modes_barchart():
     """Render bar chart for transportation modes aggregated by sum."""
@@ -590,7 +592,7 @@ def render_transport_modes_barchart():
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(transport_fig, width='stretch')
+    st.plotly_chart(transport_fig, width='stretch', height=600)
 
 
 # List of charts in the carousel (you can add more later)
