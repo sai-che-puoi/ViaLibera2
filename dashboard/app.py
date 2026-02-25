@@ -70,7 +70,7 @@ transport_modes = [
     "Altro"
 ]
 
-required_cols = ["ID", "Lavoro", "Squadra", "Età", "Latitude", "Longitude", "Genere", "Limitare le auto migliora o peggiora"] + likert_cols + transport_modes
+required_cols = ["ID", "Lavoro", "Squadra", "Età", "Latitude", "Longitude", "Genere", "Limitare le auto migliora o peggiora", "Coordinata X", "Coordinata Y"] + likert_cols + transport_modes
 missing = [c for c in required_cols if c not in df.columns]
 if missing:
     st.error(f"Missing required columns in sheet: {', '.join(missing)}")
@@ -129,6 +129,16 @@ for mode in transport_modes:
         transport_sums[mode] = pd.to_numeric(mode_series, errors="coerce").sum()
     else:
         transport_sums[mode] = 0
+
+# Get X and Y coordinate for cartesian heatmap (exclude rows with missing/invalid coordinates, valid coordinates are float in [-100, 100])
+if "Coordinata X" in df.columns and "Coordinata Y" in df.columns:
+    coord_df = df[["Coordinata X", "Coordinata Y"]].replace("", pd.NA).dropna()
+    coord_df["Coordinata X"] = pd.to_numeric(coord_df["Coordinata X"], errors="coerce")
+    coord_df["Coordinata Y"] = pd.to_numeric(coord_df["Coordinata Y"], errors="coerce")
+    coord_df = coord_df[
+        (coord_df["Coordinata X"].between(-100, 100)) &
+        (coord_df["Coordinata Y"].between(-100, 100))
+    ]
 
 @st.cache_data
 def load_nil_geojson():
@@ -254,6 +264,35 @@ def render_heatmap():
     )
 
     st.pydeck_chart(deck, width='stretch', height=650)
+
+def render_cartesian_heatmap():
+    """Render a cartesian plane with points based on 'Coordinata X' and 'Coordinata Y'."""
+    if coord_df.empty:
+        st.info("No valid 'Coordinata X' and 'Coordinata Y' data available for cartesian heatmap.")
+        return
+
+    scatter_fig = go.Figure(
+        data=go.Scatter(
+            x=coord_df["Coordinata X"],
+            y=coord_df["Coordinata Y"],
+            mode="markers",
+            marker=dict(
+                size=10,
+                color="rgba(255, 100, 100, 0.7)",
+                line=dict(width=1, color="DarkSlateGrey")
+            )
+        )
+    )
+
+    scatter_fig.update_layout(
+        xaxis_title="Coordinata X",
+        yaxis_title="Coordinata Y",
+        xaxis=dict(range=[-100, 100], tickfont=dict(size=25), title_font=dict(size=25)),
+        yaxis=dict(range=[-100, 100], tickfont=dict(size=25), title_font=dict(size=25)),
+        margin=dict(t=20, b=20, l=20, r=20)
+    )
+
+    st.plotly_chart(scatter_fig, width='stretch')
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -506,6 +545,7 @@ CHARTS = [
     ("Distribuzione occupazione", lavoro_donut),
     ("Opinioni su limitare le auto", render_auto_migliora_peggiora),
     ("Valutazioni affermazioni (1-10)", render_likert_heatmap),
+    ("Posizionamenti rilevati", render_cartesian_heatmap),
 ]
 
 
