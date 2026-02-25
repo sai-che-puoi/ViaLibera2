@@ -191,7 +191,14 @@ export const QUIZ_DATA = {
             id: "o2",
             max_choices: 3,
             options_number: 7,
-            text: "Ok ora prova a chiudere gli occhi ed inizia a sognare. Sei nella Milano dei tuoi desideri, proprio quella che vorresti. Cosa vedi?  Cosa è cambiato?",
+            text: [
+                "Ok adesso prova a sognare, se vuoi puoi chiudere gli occhi.",
+                "Fai un respiro profondo.",
+                "Pensa a cosa ci siamo detti in questa conversazione, ma anche a quello che forse non è emerso, e immagina:",
+                "Sei nella Milano dei tuoi desideri, proprio quella che vorresti.",
+                "Cosa vedi?  Cosa è cambiato?",
+                "Inizia la tua descrizione con “Mi immagino di…”"
+            ]
         },
         {
             type: "separator",
