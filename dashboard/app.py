@@ -165,19 +165,23 @@ def render_gauge():
     st.plotly_chart(gauge_fig, width='stretch')
 
 def render_squadra_barchart():
-    """Column chart showing the most common values in 'Squadra'."""
+    """Horizontal bar chart showing the most common values in 'Squadra'."""
     if squadra_counts.empty:
         st.info("No non-empty values found in 'Squadra' column.")
         return
 
-    # Make labels bigger and show counts on top
+    # Sort by count ascending for better visualization
+    sorted_counts = squadra_counts.sort_values(ascending=True)
+
+    # Make labels bigger and show counts inside
     bar_fig = go.Figure(
         data=[
             go.Bar(
-                x=squadra_counts.index,
-                y=squadra_counts.values,
+                y=sorted_counts.index,
+                x=sorted_counts.values,
+                orientation="h",
                 marker_color="steelblue",
-                text=squadra_counts.values,
+                text=sorted_counts.values,
                 textposition="inside",
                 textfont={"size": 25},
             )
@@ -185,8 +189,7 @@ def render_squadra_barchart():
     )
 
     bar_fig.update_layout(
-        xaxis_title="Squadra",
-        yaxis_title="Interviste",
+        xaxis_title="Interviste",
         xaxis=dict(
             tickfont=dict(size=25),
             title_font=dict(size=25)
