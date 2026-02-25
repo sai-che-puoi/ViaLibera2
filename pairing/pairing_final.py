@@ -10,7 +10,7 @@ def _():
     import pandas as pd
     import numpy as np
     import itertools
-    return itertools, np, pd
+    return itertools, mo, np, pd
 
 
 @app.cell
@@ -196,9 +196,23 @@ def _(
 
 
 @app.cell
-def _(area_slots, couples, singles, time_area_slots):
+def _(mo):
+    time_limit = mo.ui.slider(30, 180, value=60, show_value=True, label="Tempo limite massimo algoritmo in secondi")
+    time_limit
+    return (time_limit,)
+
+
+@app.cell
+def _(mo):
+    epsilon = mo.ui.slider(0.001, 0.5, value=0.01, step=0.01, show_value=True, label="Differenza accettabile da soluzione teorical ottimale")
+    epsilon
+    return (epsilon,)
+
+
+@app.cell
+def _(area_slots, couples, epsilon, singles, time_area_slots, time_limit):
     import pairing_algorithm
-    output = pairing_algorithm.pair(couples, singles, area_slots, time_area_slots)
+    output = pairing_algorithm.pair(couples, singles, area_slots, time_area_slots, time_limit.value, epsilon.value)
     return (output,)
 
 

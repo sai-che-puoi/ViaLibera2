@@ -2,7 +2,7 @@ import collections
 import numpy as np
 import pulp
 
-def pair(couples, singles, area_slots, time_area_slots):
+def pair(couples, singles, area_slots, time_area_slots, time_limit = 60, eps_gap = 0.01):
     print(
         f"\n== Pair ==\n"
         f"\n"
@@ -150,7 +150,7 @@ def pair(couples, singles, area_slots, time_area_slots):
     # IF SOLVER DOESN'T END INCREASE TOLERANCE!
     #
     print("Solving...")
-    prob.solve(pulp.PULP_CBC_CMD(msg=True, timeLimit=60, gapRel=0.01))
+    prob.solve(pulp.PULP_CBC_CMD(msg=True, timeLimit=time_limit, gapRel=eps_gap))
 
     output = ()
     status = pulp.LpStatus[prob.status]
