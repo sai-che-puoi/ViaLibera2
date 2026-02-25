@@ -354,7 +354,10 @@ def render_cartesian_heatmap():
         margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    st.plotly_chart(fig, width=600, height=600)
+    # Center the chart horizontally
+    left_col, center_col, right_col = st.columns([1, 3, 1])
+    with center_col:
+        st.plotly_chart(fig, width=600, height=600)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -573,8 +576,8 @@ def render_transport_modes_barchart():
                 orientation="h",
                 marker_color="teal",
                 text=transport_df["Count"],
-                textposition="inside",
-                textfont={"size": 20}
+                # textposition="inside",
+                # textfont={"size": 20}
             )
         ]
     )
