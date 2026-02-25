@@ -355,7 +355,7 @@ def render_cartesian_heatmap():
     )
 
     # Center the chart horizontally
-    left_col, center_col, right_col = st.columns([1, 3, 1])
+    left_col, center_col, right_col = st.columns([1, 2, 1])
     with center_col:
         st.plotly_chart(fig, width=600, height=600)
 
