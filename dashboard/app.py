@@ -265,9 +265,6 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
-import pydeck as pdk
-import streamlit as st
-
 def render_cartesian_heatmap():
     """Heatmap on a [-100, 100] Cartesian plane, with gridlines and highlighted axes."""
 
