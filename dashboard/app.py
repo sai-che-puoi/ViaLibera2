@@ -265,26 +265,23 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
-def render_cartesian_heatmap():
-    """Render a cartesian plane with points based on 'Coordinata X' and 'Coordinata Y'."""
+def render_cartesian_heatmap(coord_df):
+    """Render a cartesian 2D heatmap based on 'Coordinata X' and 'Coordinata Y'."""
     if coord_df.empty:
         st.info("No valid 'Coordinata X' and 'Coordinata Y' data available for cartesian heatmap.")
         return
 
-    scatter_fig = go.Figure(
-        data=go.Scatter(
+    heatmap_fig = go.Figure(
+        data=go.Histogram2d(
             x=coord_df["Coordinata X"],
             y=coord_df["Coordinata Y"],
-            mode="markers",
-            marker=dict(
-                size=10,
-                color="rgba(255, 100, 100, 0.7)",
-                line=dict(width=1, color="DarkSlateGrey")
-            )
+            colorscale="Viridis",      # optional
+            nbinsx=20,                 # tune as needed
+            nbinsy=20
         )
     )
 
-    scatter_fig.update_layout(
+    heatmap_fig.update_layout(
         xaxis_title="Coordinata X",
         yaxis_title="Coordinata Y",
         xaxis=dict(
@@ -308,7 +305,7 @@ def render_cartesian_heatmap():
         height=700
     )
 
-    st.plotly_chart(scatter_fig, width='stretch')
+    st.plotly_chart(heatmap_fig, width='stretch')
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
