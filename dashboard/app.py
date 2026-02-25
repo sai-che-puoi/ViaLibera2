@@ -290,7 +290,7 @@ def render_cartesian_heatmap():
     xmin, xmax = -100, 100
     ymin, ymax = -100, 100
 
-    grid_size = 300  # Increase for smoother result (300–500 recommended)
+    grid_size = 500  # Increase for smoother result (300–500 recommended)
     grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
 
     # 2) Gaussian KDE over the space
@@ -355,9 +355,16 @@ def render_cartesian_heatmap():
     )
 
     # Center the chart horizontally
-    left_col, center_col, right_col = st.columns([2, 3, 2])
-    with center_col:
+    centered = st.container()
+
+    with centered:
+        st.markdown(
+            "<style>.centered {display:flex; justify-content:center;}</style>",
+            unsafe_allow_html=True,
+        )
+        st.markdown('<div class="centered">', unsafe_allow_html=True)
         st.plotly_chart(fig, width=600, height=600)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
