@@ -8,6 +8,8 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from streamlit_autorefresh import st_autorefresh
+import numpy as np
+from scipy.stats import gaussian_kde
 
 # Ensure project root is importable (since app.py is in dashboard/)
 ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -265,87 +267,66 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
-import numpy as np
-import plotly.graph_objects as go
-import streamlit as st
-
 def render_cartesian_heatmap():
-    """Cartesian heatmap on [-100, 100] with gridlines and highlighted axes (no map)."""
+    """Smooth Gaussian KDE heatmap on a [-100, 100] Cartesian plane with gridlines & axes."""
 
     if coord_df.empty:
-        st.info("No valid 'Coordinata X' and 'Coordinata Y' data available.")
+        st.info("No valid coordinates available.")
         return
 
+    # Extract coordinates
     x = coord_df["Coordinata X"].to_numpy()
     y = coord_df["Coordinata Y"].to_numpy()
 
-    # Keep only points inside the plane (optional safety)
+    # Keep only points inside the plane
     mask = (x >= -100) & (x <= 100) & (y >= -100) & (y <= 100)
-    x = x[mask]
-    y = y[mask]
+    x, y = x[mask], y[mask]
 
-    if x.size == 0:
-        st.info("No points within [-100, 100] range to display.")
+    if len(x) == 0:
+        st.info("No data points within [-100,100] range.")
         return
 
-    # 2D histogram for density
-    bins = 40  # adjust resolution
-    heatmap, x_edges, y_edges = np.histogram2d(
-        x, y,
-        bins=bins,
-        range=[[-100, 100], [-100, 100]],
-    )
+    # 1) Build evaluation grid for KDE
+    xmin, xmax = -100, 100
+    ymin, ymax = -100, 100
 
-    # Bin centers for plotting
-    x_centers = 0.5 * (x_edges[:-1] + x_edges[1:])
-    y_centers = 0.5 * (y_edges[:-1] + y_edges[1:])
+    grid_size = 300  # Increase for smoother result (300–500 recommended)
+    grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
 
+    # 2) Gaussian KDE over the space
+    kde = gaussian_kde(np.vstack([x, y]))
+    z = kde(np.vstack([grid_x.ravel(), grid_y.ravel()])).reshape(grid_x.shape)
+
+    # 3) Plot as smooth heatmap
     fig = go.Figure(
         data=go.Heatmap(
-            x=x_centers,
-            y=y_centers,
-            z=heatmap.T,          # transpose so axes match
+            x=np.linspace(xmin, xmax, grid_size),
+            y=np.linspace(ymin, ymax, grid_size),
+            z=z.T,
             colorscale="Viridis",
-            colorbar=dict(title="Density"),
+            opacity=0.97,
         )
     )
 
-    # Gridlines + axes
-    min_val, max_val = -100, 100
-    step = 25
+    # 4) Add gridlines & axes
     shapes = []
+    for v in range(-100, 101, 25):
+        # vertical lines
+        shapes.append(dict(
+            type="line", x0=v, x1=v, y0=-100, y1=100,
+            line=dict(color="rgba(150,150,150,0.5)", width=1)
+        ))
+        # horizontal lines
+        shapes.append(dict(
+            type="line", x0=-100, x1=100, y0=v, y1=v,
+            line=dict(color="rgba(150,150,150,0.5)", width=1)
+        ))
 
-    # Vertical lines
-    for xv in range(min_val, max_val + 1, step):
-        is_axis = (xv == 0)
-        shapes.append(
-            dict(
-                type="line",
-                x0=xv, x1=xv,
-                y0=min_val, y1=max_val,
-                line=dict(
-                    color="black" if is_axis else "rgba(150,150,150,0.5)",
-                    width=3 if is_axis else 1,
-                ),
-                layer="above",
-            )
-        )
-
-    # Horizontal lines
-    for yv in range(min_val, max_val + 1, step):
-        is_axis = (yv == 0)
-        shapes.append(
-            dict(
-                type="line",
-                x0=min_val, x1=max_val,
-                y0=yv, y1=yv,
-                line=dict(
-                    color="black" if is_axis else "rgba(150,150,150,0.5)",
-                    width=3 if is_axis else 1,
-                ),
-                layer="above",
-            )
-        )
+    # Highlight axes
+    shapes.append(dict(type="line", x0=0, x1=0, y0=-100, y1=100,
+                       line=dict(color="black", width=3)))
+    shapes.append(dict(type="line", x0=-100, x1=100, y0=0, y1=0,
+                       line=dict(color="black", width=3)))
 
     fig.update_layout(
         shapes=shapes,
@@ -353,7 +334,6 @@ def render_cartesian_heatmap():
             title="Coordinata X",
             range=[-100, 100],
             dtick=25,
-            showgrid=False,
             zeroline=False,
             scaleanchor="y",
             scaleratio=1,
@@ -362,7 +342,6 @@ def render_cartesian_heatmap():
             title="Coordinata Y",
             range=[-100, 100],
             dtick=25,
-            showgrid=False,
             zeroline=False,
             scaleanchor="x",
             scaleratio=1,
@@ -372,8 +351,7 @@ def render_cartesian_heatmap():
         margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    # Streamlit render (using the new width API you mentioned)
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig, width=700, height=700)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""

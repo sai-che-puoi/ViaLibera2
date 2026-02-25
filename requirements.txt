@@ -102,6 +102,7 @@ requests-oauthlib==2.0.0
 rpds-py==0.30.0
 rsa==4.9.1
 s3transfer==0.16.0
+scipy==1.17.1
 six==1.17.0
 smmap==5.0.2
 snowflake-connector-python==4.3.0
