@@ -355,7 +355,7 @@ def render_cartesian_heatmap():
     )
 
     # Center the chart horizontally
-    left_col, center_col, right_col = st.columns([1, 2, 1])
+    left_col, center_col, right_col = st.columns([2, 3, 2])
     with center_col:
         st.plotly_chart(fig, width=600, height=600)
 
@@ -575,7 +575,7 @@ def render_transport_modes_barchart():
                 x=transport_df["Count"],
                 orientation="h",
                 marker_color="teal",
-                text=transport_df["Count"],
+                #text=transport_df["Count"],
                 # textposition="inside",
                 # textfont={"size": 20}
             )
