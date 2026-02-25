@@ -303,7 +303,7 @@ def render_cartesian_heatmap():
             x=np.linspace(xmin, xmax, grid_size),
             y=np.linspace(ymin, ymax, grid_size),
             z=z.T,
-            colorscale="Plasma",
+            colorscale="plasma",
             colorbar=None,
             opacity=0.95,
         )
