@@ -287,9 +287,25 @@ def render_cartesian_heatmap():
     scatter_fig.update_layout(
         xaxis_title="Coordinata X",
         yaxis_title="Coordinata Y",
-        xaxis=dict(range=[-100, 100], tickfont=dict(size=25), title_font=dict(size=25)),
-        yaxis=dict(range=[-100, 100], tickfont=dict(size=25), title_font=dict(size=25)),
-        margin=dict(t=20, b=20, l=20, r=20)
+        xaxis=dict(
+            range=[-100, 100],
+            tickfont=dict(size=25),
+            title_font=dict(size=25),
+            dtick=25,
+            showgrid=True
+        ),
+        yaxis=dict(
+            range=[-100, 100],
+            tickfont=dict(size=25),
+            title_font=dict(size=25),
+            dtick=25,
+            showgrid=True,
+            scaleanchor="x",
+            scaleratio=1
+        ),
+        margin=dict(t=20, b=20, l=20, r=20),
+        width=700,
+        height=700
     )
 
     st.plotly_chart(scatter_fig, width='stretch')
