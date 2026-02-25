@@ -368,6 +368,41 @@ def render_cartesian_heatmap():
     )
 
     st.pydeck_chart(deck, width='stretch', height=650)
+
+def render_age_distribution():
+    """Render bar chart for age distribution."""
+    age_df = pd.DataFrame({
+        "Age Group": list(age_buckets.keys()),
+        "Count": list(age_buckets.values())
+    })
+
+    age_fig = go.Figure(
+        data=[
+            go.Bar(
+                x=age_df["Age Group"],
+                y=age_df["Count"],
+                marker_color="mediumpurple"
+            )
+        ]
+    )
+
+    age_fig.update_layout(
+        # title="Age Distribution",
+        xaxis_title="Età",
+        yaxis_title="Numero",
+        xaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        yaxis=dict(
+            tickfont=dict(size=25),
+            title_font=dict(size=25)
+        ),
+        margin=dict(t=20, b=20, l=20, r=20)
+    )
+
+    st.plotly_chart(age_fig, width='stretch')
+
 def render_gender_distribution():
     """Render donut chart for gender distribution."""
     if gender_counts.empty:
