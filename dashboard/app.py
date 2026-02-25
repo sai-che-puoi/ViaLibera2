@@ -265,20 +265,87 @@ def render_heatmap():
 
     st.pydeck_chart(deck, width='stretch', height=650)
 
-def render_cartesian_heatmap():
-    """Heatmap on a [-100, 100] Cartesian plane using pydeck with no geographic context."""
+import pydeck as pdk
+import streamlit as st
 
+def render_cartesian_heatmap():
+    """Heatmap on a [-100, 100] Cartesian plane, with gridlines and highlighted axes."""
+
+    # coord_df is assumed to be available in scope with columns:
+    # 'Coordinata X' and 'Coordinata Y'
     if coord_df.empty:
         st.info("No valid 'Coordinata X' and 'Coordinata Y' data available.")
         return
 
-    # Convert your coordinates to a pseudo-geo system (pydeck requires lon/lat format)
+    # Rename to fit pydeck's expected [lon, lat] convention
     df = coord_df.rename(columns={
         "Coordinata X": "Longitude",
         "Coordinata Y": "Latitude"
     })
 
-    # Heatmap layer
+    # -----------------------
+    # 1) Build grid line data
+    # -----------------------
+    min_val, max_val = -100, 100
+    step = 25
+
+    grid_lines = []  # all minor grid lines
+    axes_lines = []  # x=0 and y=0
+
+    # Vertical lines (constant X, varying Y)
+    for x in range(min_val, max_val + 1, step):
+        line = {
+            "path": [
+                [x, min_val],  # [Longitude, Latitude]
+                [x, max_val],
+            ]
+        }
+        if x == 0:
+            axes_lines.append(line)
+        else:
+            grid_lines.append(line)
+
+    # Horizontal lines (constant Y, varying X)
+    for y in range(min_val, max_val + 1, step):
+        line = {
+            "path": [
+                [min_val, y],
+                [max_val, y],
+            ]
+        }
+        if y == 0:
+            axes_lines.append(line)
+        else:
+            grid_lines.append(line)
+
+    # -----------------------
+    # 2) Grid layers
+    # -----------------------
+    # Thin light-gray grid
+    grid_layer = pdk.Layer(
+        "PathLayer",
+        data=grid_lines,
+        get_path="path",
+        get_color=[180, 180, 180, 120],  # light gray
+        width_scale=1,
+        width_min_pixels=1,              # thin lines
+        get_width=1,
+    )
+
+    # Thicker darker main axes (x=0, y=0)
+    axes_layer = pdk.Layer(
+        "PathLayer",
+        data=axes_lines,
+        get_path="path",
+        get_color=[0, 0, 0, 220],        # almost black
+        width_scale=1,
+        width_min_pixels=3,              # thicker lines
+        get_width=1,
+    )
+
+    # -----------------------
+    # 3) Heatmap layer for points
+    # -----------------------
     heatmap_layer = pdk.Layer(
         "HeatmapLayer",
         data=df,
@@ -289,22 +356,25 @@ def render_cartesian_heatmap():
         radiusPixels=30,
     )
 
-    # Fake view state centered on (0,0)
+    # -----------------------
+    # 4) View state (centered at origin)
+    # -----------------------
     view_state = pdk.ViewState(
-        longitude=0,
+        longitude=0,   # center at (0,0) in your Cartesian plane
         latitude=0,
-        zoom=5,       # Tweak to control scaling
+        zoom=3.5,      # tweak this to see the whole [-100, 100] area nicely
         pitch=0,
         bearing=0,
     )
 
     deck = pdk.Deck(
-        layers=[heatmap_layer],
+        layers=[grid_layer, axes_layer, heatmap_layer],
         initial_view_state=view_state,
-        map_style=None,        # 🚫 No basemap at all
-        tooltip=None
+        map_style=None,   # 🚫 No cartographic base layer
+        tooltip=None,
     )
 
+    # Streamlit render
     st.pydeck_chart(deck, width='stretch', height=650)
 
 def render_age_distribution():
