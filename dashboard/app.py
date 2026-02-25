@@ -266,46 +266,46 @@ def render_heatmap():
     st.pydeck_chart(deck, width='stretch', height=650)
 
 def render_cartesian_heatmap():
-    """Render a cartesian 2D heatmap based on 'Coordinata X' and 'Coordinata Y'."""
+    """Heatmap on a [-100, 100] Cartesian plane using pydeck with no geographic context."""
+
     if coord_df.empty:
-        st.info("No valid 'Coordinata X' and 'Coordinata Y' data available for cartesian heatmap.")
+        st.info("No valid 'Coordinata X' and 'Coordinata Y' data available.")
         return
 
-    heatmap_fig = go.Figure(
-        data=go.Histogram2d(
-            x=coord_df["Coordinata X"],
-            y=coord_df["Coordinata Y"],
-            colorscale="Viridis",      # optional
-            nbinsx=20,                 # tune as needed
-            nbinsy=20
-        )
+    # Convert your coordinates to a pseudo-geo system (pydeck requires lon/lat format)
+    df = coord_df.rename(columns={
+        "Coordinata X": "Longitude",
+        "Coordinata Y": "Latitude"
+    })
+
+    # Heatmap layer
+    heatmap_layer = pdk.Layer(
+        "HeatmapLayer",
+        data=df,
+        get_position=["Longitude", "Latitude"],
+        aggregation="MEAN",
+        intensity=1.0,
+        threshold=0.01,
+        radiusPixels=30,
     )
 
-    heatmap_fig.update_layout(
-        xaxis_title="Coordinata X",
-        yaxis_title="Coordinata Y",
-        xaxis=dict(
-            range=[-100, 100],
-            tickfont=dict(size=25),
-            title_font=dict(size=25),
-            dtick=25,
-            showgrid=True
-        ),
-        yaxis=dict(
-            range=[-100, 100],
-            tickfont=dict(size=25),
-            title_font=dict(size=25),
-            dtick=25,
-            showgrid=True,
-            scaleanchor="x",
-            scaleratio=1
-        ),
-        margin=dict(t=20, b=20, l=20, r=20),
-        width=700,
-        height=700
+    # Fake view state centered on (0,0)
+    view_state = pdk.ViewState(
+        longitude=0,
+        latitude=0,
+        zoom=5,       # Tweak to control scaling
+        pitch=0,
+        bearing=0,
     )
 
-    st.plotly_chart(heatmap_fig, width='stretch')
+    deck = pdk.Deck(
+        layers=[heatmap_layer],
+        initial_view_state=view_state,
+        map_style=None,        # 🚫 No basemap at all
+        tooltip=None
+    )
+
+    st.pydeck_chart(deck, width='stretch', height=650)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
