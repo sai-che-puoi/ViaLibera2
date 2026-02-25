@@ -265,7 +265,7 @@ def render_heatmap():
         tooltip={"text": "NIL: {NIL}"},
     )
 
-    st.pydeck_chart(deck, width='stretch', height=650)
+    st.pydeck_chart(deck, width='stretch', height=700)
 
 def render_cartesian_heatmap():
     """Smooth Gaussian KDE heatmap on a [-100, 100] Cartesian plane with gridlines & axes."""
@@ -303,8 +303,9 @@ def render_cartesian_heatmap():
             x=np.linspace(xmin, xmax, grid_size),
             y=np.linspace(ymin, ymax, grid_size),
             z=z.T,
-            colorscale="Viridis",
-            opacity=0.97,
+            colorscale="Plasma",
+            colorbar=None,
+            opacity=0.95,
         )
     )
 
@@ -346,12 +347,10 @@ def render_cartesian_heatmap():
             scaleanchor="x",
             scaleratio=1,
         ),
-        width=700,
-        height=700,
         margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    st.plotly_chart(fig, width=700, height=700)
+    st.plotly_chart(fig, width='stretch', height=700)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
