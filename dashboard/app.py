@@ -268,16 +268,14 @@ def render_heatmap():
 def render_cartesian_heatmap():
     """Heatmap on a [-100, 100] Cartesian plane, with gridlines and highlighted axes."""
 
-    # coord_df is assumed to be available in scope with columns:
-    # 'Coordinata X' and 'Coordinata Y'
     if coord_df.empty:
         st.info("No valid 'Coordinata X' and 'Coordinata Y' data available.")
         return
 
-    # Rename to fit pydeck's expected [lon, lat] convention
+    # Use X/Y as generic Cartesian coordinates (no renaming to Longitude/Latitude needed conceptually)
     df = coord_df.rename(columns={
-        "Coordinata X": "Longitude",
-        "Coordinata Y": "Latitude"
+        "Coordinata X": "x",
+        "Coordinata Y": "y",
     })
 
     # -----------------------
@@ -286,129 +284,90 @@ def render_cartesian_heatmap():
     min_val, max_val = -100, 100
     step = 25
 
-    grid_lines = []  # all minor grid lines
-    axes_lines = []  # x=0 and y=0
+    grid_lines = []  # minor grid
+    axes_lines = []  # main axes (x=0, y=0)
 
-    # Vertical lines (constant X, varying Y)
+    # Vertical lines (constant x, varying y)
     for x in range(min_val, max_val + 1, step):
-        line = {
-            "path": [
-                [x, min_val],  # [Longitude, Latitude]
-                [x, max_val],
-            ]
-        }
+        line = {"path": [[x, min_val], [x, max_val]]}
         if x == 0:
             axes_lines.append(line)
         else:
             grid_lines.append(line)
 
-    # Horizontal lines (constant Y, varying X)
+    # Horizontal lines (constant y, varying x)
     for y in range(min_val, max_val + 1, step):
-        line = {
-            "path": [
-                [min_val, y],
-                [max_val, y],
-            ]
-        }
+        line = {"path": [[min_val, y], [max_val, y]]}
         if y == 0:
             axes_lines.append(line)
         else:
             grid_lines.append(line)
 
     # -----------------------
-    # 2) Grid layers
+    # 2) Grid layers (Cartesian)
     # -----------------------
-    # Thin light-gray grid
     grid_layer = pdk.Layer(
         "PathLayer",
         data=grid_lines,
         get_path="path",
-        get_color=[180, 180, 180, 120],  # light gray
+        get_color=[180, 180, 180, 120],   # light gray
         width_scale=1,
-        width_min_pixels=1,              # thin lines
+        width_min_pixels=1,
         get_width=1,
+        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
     )
 
-    # Thicker darker main axes (x=0, y=0)
     axes_layer = pdk.Layer(
         "PathLayer",
         data=axes_lines,
         get_path="path",
-        get_color=[0, 0, 0, 220],        # almost black
+        get_color=[0, 0, 0, 220],         # black axes
         width_scale=1,
-        width_min_pixels=3,              # thicker lines
+        width_min_pixels=3,
         get_width=1,
+        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
     )
 
     # -----------------------
-    # 3) Heatmap layer for points
+    # 3) Heatmap layer for points (Cartesian)
     # -----------------------
     heatmap_layer = pdk.Layer(
         "HeatmapLayer",
         data=df,
-        get_position=["Longitude", "Latitude"],
+        get_position=["x", "y"],
         aggregation="MEAN",
         intensity=1.0,
         threshold=0.01,
         radiusPixels=30,
+        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
     )
 
     # -----------------------
-    # 4) View state (centered at origin)
+    # 4) View: Orthographic (non-geo)
     # -----------------------
+    # For OrthographicView, x/y are interpreted as generic units in a flat plane.
     view_state = pdk.ViewState(
-        longitude=0,   # center at (0,0) in your Cartesian plane
-        latitude=0,
-        zoom=3,      # tweak this to see the whole [-100, 100] area nicely
-        pitch=0,
+        target=[0, 0, 0],   # center of the scene in (x, y, z)
+        zoom=0,             # adjust to fit [-100, 100] nicely; tweak if needed
         bearing=0,
+        pitch=0,
+    )
+
+    ortho_view = pdk.View(
+        type="OrthographicView",  # non-map, purely Cartesian
+        controller=True,
     )
 
     deck = pdk.Deck(
         layers=[grid_layer, axes_layer, heatmap_layer],
         initial_view_state=view_state,
-        map_provider=None,
-        map_style=None,   # 🚫 No cartographic base layer
+        views=[ortho_view],
+        map_provider=None,   # extra safety; but OrthographicView ignores basemaps
+        map_style=None,
         tooltip=None,
     )
 
-    # Streamlit render
-    st.pydeck_chart(deck, use_container_width=True, height=650)
-
-def render_age_distribution():
-    """Render bar chart for age distribution."""
-    age_df = pd.DataFrame({
-        "Age Group": list(age_buckets.keys()),
-        "Count": list(age_buckets.values())
-    })
-
-    age_fig = go.Figure(
-        data=[
-            go.Bar(
-                x=age_df["Age Group"],
-                y=age_df["Count"],
-                marker_color="mediumpurple"
-            )
-        ]
-    )
-
-    age_fig.update_layout(
-        # title="Age Distribution",
-        xaxis_title="Età",
-        yaxis_title="Numero",
-        xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
-        ),
-        yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
-        ),
-        margin=dict(t=20, b=20, l=20, r=20)
-    )
-
-    st.plotly_chart(age_fig, width='stretch')
-
+    st.pydeck_chart(deck, width='stretch', height=650)
 def render_gender_distribution():
     """Render donut chart for gender distribution."""
     if gender_counts.empty:
