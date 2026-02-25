@@ -2,7 +2,8 @@ import os
 import sys
 import urllib3
 import json
-import pydeck as pdk  # make sure pydeck is installed
+import pydeck as pdk
+from pydeck.costants import CoordinateSystem
 
 import streamlit as st
 import pandas as pd
@@ -310,22 +311,22 @@ def render_cartesian_heatmap():
         "PathLayer",
         data=grid_lines,
         get_path="path",
-        get_color=[180, 180, 180, 120],   # light gray
+        get_color=[180, 180, 180, 120],
         width_scale=1,
         width_min_pixels=1,
         get_width=1,
-        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
+        coordinate_system=CoordinateSystem.CARTESIAN,
     )
 
     axes_layer = pdk.Layer(
         "PathLayer",
         data=axes_lines,
         get_path="path",
-        get_color=[0, 0, 0, 220],         # black axes
+        get_color=[0, 0, 0, 220],
         width_scale=1,
         width_min_pixels=3,
         get_width=1,
-        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
+        coordinate_system=CoordinateSystem.CARTESIAN,
     )
 
     # -----------------------
@@ -339,7 +340,7 @@ def render_cartesian_heatmap():
         intensity=1.0,
         threshold=0.01,
         radiusPixels=30,
-        coordinate_system=pdk.constants.COORDINATE_SYSTEM.CARTESIAN,
+        coordinate_system=CoordinateSystem.CARTESIAN,
     )
 
     # -----------------------
