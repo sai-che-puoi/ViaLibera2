@@ -3,7 +3,7 @@ import sys
 import urllib3
 import json
 import pydeck as pdk
-from pydeck.constants import CoordinateSystem
+from pydeck.bindings.constants import CoordinateSystem
 
 import streamlit as st
 import pandas as pd
