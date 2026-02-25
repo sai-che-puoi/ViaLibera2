@@ -111,8 +111,8 @@ def pair(couples, singles, area_slots, time_area_slots, time_limit = 60, eps_gap
         (1, 10 - PENALTY_LONELY),
         # (1, 10),
         # (1, 20),
-        (1, 10 + PENALTY_THIRD_WHEEL),
-        (1, 10 - PENALTY_THIRD_WHEEL),
+        (1, 30 + PENALTY_THIRD_WHEEL),
+        (1, 30 - PENALTY_THIRD_WHEEL),
     ]
 
     for s in g_slots:
