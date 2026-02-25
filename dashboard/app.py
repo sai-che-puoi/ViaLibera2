@@ -354,7 +354,7 @@ def render_cartesian_heatmap():
         margin=dict(t=20, b=20, l=20, r=20),
     )
 
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, width=600, height=600)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
