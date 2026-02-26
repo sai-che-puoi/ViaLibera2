@@ -31,11 +31,14 @@ export class ResultCalculator {
      * Calculate weighted coordinates using new algorithm
      */
     calculateCoordinates(answers) {
-        // Extract Q1-Q7 values from answers
+        // Extract Q1-Q7 values from answers using the answer id (q1…q7)
         const Q = {};
-        answers.forEach((answer, index) => {
-            if (answer.type === 'slider') {
-                Q[`Q${index + 1}`] = parseFloat(answer.value);
+        answers.forEach((answer) => {
+            if (answer.type === 'slider' && answer.id) {
+                const num = parseInt(answer.id.replace(/\D/g, ''));
+                if (!isNaN(num)) {
+                    Q[`Q${num}`] = parseFloat(answer.value);
+                }
             }
         });
 
