@@ -44,7 +44,10 @@ export const QUIZ_DATA = {
         {
             type: "description_light",
             text: [
-                "\"Ora ti farò alcune domande. Le risposte restano anonime: non raccogliamo nomi o dati personali. Useremo tutte le risposte insieme per capire cosa le persone desiderano per gli spazi pubblici della città. Ok?\""
+                "Ora ti farò alcune domande.",
+                "Le risposte restano anonime: non raccogliamo nomi o dati personali.",
+                "Useremo tutte le risposte insieme per capire cosa le persone desiderano per gli spazi pubblici della città.",
+                "Ok?"
             ]
         },
         {
@@ -54,8 +57,42 @@ export const QUIZ_DATA = {
         {
             type: "description_light",
             text: [
-                "\"Ora ti dirò alcune frasi.",
-                "Per ognuna dimmi quanto sei d’accordo, dando un numero da 1 a 10. 1 vuol dire per niente d’accordo. 10 vuol dire completamente d’accordo..\""
+                "Immagina di essere il sindaco di Milano.",
+                "Ora ti leggo alcune cose che si potrebbero fare in città.",
+                "Scegli le 3 più importanti per te, dalla più importante alle altre.",
+            ]
+        },
+        {
+            type: "sorting",
+            id: "o1",
+            text: [
+                "- Più verde urbano (alberi, aiuole, orti)",
+                "- Incentivare la mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
+                "- Più spazi per la socialità e per le famiglie (giochi, panchine, spazi comunitari, luoghi sicuri)",
+                "- Più spazi culturali e per lo sport (eventi, arte urbana, campetti)",
+                "- Più parcheggi per auto e moto",
+                "- Migliorare la circolazione e la viabilità delle auto (onde verdi, corsie preferenziali per auto/moto)"],
+            options: [
+                "Più verde urbano",
+                "Mobilità sostenibile",
+                "Spazi di socialità e famiglie",
+                "Spazi culturali e sport",
+                "Più parcheggi",
+                "Migliorare la circolazione delle auto",
+            ],
+            max: 3
+        },
+        {
+            type: "separator",
+            text: ""
+        },
+        {
+            type: "description_light",
+            text: [
+                "Ora ti dirò alcune frasi.",
+                "Per ognuna dimmi quanto sei d’accordo, dando un numero da 1 a 10.",
+                "1 vuol dire per niente d’accordo.",
+                "10 vuol dire completamente d’accordo."
             ]
         },
         {
@@ -140,41 +177,6 @@ export const QUIZ_DATA = {
             text: ""
         },
         {
-            type: "description",
-            text: ["Domande Immaginative"]
-        },
-        {
-            type: "separator",
-            text: ""
-        },
-        {
-            type: "description_light",
-            text: [
-                "\"Immagina di essere il sindaco di Milano. Ora ti leggo alcune cose che si potrebbero fare in città. Scegli le 3 più importanti per te, dalla più importante alle altre.\"",
-            ]
-        },
-
-        {
-            type: "sorting",
-            id: "o1",
-            text: [
-                "- Più verde urbano (alberi, aiuole, orti)",
-                "- Incentivare la mobilità sostenibile (piste ciclabili, pedonalizzazioni, ZTL, servizi di sharing)",
-                "- Più spazi per la socialità e per le famiglie (giochi, panchine, spazi comunitari, luoghi sicuri)",
-                "- Più spazi culturali e per lo sport (eventi, arte urbana, campetti)",
-                "- Più parcheggi per auto e moto",
-                "- Migliorare la circolazione e la viabilità delle auto (onde verdi, corsie preferenziali per auto/moto)"],
-            options: [
-                "Più verde urbano",
-                "Mobilità sostenibile",
-                "Spazi di socialità e famiglie",
-                "Spazi culturali e sport",
-                "Più parcheggi",
-                "Migliorare la circolazione delle auto",
-            ],
-            max: 3
-        },
-        {
             type: "radio",
             id: "r1",
             text: "Ora ti elenco alcune frasi. Quale senti più vicina a quello che pensi? (Scegli una sola risposta)",
@@ -196,7 +198,7 @@ export const QUIZ_DATA = {
                 "Fai un respiro profondo.",
                 "Pensa a cosa ci siamo detti in questa conversazione, ma anche a quello che forse non è emerso, e immagina:",
                 "Sei nella Milano dei tuoi desideri, proprio quella che vorresti.",
-                "Cosa vedi?  Cosa è cambiato?",
+                "Cosa vedi? Cosa è cambiato?",
                 "Inizia la tua descrizione con “Mi immagino di…”"
             ]
         },
