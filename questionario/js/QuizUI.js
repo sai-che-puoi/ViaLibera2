@@ -1039,14 +1039,14 @@ export class QuizUI {
         
         input.addEventListener('input', () => {
             const filter = input.value.toLowerCase();
-            const filtered = interviewers.filter(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            const filtered = interviewers.filter(interviewer =>
+                interviewer.toLowerCase().includes(filter)
             );
             this.updateDropdownList(dropdownList, filtered, input);
             dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
             // Clear selection if input doesn't match exactly
-            const exactMatch = filtered.find(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase() === filter
+            const exactMatch = filtered.find(interviewer =>
+                interviewer.toLowerCase() === filter
             );
             if (!exactMatch) {
                 this.selectedInterviewer = null;
@@ -1056,8 +1056,8 @@ export class QuizUI {
         
         input.addEventListener('focus', () => {
             const filter = input.value.toLowerCase();
-            const filtered = interviewers.filter(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            const filtered = interviewers.filter(interviewer =>
+                interviewer.toLowerCase().includes(filter)
             );
             this.updateDropdownList(dropdownList, filtered, input);
             dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
@@ -1086,7 +1086,7 @@ export class QuizUI {
         interviewers.forEach(interviewer => {
             const option = document.createElement('div');
             option.className = 'dropdown-option';
-            const value = interviewer.location + ' - ' + interviewer.couple;
+            const value = interviewer;
             option.textContent = value;
             option.dataset.value = value;
             
