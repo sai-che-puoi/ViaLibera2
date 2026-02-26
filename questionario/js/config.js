@@ -530,9 +530,9 @@ export const QUIZ_DATA = {
             "base": ["ATTITUDES.VIVO_SENZA_AUTO", "ATTITUDES.FATEMI_DORMIRE"]
           },
           {
-            "name_m": "Il contraddittorio urbano",
-            "name_f": "La contraddittoria urbana",
-            "name_n": "Lə contraddittoriə urbanə",
+            "name_m": "L’automobilista riflessivo",
+            "name_f": "L’automobilista riflessiva",
+            "name_n": "L’automobilista riflessivə",
             "short_description_m": "A volte l'auto ti sembra inutile, altre irrinunciabile: sei nel mezzo, e forse è la posizione più onesta.",
             "short_description_f": "A volte l'auto ti sembra inutile, altre irrinunciabile: sei nel mezzo, e forse è la posizione più onesta.",
             "short_description_n": "A volte l'auto ti sembra inutile, altre irrinunciabile: sei nel mezzo, e forse è la posizione più onesta.",
