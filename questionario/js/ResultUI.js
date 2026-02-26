@@ -355,14 +355,22 @@ export class ResultUI {
 
     /**
      * Set and display the archetype
+     * genderValue: '6_1' = Femminile, '6_2' = Maschile, anything else = neutral
      */
-    setArchetype(archetype) {
+    setArchetype(archetype, genderValue) {
         const nameElement = document.getElementById('archetypeName');
         const descriptionElement = document.getElementById('archetypeDescription');
-        
+
         if (nameElement && descriptionElement && archetype) {
-            nameElement.textContent = archetype.name;
-            descriptionElement.textContent = archetype.description;
+            let suffix = '_n';
+            if (genderValue === '6_2') suffix = '_m';
+            else if (genderValue === '6_1') suffix = '_f';
+
+            const name = archetype[`name${suffix}`] ?? archetype.name ?? 'Il tuo profilo';
+            const description = archetype[`description${suffix}`] ?? archetype.description ?? '';
+
+            nameElement.textContent = name;
+            descriptionElement.textContent = description;
             
             // Add animation
             const archetypeCard = document.querySelector('.archetype-card');

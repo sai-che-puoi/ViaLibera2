@@ -99,21 +99,25 @@ export class QuizController {
         // Small delay to show the final loading message
         await new Promise(resolve => setTimeout(resolve, 800));
 
+        // Extract gender answer for gendered archetype display
+        const genderAnswer = answers.find(a => a.id === 'genere');
+        const genderValue = genderAnswer ? genderAnswer.value : null;
+
         // Show result with cartesian plane
-        this.displayResult(result, coordinates);
+        this.displayResult(result, coordinates, genderValue);
     }
 
 
     /**
      * Display result to user
      */
-    displayResult(result, coordinates) {
+    displayResult(result, coordinates, genderValue) {
         document.getElementById('resultTitle').textContent = "Il tuo risultato";
         document.getElementById('resultDescription').textContent = "Ecco la tua posizione e il tuo profilo basati sulle risposte fornite";
 
         // Pass archetype to ResultUI for display
         if (result.archetype) {
-            this.resultUI.setArchetype(result.archetype);
+            this.resultUI.setArchetype(result.archetype, genderValue);
         } else {
             console.log('No archetype found in result:', result);
         }
