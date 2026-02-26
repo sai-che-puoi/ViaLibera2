@@ -86,7 +86,7 @@ export class ResultCalculator {
         const x = (X - 5) * 20;
         const y = (Y - 5) * 20;
 
-        return {x: x, y: y, quadrant: quadrant};
+        return {x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100, quadrant: quadrant};
     }
 
     /**
