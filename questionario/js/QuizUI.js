@@ -292,6 +292,21 @@ export class QuizUI {
         return container;
     }
 
+    createLink(question) {
+        const container = document.createElement('div');
+        container.className = 'link-wrapper';
+        const a = document.createElement('a');
+        a.href = question.href;
+        a.textContent = question.text;
+        if (question.attributes) {
+            Object.entries(question.attributes).forEach(([key, value]) => {
+                a.setAttribute(key, value);
+            });
+        }
+        container.appendChild(a);
+        return container;
+    }
+
     createInputWithAlt(question, index) {
         const container = document.createElement('div');
         container.className = 'input-wrapper';
@@ -855,6 +870,11 @@ export class QuizUI {
         // For description_light, skip the question-text div entirely
         if (question.type === 'description_light') {
             div.appendChild(this.createDescriptionLight(question));
+            return div;
+        }
+
+        if (question.type === 'link') {
+            div.appendChild(this.createLink(question));
             return div;
         }
 

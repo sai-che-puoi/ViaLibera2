@@ -281,8 +281,10 @@ export const QUIZ_DATA = {
             text: "Ora vediamo i risultati!"
         },
         {
-            type: "description_light",
-            text: '<a target="_blank" href="https://docs.google.com/document/d/1FLcFbntFcCD1vLRoP_9stqW2FHMf9QXpvNAtMhYIS5w">Informativa privacy</a>'
+            type: "link",
+            text: "Informativa privacy",
+            href: "https://docs.google.com/document/d/1FLcFbntFcCD1vLRoP_9stqW2FHMf9QXpvNAtMhYIS5w",
+            attributes: {target: "_blank"}
         }
     ],
 
