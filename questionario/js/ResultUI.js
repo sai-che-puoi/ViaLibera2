@@ -367,7 +367,7 @@ export class ResultUI {
             else if (genderValue === '6_1') suffix = '_f';
 
             const name = archetype[`name${suffix}`] ?? archetype.name ?? 'Il tuo profilo';
-            const description = archetype[`description${suffix}`] ?? archetype.description ?? '';
+            const description = archetype[`short_description${suffix}`] ?? archetype.short_description ?? '';
 
             nameElement.textContent = name;
             descriptionElement.textContent = description;
