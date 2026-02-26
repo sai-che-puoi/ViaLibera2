@@ -189,6 +189,10 @@ export const QUIZ_DATA = {
             ]
         },
         {
+            type: "separator",
+            text: ""
+        },
+        {
             type: "recording",
             id: "o2",
             max_choices: 3,
@@ -269,12 +273,16 @@ export const QUIZ_DATA = {
             alt: "Preferisco non rispondere",
         },
         {
+            type: "separator",
+            text: ""
+        },
+        {
             type: "description",
-            text: ["Grazie per il tempo che ci hai dedicato!",
-                "Intanto se vuoi puoi usare questo QR code per andare a leggere di più sul progetto e sul tuo profilo di sognatore/trice e su tutti gli altri che stiamo mappando.",
-                "Fra qualche settimana qui troverai anche il risultato di tutta la nostra ricerca.",
-                "Grazie per la disponibilità e buona giornata!"
-           ]
+            text: "Ora vediamo i risultati!"
+        },
+        {
+            type: "description_light",
+            text: '<a target="_blank" href="https://docs.google.com/document/d/1FLcFbntFcCD1vLRoP_9stqW2FHMf9QXpvNAtMhYIS5w">Informativa privacy</a>'
         }
     ],
 

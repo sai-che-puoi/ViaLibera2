@@ -55,6 +55,14 @@ h1 {
     font-weight: 600;
 }
 
+.goodbyeMessage {
+    /*font-size: 18px;*/
+    color: #333;
+    margin-left: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
 .options {
     display: flex;
     flex-direction: column;
@@ -995,7 +1003,7 @@ h1 {
 /* Result Section Styles */
 #resultSection {
     display: none;
-    padding: 2rem;
+    padding: 0.3rem;
     max-width: 800px;
     margin: 0 auto;
 }
