@@ -896,7 +896,6 @@ export class QuizUI {
             div.appendChild(this.createRadioGroup(question, index));
         } else if (question.type === 'option') {
             div.appendChild(this.createCheckboxGroup(question, index));
-            text.textContent = `${question.text} ID: ${this.id}`
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         } else if (question.type === 'sorting') {
