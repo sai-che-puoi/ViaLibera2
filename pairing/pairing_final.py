@@ -199,13 +199,6 @@ def _(
 
 
 @app.cell
-def _(singles):
-    # singles
-    sorted(singles, key=lambda u: len(u['user']['name']))
-    return
-
-
-@app.cell
 def _(mo):
     time_limit = mo.ui.slider(30, 180, value=60, show_value=True, label="Tempo limite massimo algoritmo in secondi")
     time_limit
@@ -227,12 +220,13 @@ def _(area_slots, couples, epsilon, singles, time_area_slots, time_limit):
 
 
 @app.cell
-def _(area_slots, couples, output, singles, time_area_slots):
+def _(area_slots, couples, mo, output, singles, time_area_slots):
     import pretty_print_output
     import importlib
     importlib.reload(pretty_print_output)
 
-    pretty_print_output.prettify(couples, singles, area_slots, time_area_slots, output)
+    out = pretty_print_output.prettify(couples, singles, area_slots, time_area_slots, output)
+    mo.md(f"```\n{chr(10).join(out)}\n```")
     return
 
 
