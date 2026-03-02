@@ -356,7 +356,7 @@ def render_cartesian_heatmap():
     )
 
     # 4) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 2, 1])
+    col_left, col_center, col_right = st.columns([1, 1, 1])
     with col_center:
         # No container_width, we want the figure's own size (600x600)
         st.plotly_chart(fig, use_container_width=False)
