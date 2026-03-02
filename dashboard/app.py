@@ -289,15 +289,13 @@ def render_cartesian_heatmap():
     # 1) Build evaluation grid for KDE
     xmin, xmax = -100, 100
     ymin, ymax = -100, 100
-
     grid_size = 500  # Increase for smoother result (300–500 recommended)
-    grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
 
-    # 2) Gaussian KDE over the space
+    grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
     kde = gaussian_kde(np.vstack([x, y]))
     z = kde(np.vstack([grid_x.ravel(), grid_y.ravel()])).reshape(grid_x.shape)
 
-    # 3) Plot as smooth heatmap
+    # 2) Plot as smooth heatmap
     fig = go.Figure(
         data=go.Heatmap(
             x=np.linspace(xmin, xmax, grid_size),
@@ -309,7 +307,7 @@ def render_cartesian_heatmap():
         )
     )
 
-    # 4) Add gridlines & axes
+    # 3) Add gridlines & axes
     shapes = []
     for v in range(-100, 101, 25):
         # vertical lines
@@ -349,22 +347,19 @@ def render_cartesian_heatmap():
             scaleratio=1,
             constrain="range",
         ),
+        # 🔑 Keep the figure square and not autosized
+        autosize=False,
         width=600,
         height=600,
-        margin=dict(t=20, b=20, l=20, r=20),
+        # 🔑 Balance margins so plot area looks centered despite y-axis labels
+        margin=dict(t=30, b=40, l=80, r=80),
     )
 
-    # Center the chart horizontally
-    centered = st.container()
-
-    with centered:
-        st.markdown(
-            "<style>.centered {display:flex; justify-content:center;}</style>",
-            unsafe_allow_html=True,
-        )
-        st.markdown('<div class="centered">', unsafe_allow_html=True)
-        st.plotly_chart(fig, width=600, height=600)
-        st.markdown('</div>', unsafe_allow_html=True)
+    # 4) Center on the page using columns
+    col_left, col_center, col_right = st.columns([1, 2, 1])
+    with col_center:
+        # No container_width, we want the figure's own size (600x600)
+        st.plotly_chart(fig, use_container_width=False)
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
