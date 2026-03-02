@@ -221,6 +221,15 @@ export class QuizUI {
         container.dataset.valid = 'false';
     }
 
+    getSliderEmoji(value) {
+        const v = parseInt(value);
+        if (v <= 2) return '❌';
+        if (v <= 4) return '🤔';
+        if (v <= 6) return '➖';
+        if (v <= 8) return '👌🏽';
+        return '🚀';
+    }
+
     /**
      * Create slider element
      */
@@ -258,7 +267,7 @@ export class QuizUI {
         labels.style.width = '100%';
         labels.innerHTML = `
         <span>${question.minLabel}</span>
-        <span class="slider-value-center">${slider.value}</span>
+        <span class="slider-value-center">${this.getSliderEmoji(slider.value)} ${slider.value}</span>
         <span>${question.maxLabel}</span>
     `;
 
@@ -266,7 +275,7 @@ export class QuizUI {
         const centerValueSpan = labels.querySelector('.slider-value-center');
         slider.addEventListener('input', () => {
             valueDisplay.textContent = slider.value;
-            centerValueSpan.textContent = slider.value;
+            centerValueSpan.textContent = `${this.getSliderEmoji(slider.value)} ${slider.value}`;
         });
 
         container.appendChild(labels);
@@ -1173,7 +1182,7 @@ export class QuizUI {
                     // Also reset the center value display in labels
                     const centerValueSpan = slider.closest('.question-slider-container').querySelector('.slider-value-center');
                     if (centerValueSpan) {
-                        centerValueSpan.textContent = question.defaultValue;
+                        centerValueSpan.textContent = `${this.getSliderEmoji(question.defaultValue)} ${question.defaultValue}`;
                     }
                 }
             } else if (question.type === 'option') {

@@ -194,6 +194,8 @@ export class ResultUI {
         content.appendChild(archetypeSection);
         content.appendChild(planeContainer);
         content.appendChild(recordingSection);
+        const goodbyeMessage = document.querySelector('.goodbyeMessage');
+        if (goodbyeMessage) content.appendChild(goodbyeMessage);
         content.appendChild(buttonsContainer);
 
         this.elements = {
