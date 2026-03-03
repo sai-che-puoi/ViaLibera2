@@ -10,7 +10,10 @@ def _():
     import pandas as pd
     import numpy as np
     import itertools
-    return itertools, mo, np, pd
+    import csv
+    import io
+    import nomi_gruppi
+    return csv, itertools, mo, nomi_gruppi, np, pd
 
 
 @app.cell
@@ -217,12 +220,117 @@ def _(area_slots, couples, epsilon, singles, time_area_slots, time_limit):
 
 
 @app.cell
-def _(area_slots, couples, output, singles, time_area_slots):
+def _(area_slots, couples, mo, output, singles, time_area_slots):
     import pretty_print_output
     import importlib
     importlib.reload(pretty_print_output)
 
-    pretty_print_output.prettify(couples, singles, area_slots, time_area_slots, output)
+    out = pretty_print_output.prettify(couples, singles, area_slots, time_area_slots, output)
+    mo.md(f"```\n{chr(10).join(out)}\n```")
+    return
+
+
+@app.cell
+def _(area_slots, mo):
+    area_dropdown = mo.ui.dropdown(options=sorted(area_slots), label="Select Area")
+    area_dropdown
+    return (area_dropdown,)
+
+
+@app.cell
+def _(area_dropdown, mo, output):
+    selected_area = area_dropdown.value
+    slot_map = output[0]
+
+    rows = []
+    if selected_area:
+        for (time, area), entries in sorted(slot_map.items()):
+            if area != selected_area:
+                continue
+            user_names = []
+            for entry in entries:
+                entry_append = []
+                for user in entry:
+                    if 'user' in user:
+                        u = user['user']
+                        entry_append.append(f"{u.get('name', '')} {u.get('surname', '')}".strip())
+                    else:
+                        name = f"{user.get('name', '')} {user.get('surname', '')}".strip()
+                        entry_append.append(name)
+                user_names.append("[" + ", ".join(entry_append) + "]")
+            rows.append({"Time Slot": time, "Users": ", ".join(user_names) if user_names else "(empty)"})
+
+    mo.ui.table(rows)
+    return (slot_map,)
+
+
+@app.cell
+def _(nomi_gruppi):
+    group_names = nomi_gruppi.genera_nomi()
+    return (group_names,)
+
+
+@app.cell
+def _(csv, group_names, warnings):
+    def export_slot_map_to_csv(slot_map, filepath="output.csv"):
+        MAX_USERS = 3
+
+        fieldnames = ["NomeGruppo", "NIL", "Data"]
+        for i in range(1, MAX_USERS + 1):
+            fieldnames += [f"Nome{i}", f"Cognome{i}", f"Telefono{i}"]
+
+        group_counter = 0
+        with open(filepath, "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for (time, area), entries in sorted(slot_map.items()):
+                # Flatten all users (deconstruct couples)
+                all_users = []
+                for entry in entries:
+                    for user in entry:
+                        if 'user' in user:
+                            all_users.append(user['user'])
+                        else:
+                            all_users.append(user)
+                if area == "Affori":
+                    print("LOL")
+                    print(all_users)
+
+                if not all_users:
+                    continue
+
+                if len(all_users) > MAX_USERS:
+                    warnings.warn(
+                        f"Slot ({time}, {area}) has {len(all_users)} users — only first {MAX_USERS} will be written."
+                    )
+
+                row = {"NomeGruppo": group_names[group_counter], "NIL": area, "Data": time}
+                for i, user in enumerate(all_users[:MAX_USERS], start=1):
+                    row[f"Nome{i}"] = user.get("name", "")
+                    row[f"Cognome{i}"] = user.get("surname", "")
+                    row[f"Telefono{i}"] = user.get("phone", "")
+
+                writer.writerow(row)
+                group_counter += 1
+
+        print(f"CSV written to {filepath}")
+    return (export_slot_map_to_csv,)
+
+
+@app.cell
+def _(mo):
+    save_button = mo.ui.run_button(label="💾 Save CSV")
+    save_button
+    return (save_button,)
+
+
+@app.cell
+def _(export_slot_map_to_csv, mo, save_button, slot_map):
+    mo.stop(not save_button.value)  # blocks execution unless button was just clicked
+
+    export_slot_map_to_csv(slot_map, "slots_output.csv")
+    mo.callout(mo.md("✅ **CSV saved** to `slots_output.csv`"), kind="success")
     return
 
 
