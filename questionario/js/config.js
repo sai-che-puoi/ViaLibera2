@@ -198,7 +198,10 @@ export const QUIZ_DATA = {
             max_choices: 3,
             options_number: 7,
             text: [
-                "Ok adesso prova a sognare, se vuoi puoi chiudere gli occhi.",
+                "Siamo all’ultima domanda e questa è una domanda aperta.",
+                "Qui vorrei raccogliere le tue parole.",
+                "[piccola pausa]",
+                "Adesso prova a sognare, se vuoi puoi chiudere gli occhi.",
                 "Fai un respiro profondo.",
                 "Pensa a cosa ci siamo detti in questa conversazione, ma anche a quello che forse non è emerso, e immagina:",
                 "Sei nella Milano dei tuoi desideri, proprio quella che vorresti.",
