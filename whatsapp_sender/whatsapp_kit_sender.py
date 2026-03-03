@@ -132,7 +132,7 @@ def load_pending_tasks(sheet, creds):
 ###############################################################################
 
 
-def send_whatsapp_messages(tasks, wait_time_range=(5, 10)):
+def send_whatsapp_messages(tasks, wait_time_range=(5, 60)):
     options = webdriver.ChromeOptions()
 
     profile_path = os.path.expanduser("~/selenium-chromium-profile")
