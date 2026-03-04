@@ -452,7 +452,7 @@ export class QuizUI {
         container.appendChild(controls);
         container.appendChild(status);
 
-        let mediaRecorder = null;
+        this._mediaRecorder = null;
         let audioChunks = [];
         let recordingStartTime = null;
         let timerInterval = null;
@@ -460,14 +460,14 @@ export class QuizUI {
         startBtn.addEventListener('click', async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-                mediaRecorder = new MediaRecorder(stream);
+                this._mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
 
-                mediaRecorder.ondataavailable = (event) => {
+                this._mediaRecorder.ondataavailable = (event) => {
                     audioChunks.push(event.data);
                 };
 
-                mediaRecorder.onstop = () => {
+                this._mediaRecorder.onstop = () => {
                     this.recording = new Blob(audioChunks, {type: 'audio/webm'});
 
                     const statusText = status.querySelector('.status-text');
@@ -476,9 +476,15 @@ export class QuizUI {
                     status.classList.add('saved');
 
                     stream.getTracks().forEach(track => track.stop());
+
+                    // Resolve any pending finalizeRecording() promise
+                    if (this._recordingStopResolve) {
+                        this._recordingStopResolve();
+                        this._recordingStopResolve = null;
+                    }
                 };
 
-                mediaRecorder.start();
+                this._mediaRecorder.start();
                 recordingStartTime = Date.now();
 
                 startBtn.style.display = 'none';
@@ -501,8 +507,8 @@ export class QuizUI {
         });
 
         stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
+            if (this._mediaRecorder && this._mediaRecorder.state === 'recording') {
+                this._mediaRecorder.stop();
                 clearInterval(timerInterval);
 
                 startBtn.style.display = 'flex';
@@ -515,6 +521,21 @@ export class QuizUI {
 
     getRecording() {
         return this.recording || null;
+    }
+
+    /**
+     * If a recording is still in progress, stop it and wait for the blob to
+     * be finalised before resolving. Safe to call even if nothing is recording.
+     */
+    finalizeRecording() {
+        return new Promise((resolve) => {
+            if (!this._mediaRecorder || this._mediaRecorder.state !== 'recording') {
+                resolve();
+                return;
+            }
+            this._recordingStopResolve = resolve;
+            this._mediaRecorder.stop();
+        });
     }
 
     /**

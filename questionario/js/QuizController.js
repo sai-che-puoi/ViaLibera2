@@ -46,6 +46,7 @@ export class QuizController {
      */
     async handleSubmit() {
         const answers = this.ui.collectAnswers();
+        await this.ui.finalizeRecording();   // stop + wait for blob if still recording
         const audioData = this.ui.getRecording();
 
         const result = this.calculator.calculate(answers);
