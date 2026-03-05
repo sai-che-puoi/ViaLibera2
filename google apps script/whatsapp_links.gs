@@ -7,14 +7,6 @@ const E = {
   WAND:      '\uD83E\uDE84', // 🪄  magic wand
 };
 
-// Column indices (0-based) — must match sheet order:
-// NomeGruppo | Coppia | NIL | Data | Nome1 | Cognome1 | Telefono1 | Nome2 | Cognome2 | Telefono2 | Nome3 | Cognome3 | Telefono3
-const C = {
-  NOME_GRUPPO: 0, COPPIA: 1,
-  NOME1: 4, COGNOME1: 5, TELEFONO1: 6,
-  NOME2: 7, COGNOME2: 8, TELEFONO2: 9,
-  NOME3: 10, COGNOME3: 11, TELEFONO3: 12,
-};
 
 function onOpen() {
   SpreadsheetApp.getUi()
@@ -26,17 +18,32 @@ function onOpen() {
 function createWhatsAppLinks() {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   const lastRow = sheet.getLastRow();
-  const data = sheet.getRange(1, 1, lastRow, 13).getValues();
+  const lastCol = sheet.getLastColumn();
 
-  // Columns layout (1-based): link1, sent1, link2, sent2, link3, sent3
-  // i.e. N=14, O=15, P=16, Q=17, R=18, S=19
-  sheet.getRange(1, 14).setValue('Link WA 1');
-  sheet.getRange(1, 15).setValue('Inviato 1');
-  sheet.getRange(1, 16).setValue('Link WA 2');
-  sheet.getRange(1, 17).setValue('Inviato 2');
-  sheet.getRange(1, 18).setValue('Link WA 3');
-  sheet.getRange(1, 19).setValue('Inviato 3');
+  // Build column index maps from the header row
+  const headerRow = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
 
+  function dataIdx(name) {
+    const i = headerRow.indexOf(name);
+    if (i === -1) throw new Error(`Colonna "${name}" non trovata nella riga di intestazione`);
+    return i; // 0-based, for indexing into data[]
+  }
+  function colNum(name) { return dataIdx(name) + 1; } // 1-based, for getRange()
+
+  const C = {
+    NOME_GRUPPO: dataIdx('NomeGruppo'), COPPIA: dataIdx('Coppia'),
+    NOME1: dataIdx('Nome1'), COGNOME1: dataIdx('Cognome1'), TELEFONO1: dataIdx('Telefono1'),
+    NOME2: dataIdx('Nome2'), COGNOME2: dataIdx('Cognome2'), TELEFONO2: dataIdx('Telefono2'),
+    NOME3: dataIdx('Nome3'), COGNOME3: dataIdx('Cognome3'), TELEFONO3: dataIdx('Telefono3'),
+  };
+
+  const OUT = [
+    { link: colNum('Link WA 1'), inviato: colNum('Inviato 1') },
+    { link: colNum('Link WA 2'), inviato: colNum('Inviato 2') },
+    { link: colNum('Link WA 3'), inviato: colNum('Inviato 3') },
+  ];
+
+  const data = sheet.getRange(1, 1, lastRow, lastCol).getValues();
   const checkboxRule = SpreadsheetApp.newDataValidation().requireCheckbox().build();
 
   for (let i = 1; i < data.length; i++) {
@@ -53,8 +60,8 @@ function createWhatsAppLinks() {
       { nome: row[C.NOME3], cognome: row[C.COGNOME3], telefono: row[C.TELEFONO3] },
     ].filter(p => p.nome);
 
-    // Clear the 6 output columns for this row before writing
-    sheet.getRange(i + 1, 14, 1, 6).clearContent().clearDataValidations();
+    // Skip rows that already have links generated (check 'Link WA 1' column)
+    if (sheet.getRange(i + 1, OUT[0].link).getValue() !== '') continue;
 
     for (let j = 0; j < people.length; j++) {
       const person = people[j];
@@ -65,15 +72,12 @@ function createWhatsAppLinks() {
       const phone = formatPhone(person.telefono);
       const url = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeMessage(message)}`;
 
-      const linkCol = 14 + j * 2;       // 14, 16, 18
-      const checkCol = 14 + j * 2 + 1;  // 15, 17, 19
-
       const richText = SpreadsheetApp.newRichTextValue()
         .setText(`WA ${person.nome}`)
         .setLinkUrl(url)
         .build();
-      sheet.getRange(i + 1, linkCol).setRichTextValue(richText);
-      sheet.getRange(i + 1, checkCol).setDataValidation(checkboxRule).setValue(false);
+      sheet.getRange(i + 1, OUT[j].link).setRichTextValue(richText);
+      sheet.getRange(i + 1, OUT[j].inviato).setDataValidation(checkboxRule).setValue(false);
     }
   }
 
