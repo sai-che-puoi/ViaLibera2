@@ -59,7 +59,7 @@ def get_sheet_data_with_hyperlinks(creds, sheet_title):
     url = f"https://sheets.googleapis.com/v4/spreadsheets/{SPREADSHEET_ID}"
     params = {
         "includeGridData": "true",
-        "ranges": f"'{sheet_title}'!A:S",
+        "ranges": f"'{sheet_title}'!A:Z",
         "fields": "sheets.data.rowData.values(formattedValue,hyperlink)",
     }
     response = session.get(url, params=params)
@@ -99,7 +99,8 @@ def load_pending_tasks(sheet, creds):
         return row_cells[idx].get("hyperlink", "")
 
     # Build column index map from the header row
-    headers = [cell_value(row_data[0].get("values", []), i) for i in range(19)]
+    first_row_cells = row_data[0].get("values", [])
+    headers = [cell_value(first_row_cells, i) for i in range(len(first_row_cells))]
     col_idx = {name: i for i, name in enumerate(headers) if name}
 
     tasks = []
