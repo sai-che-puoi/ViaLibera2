@@ -39,6 +39,11 @@ function createWhatsAppLinks() {
 
   const checkboxRule = SpreadsheetApp.newDataValidation().requireCheckbox().build();
 
+  // Find 'Link WA 1' column by reading the header row from the sheet (after headers have been written above)
+  const headerRow = sheet.getRange(1, 1, 1, 19).getValues()[0];
+  const linkWa1Col = headerRow.indexOf('Link WA 1') + 1; // 1-based; falls back to 14 if not found
+  const skipCol = linkWa1Col > 0 ? linkWa1Col : 14;
+
   for (let i = 1; i < data.length; i++) {
     const row = data[i];
     const nomeGruppo = row[C.NOME_GRUPPO];
@@ -52,6 +57,9 @@ function createWhatsAppLinks() {
       { nome: row[C.NOME2], cognome: row[C.COGNOME2], telefono: row[C.TELEFONO2] },
       { nome: row[C.NOME3], cognome: row[C.COGNOME3], telefono: row[C.TELEFONO3] },
     ].filter(p => p.nome);
+
+    // Skip rows that already have links generated (check 'Link WA 1' column)
+    if (sheet.getRange(i + 1, skipCol).getValue() !== '') continue;
 
     // Clear the 6 output columns for this row before writing
     sheet.getRange(i + 1, 14, 1, 6).clearContent().clearDataValidations();
