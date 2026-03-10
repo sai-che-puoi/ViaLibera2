@@ -397,8 +397,8 @@ def render_cartesian_heatmap():
         ),
         # Keep the figure square and not autosized
         autosize=True,
-        width=600,
-        height=600,
+        width=700,
+        height=700,
         # Larger margins to make space for outside labels
         margin=dict(t=60, b=80, l=120, r=120),
     )
