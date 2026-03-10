@@ -458,6 +458,7 @@ def render_cartesian_heatmap():
         st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
 
     with col_right_2:
+        st.markdown("### ")
         # Each legend line in a new paragraph
         st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
 
