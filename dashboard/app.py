@@ -399,8 +399,8 @@ def render_cartesian_heatmap():
                 line=dict(width=1, color="black"),
             ),
             text=arche_labels,
-            textposition="top center",
-            textfont=dict(size=10, color="gray"),
+            textposition="top right",
+            textfont=dict(size=10, color="black"),
         )
     )
 
