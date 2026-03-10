@@ -387,20 +387,24 @@ def render_cartesian_heatmap():
     arche_y = [a["position"][1] for a in archetypes]
     arche_labels = [a["label"] for a in archetypes]
 
+    offsets = [
+        ("12,-4" if x > 0 and y > 0 else
+        "-12,-4" if x < 0 and y > 0 else
+        "12,12"  if x > 0 else
+        "-12,12")
+        for x, y in zip(arche_x, arche_y)
+    ]
+
     fig.add_trace(
         go.Scatter(
             x=arche_x,
             y=arche_y,
             mode="markers+text",
-            name="Archetipi",
-            marker=dict(
-                size=8,
-                color="gray",
-                line=dict(width=1, color="black"),
-            ),
             text=arche_labels,
-            textposition="top right",
-            textfont=dict(size=10, color="black"),
+            marker=dict(size=8, color="gray", line=dict(width=1, color="gray")),
+            textfont=dict(size=10),
+            textposition="middle center",
+            textoffset=offsets,
         )
     )
 
