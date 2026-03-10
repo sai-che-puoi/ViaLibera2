@@ -443,11 +443,11 @@ def render_cartesian_heatmap():
         width=700,
         height=700,
         # Larger margins to make space for outside labels
-        margin=dict(t=60, b=60, l=120, r=120),
+        margin=dict(t=60, b=70, l=120, r=120),
     )
 
     # 6) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 1.75, 1])
+    col_left, col_center, col_right = st.columns([1, 2, 2])
 
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
