@@ -431,7 +431,7 @@ def render_cartesian_heatmap():
                 showarrow=False,
                 xanchor=xanchor,
                 yanchor=yanchor,
-                font=dict(size=10),
+                font=dict(size=10, color="gray"),
             )
         )
 
