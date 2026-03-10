@@ -269,7 +269,6 @@ def render_heatmap():
 
 def render_cartesian_heatmap():
     """Smooth Gaussian KDE heatmap on a [-100, 100] Cartesian plane with gridlines & axes."""
-
     if coord_df.empty:
         st.info("No valid coordinates available.")
         return
@@ -290,8 +289,8 @@ def render_cartesian_heatmap():
     xmin, xmax = -100, 100
     ymin, ymax = -100, 100
     grid_size = 400  # Increase for smoother result (300–500 recommended)
-
     grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
+
     kde = gaussian_kde(np.vstack([x, y]))
     z = kde(np.vstack([grid_x.ravel(), grid_y.ravel()])).reshape(grid_x.shape)
 
@@ -327,8 +326,53 @@ def render_cartesian_heatmap():
     shapes.append(dict(type="line", x0=-100, x1=100, y0=0, y1=0,
                        line=dict(color="black", width=3)))
 
+    # 4) Add semantic axis labels (quadrant-style)
+    annotations = [
+        # X negative: left side
+        dict(
+            x=-100, y=0,
+            xref="x", yref="y",
+            text="Quartiere tranquillo/ordinato",
+            showarrow=False,
+            xanchor="left",   # text flows to the right from x=-100
+            yanchor="middle",
+            font=dict(size=16, color="black"),
+        ),
+        # X positive: right side
+        dict(
+            x=100, y=0,
+            xref="x", yref="y",
+            text="Quartiere vivace",
+            showarrow=False,
+            xanchor="right",  # text flows to the left from x=100
+            yanchor="middle",
+            font=dict(size=16, color="black"),
+        ),
+        # Y positive: top
+        dict(
+            x=0, y=100,
+            xref="x", yref="y",
+            text="Cambiamo lo spazio pubblico",
+            showarrow=False,
+            xanchor="center",
+            yanchor="bottom",  # text goes upward from y=100
+            font=dict(size=16, color="black"),
+        ),
+        # Y negative: bottom
+        dict(
+            x=0, y=-100,
+            xref="x", yref="y",
+            text="Teniamolo così",
+            showarrow=False,
+            xanchor="center",
+            yanchor="top",  # text goes downward from y=-100
+            font=dict(size=16, color="black"),
+        ),
+    ]
+
     fig.update_layout(
         shapes=shapes,
+        annotations=annotations,
         xaxis=dict(
             title="Coordinata X",
             range=[-100, 100],
@@ -347,18 +391,17 @@ def render_cartesian_heatmap():
             scaleratio=1,
             constrain="range",
         ),
-        # 🔑 Keep the figure square and not autosized
+        # Keep the figure square and not autosized
         autosize=False,
         width=700,
         height=700,
-        # 🔑 Balance margins so plot area looks centered despite y-axis labels
+        # Balance margins so plot area looks centered despite y-axis labels
         margin=dict(t=40, b=40, l=80, r=80),
     )
 
-    # 4) Center on the page using columns
+    # 5) Center on the page using columns
     col_left, col_center, col_right = st.columns([1, 1, 1])
     with col_center:
-        # No container_width, we want the figure's own size (700x700)
         st.plotly_chart(fig, use_container_width=False)
 
 def render_age_distribution():
