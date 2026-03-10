@@ -321,52 +321,59 @@ def render_cartesian_heatmap():
         ))
 
     # Highlight axes
-    shapes.append(dict(type="line", x0=0, x1=0, y0=-100, y1=100,
-                       line=dict(color="black", width=3)))
-    shapes.append(dict(type="line", x0=-100, x1=100, y0=0, y1=0,
-                       line=dict(color="black", width=3)))
+    shapes.append(dict(
+        type="line", x0=0, x1=0, y0=-100, y1=100,
+        line=dict(color="black", width=3)
+    ))
+    shapes.append(dict(
+        type="line", x0=-100, x1=100, y0=0, y1=0,
+        line=dict(color="black", width=3)
+    ))
 
-    # 4) Add semantic axis labels (quadrant-style)
+    # 4) Dynamic text color based on Streamlit theme
+    text_color = st.get_option("theme.textColor") or "black"
+
+    # 5) Semantic axis labels OUTSIDE the plot area (paper coordinates)
     annotations = [
-        # X negative: left side
+        # X negative: left side, outside
         dict(
-            x=-100, y=0,
-            xref="x", yref="y",
+            x=-0.05, y=0.5,
+            xref="paper", yref="paper",
             text="Quartiere tranquillo/ordinato",
             showarrow=False,
-            xanchor="left",   # text flows to the right from x=-100
+            xanchor="right",   # text ends at the plot area
             yanchor="middle",
-            font=dict(size=16, color="black"),
+            font=dict(size=16, color=text_color),
         ),
-        # X positive: right side
+        # X positive: right side, outside
         dict(
-            x=100, y=0,
-            xref="x", yref="y",
+            x=1.05, y=0.5,
+            xref="paper", yref="paper",
             text="Quartiere vivace",
             showarrow=False,
-            xanchor="right",  # text flows to the left from x=100
+            xanchor="left",    # text starts at the plot area
             yanchor="middle",
-            font=dict(size=16, color="black"),
+            font=dict(size=16, color=text_color),
         ),
-        # Y positive: top
+        # Y positive: top, outside
         dict(
-            x=0, y=100,
-            xref="x", yref="y",
+            x=0.5, y=1.08,
+            xref="paper", yref="paper",
             text="Cambiamo lo spazio pubblico",
             showarrow=False,
             xanchor="center",
-            yanchor="bottom",  # text goes upward from y=100
-            font=dict(size=16, color="black"),
+            yanchor="bottom",
+            font=dict(size=16, color=text_color),
         ),
-        # Y negative: bottom
+        # Y negative: bottom, outside
         dict(
-            x=0, y=-100,
-            xref="x", yref="y",
+            x=0.5, y=-0.08,
+            xref="paper", yref="paper",
             text="Teniamolo così",
             showarrow=False,
             xanchor="center",
-            yanchor="top",  # text goes downward from y=-100
-            font=dict(size=16, color="black"),
+            yanchor="top",
+            font=dict(size=16, color=text_color),
         ),
     ]
 
@@ -374,7 +381,7 @@ def render_cartesian_heatmap():
         shapes=shapes,
         annotations=annotations,
         xaxis=dict(
-            title="Coordinata X",
+            # title="Coordinata X",
             range=[-100, 100],
             dtick=25,
             zeroline=False,
@@ -383,7 +390,7 @@ def render_cartesian_heatmap():
             constrain="range",
         ),
         yaxis=dict(
-            title="Coordinata Y",
+            # title="Coordinata Y",
             range=[-100, 100],
             dtick=25,
             zeroline=False,
@@ -392,14 +399,14 @@ def render_cartesian_heatmap():
             constrain="range",
         ),
         # Keep the figure square and not autosized
-        autosize=False,
+        autosize=True,
         width=700,
         height=700,
-        # Balance margins so plot area looks centered despite y-axis labels
-        margin=dict(t=40, b=40, l=80, r=80),
+        # Larger margins to make space for outside labels
+        margin=dict(t=80, b=80, l=120, r=120),
     )
 
-    # 5) Center on the page using columns
+    # 6) Center on the page using columns
     col_left, col_center, col_right = st.columns([1, 1, 1])
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
