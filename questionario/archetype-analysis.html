@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Archetype Bounding-Box Analysis</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
+    h1   { font-size: 1.4em; color: #333; }
+    .svg-wrap { display:inline-block; box-shadow: 0 2px 8px #0003; border-radius:6px; overflow:hidden; }
+    table { border-collapse: collapse; margin-top: 24px; font-size: 13px; }
+    th, td { border: 1px solid #ccc; padding: 4px 10px; }
+    th { background: #ddd; }
+    tr:nth-child(even) { background: #f7f7f7; }
+  </style>
+</head>
+<body>
+<h1>Archetype Bounding-Box Analysis</h1>
+<div class="svg-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="700" style="background:#fafafa;border:1px solid #ccc">
+  <text x="300" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#222">Mappa degli archetipi – bounding box</text>
+  <!-- grid -->
+  <line x1="100" y1="346" x2="100" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="550" x2="304" y2="550" stroke="#888" stroke-width="1"/>
+  <text x="100" y="366" text-anchor="middle" font-size="9" fill="#888">-100</text>
+  <text x="292" y="554" text-anchor="end" font-size="9" fill="#888">-100</text>
+  <line x1="140" y1="346" x2="140" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="510" x2="304" y2="510" stroke="#888" stroke-width="1"/>
+  <text x="140" y="366" text-anchor="middle" font-size="9" fill="#888">-80</text>
+  <text x="292" y="514" text-anchor="end" font-size="9" fill="#888">-80</text>
+  <line x1="180" y1="346" x2="180" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="470" x2="304" y2="470" stroke="#888" stroke-width="1"/>
+  <text x="180" y="366" text-anchor="middle" font-size="9" fill="#888">-60</text>
+  <text x="292" y="474" text-anchor="end" font-size="9" fill="#888">-60</text>
+  <line x1="220" y1="346" x2="220" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="430" x2="304" y2="430" stroke="#888" stroke-width="1"/>
+  <text x="220" y="366" text-anchor="middle" font-size="9" fill="#888">-40</text>
+  <text x="292" y="434" text-anchor="end" font-size="9" fill="#888">-40</text>
+  <line x1="260" y1="346" x2="260" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="390" x2="304" y2="390" stroke="#888" stroke-width="1"/>
+  <text x="260" y="366" text-anchor="middle" font-size="9" fill="#888">-20</text>
+  <text x="292" y="394" text-anchor="end" font-size="9" fill="#888">-20</text>
+  <line x1="300" y1="346" x2="300" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="350" x2="304" y2="350" stroke="#888" stroke-width="1"/>
+  <line x1="340" y1="346" x2="340" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="310" x2="304" y2="310" stroke="#888" stroke-width="1"/>
+  <text x="340" y="366" text-anchor="middle" font-size="9" fill="#888">20</text>
+  <text x="292" y="314" text-anchor="end" font-size="9" fill="#888">20</text>
+  <line x1="380" y1="346" x2="380" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="270" x2="304" y2="270" stroke="#888" stroke-width="1"/>
+  <text x="380" y="366" text-anchor="middle" font-size="9" fill="#888">40</text>
+  <text x="292" y="274" text-anchor="end" font-size="9" fill="#888">40</text>
+  <line x1="420" y1="346" x2="420" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="230" x2="304" y2="230" stroke="#888" stroke-width="1"/>
+  <text x="420" y="366" text-anchor="middle" font-size="9" fill="#888">60</text>
+  <text x="292" y="234" text-anchor="end" font-size="9" fill="#888">60</text>
+  <line x1="460" y1="346" x2="460" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="190" x2="304" y2="190" stroke="#888" stroke-width="1"/>
+  <text x="460" y="366" text-anchor="middle" font-size="9" fill="#888">80</text>
+  <text x="292" y="194" text-anchor="end" font-size="9" fill="#888">80</text>
+  <line x1="500" y1="346" x2="500" y2="354" stroke="#888" stroke-width="1"/>
+  <line x1="296" y1="150" x2="304" y2="150" stroke="#888" stroke-width="1"/>
+  <text x="500" y="366" text-anchor="middle" font-size="9" fill="#888">100</text>
+  <text x="292" y="154" text-anchor="end" font-size="9" fill="#888">100</text>
+  <!-- quadrant labels -->
+  <text x="490" y="160" text-anchor="end" font-size="10" fill="#aaa" font-style="italic">Innovativo / Vivace</text>
+  <text x="110" y="160" text-anchor="start" font-size="10" fill="#aaa" font-style="italic">Innovativo / Tranquillo</text>
+  <text x="490" y="540" text-anchor="end" font-size="10" fill="#aaa" font-style="italic">Conservativo / Vivace</text>
+  <text x="110" y="540" text-anchor="start" font-size="10" fill="#aaa" font-style="italic">Conservativo / Tranquillo</text>
+  <!-- bounding boxes -->
+  <rect x="110.0" y="220.0" width="380.0" height="228.0" fill="#f58231" fill-opacity="0.20" stroke="#f58231" stroke-width="1.5" stroke-opacity="0.85"><title>Automobilista illuminato | x:[-95.0,95.0] y:[-49.0,65.0]</title></rect>
+  <rect x="110.0" y="236.0" width="360.0" height="232.0" fill="#42d4f4" fill-opacity="0.20" stroke="#42d4f4" stroke-width="1.5" stroke-opacity="0.85"><title>Estroverso zen | x:[-95.0,85.0] y:[-59.0,57.0]</title></rect>
+  <rect x="130.0" y="220.0" width="360.0" height="202.0" fill="#fabed4" fill-opacity="0.20" stroke="#fabed4" stroke-width="1.5" stroke-opacity="0.85"><title>Automobilista combattuto | x:[-85.0,95.0] y:[-36.0,65.0]</title></rect>
+  <rect x="110.0" y="290.0" width="380.0" height="182.0" fill="#fffac8" fill-opacity="0.20" stroke="#fffac8" stroke-width="1.5" stroke-opacity="0.85"><title>Tradizionalista 4 ruote | x:[-95.0,95.0] y:[-61.0,30.0]</title></rect>
+  <rect x="130.0" y="220.0" width="360.0" height="186.0" fill="#ffffff" fill-opacity="0.20" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.85"><title>Ecopioniere | x:[-85.0,95.0] y:[-28.0,65.0]</title></rect>
+  <rect x="110.0" y="290.0" width="380.0" height="174.0" fill="#808000" fill-opacity="0.20" stroke="#808000" stroke-width="1.5" stroke-opacity="0.85"><title>Riformista cauto | x:[-95.0,95.0] y:[-57.0,30.0]</title></rect>
+  <rect x="110.0" y="290.0" width="380.0" height="174.0" fill="#ffd8b1" fill-opacity="0.20" stroke="#ffd8b1" stroke-width="1.5" stroke-opacity="0.85"><title>Ecologista inaspettato | x:[-95.0,95.0] y:[-57.0,30.0]</title></rect>
+  <rect x="110.0" y="220.0" width="380.0" height="174.0" fill="#e6194b" fill-opacity="0.20" stroke="#e6194b" stroke-width="1.5" stroke-opacity="0.85"><title>L'ecociclista | x:[-95.0,95.0] y:[-22.0,65.0]</title></rect>
+  <rect x="110.0" y="220.0" width="380.0" height="174.0" fill="#a9a9a9" fill-opacity="0.20" stroke="#a9a9a9" stroke-width="1.5" stroke-opacity="0.85"><title>Automobilista riflessivo | x:[-95.0,95.0] y:[-22.0,65.0]</title></rect>
+  <rect x="130.0" y="290.0" width="360.0" height="174.0" fill="#dcbeff" fill-opacity="0.20" stroke="#dcbeff" stroke-width="1.5" stroke-opacity="0.85"><title>Ecologista prudente | x:[-85.0,95.0] y:[-57.0,30.0]</title></rect>
+  <rect x="130.0" y="220.0" width="360.0" height="174.0" fill="#4363d8" fill-opacity="0.20" stroke="#4363d8" stroke-width="1.5" stroke-opacity="0.85"><title>Visionario di quartiere | x:[-85.0,95.0] y:[-22.0,65.0]</title></rect>
+  <rect x="290.0" y="220.0" width="200.0" height="240.0" fill="#800000" fill-opacity="0.20" stroke="#800000" stroke-width="1.5" stroke-opacity="0.85"><title>Automobilista da bar | x:[-5.0,95.0] y:[-55.0,65.0]</title></rect>
+  <rect x="110.0" y="236.0" width="200.0" height="236.0" fill="#9a6324" fill-opacity="0.20" stroke="#9a6324" stroke-width="1.5" stroke-opacity="0.85"><title>Automobilista di sobborgo | x:[-95.0,5.0] y:[-61.0,57.0]</title></rect>
+  <rect x="110.0" y="236.0" width="200.0" height="220.0" fill="#f032e6" fill-opacity="0.20" stroke="#f032e6" stroke-width="1.5" stroke-opacity="0.85"><title>Ambientalista selettivo | x:[-95.0,5.0] y:[-53.0,57.0]</title></rect>
+  <rect x="290.0" y="220.0" width="200.0" height="198.0" fill="#bfef45" fill-opacity="0.20" stroke="#bfef45" stroke-width="1.5" stroke-opacity="0.85"><title>Coltivatore della socialità | x:[-5.0,95.0] y:[-34.0,65.0]</title></rect>
+  <rect x="110.0" y="236.0" width="200.0" height="194.0" fill="#911eb4" fill-opacity="0.20" stroke="#911eb4" stroke-width="1.5" stroke-opacity="0.85"><title>Amante del verde quieto | x:[-95.0,5.0] y:[-40.0,57.0]</title></rect>
+  <rect x="290.0" y="290.0" width="200.0" height="178.0" fill="#aaffc3" fill-opacity="0.20" stroke="#aaffc3" stroke-width="1.5" stroke-opacity="0.85"><title>Socievole zero sbatti | x:[-5.0,95.0] y:[-59.0,30.0]</title></rect>
+  <rect x="110.0" y="236.0" width="200.0" height="174.0" fill="#000075" fill-opacity="0.20" stroke="#000075" stroke-width="1.5" stroke-opacity="0.85"><title>Minimalista urbano | x:[-95.0,5.0] y:[-30.0,57.0]</title></rect>
+  <rect x="290.0" y="220.0" width="200.0" height="174.0" fill="#3cb44b" fill-opacity="0.20" stroke="#3cb44b" stroke-width="1.5" stroke-opacity="0.85"><title>Pedone socievole | x:[-5.0,95.0] y:[-22.0,65.0]</title></rect>
+  <rect x="110.0" y="306.0" width="200.0" height="174.0" fill="#469990" fill-opacity="0.20" stroke="#469990" stroke-width="1.5" stroke-opacity="0.85"><title>Tradizionalista silenzioso | x:[-95.0,5.0] y:[-65.0,22.0]</title></rect>
+  <!-- axes -->
+
+  <line x1="100" y1="350" x2="500" y2="350" stroke="#555" stroke-width="1.5"/>
+  <line x1="300" y1="550" x2="300" y2="150" stroke="#555" stroke-width="1.5"/>
+
+  <!-- axis labels -->
+  <text x="300" y="385" text-anchor="middle" font-size="11" fill="#555">← Quartiere tranquillo/ordinato | Quartiere vivace →</text>
+  <text transform="translate(255,350) rotate(-90)" text-anchor="middle" font-size="11" fill="#555">← Teniamolo così | Cambiamo lo spazio pubblico →</text>
+  <!-- legend -->
+  <text x="560" y="20" font-size="13" font-weight="bold" fill="#333">Archetipi</text>
+  <rect x="560" y="30" width="14" height="14" fill="#e6194b" fill-opacity="0.5" stroke="#e6194b" stroke-width="1"/>
+  <text x="578" y="41" font-size="11" fill="#222">1. L'ecociclista</text>
+  <rect x="560" y="57" width="14" height="14" fill="#3cb44b" fill-opacity="0.5" stroke="#3cb44b" stroke-width="1"/>
+  <text x="578" y="68" font-size="11" fill="#222">2. Pedone socievole</text>
+  <rect x="560" y="84" width="14" height="14" fill="#4363d8" fill-opacity="0.5" stroke="#4363d8" stroke-width="1"/>
+  <text x="578" y="95" font-size="11" fill="#222">3. Visionario di quartiere</text>
+  <rect x="560" y="111" width="14" height="14" fill="#f58231" fill-opacity="0.5" stroke="#f58231" stroke-width="1"/>
+  <text x="578" y="122" font-size="11" fill="#222">4. Automobilista illuminato</text>
+  <rect x="560" y="138" width="14" height="14" fill="#911eb4" fill-opacity="0.5" stroke="#911eb4" stroke-width="1"/>
+  <text x="578" y="149" font-size="11" fill="#222">5. Amante del verde quieto</text>
+  <rect x="560" y="165" width="14" height="14" fill="#42d4f4" fill-opacity="0.5" stroke="#42d4f4" stroke-width="1"/>
+  <text x="578" y="176" font-size="11" fill="#222">6. Estroverso zen</text>
+  <rect x="560" y="192" width="14" height="14" fill="#f032e6" fill-opacity="0.5" stroke="#f032e6" stroke-width="1"/>
+  <text x="578" y="203" font-size="11" fill="#222">7. Ambientalista selettivo</text>
+  <rect x="560" y="219" width="14" height="14" fill="#bfef45" fill-opacity="0.5" stroke="#bfef45" stroke-width="1"/>
+  <text x="578" y="230" font-size="11" fill="#222">8. Coltivatore della socialità</text>
+  <rect x="560" y="246" width="14" height="14" fill="#fabed4" fill-opacity="0.5" stroke="#fabed4" stroke-width="1"/>
+  <text x="578" y="257" font-size="11" fill="#222">9. Automobilista combattuto</text>
+  <rect x="560" y="273" width="14" height="14" fill="#469990" fill-opacity="0.5" stroke="#469990" stroke-width="1"/>
+  <text x="578" y="284" font-size="11" fill="#222">10. Tradizionalista silenzioso</text>
+  <rect x="560" y="300" width="14" height="14" fill="#dcbeff" fill-opacity="0.5" stroke="#dcbeff" stroke-width="1"/>
+  <text x="578" y="311" font-size="11" fill="#222">11. Ecologista prudente</text>
+  <rect x="560" y="327" width="14" height="14" fill="#9a6324" fill-opacity="0.5" stroke="#9a6324" stroke-width="1"/>
+  <text x="578" y="338" font-size="11" fill="#222">12. Automobilista di sobborgo</text>
+  <rect x="560" y="354" width="14" height="14" fill="#fffac8" fill-opacity="0.5" stroke="#fffac8" stroke-width="1"/>
+  <text x="578" y="365" font-size="11" fill="#222">13. Tradizionalista 4 ruote</text>
+  <rect x="560" y="381" width="14" height="14" fill="#800000" fill-opacity="0.5" stroke="#800000" stroke-width="1"/>
+  <text x="578" y="392" font-size="11" fill="#222">14. Automobilista da bar</text>
+  <rect x="560" y="408" width="14" height="14" fill="#aaffc3" fill-opacity="0.5" stroke="#aaffc3" stroke-width="1"/>
+  <text x="578" y="419" font-size="11" fill="#222">15. Socievole zero sbatti</text>
+  <rect x="560" y="435" width="14" height="14" fill="#808000" fill-opacity="0.5" stroke="#808000" stroke-width="1"/>
+  <text x="578" y="446" font-size="11" fill="#222">16. Riformista cauto</text>
+  <rect x="560" y="462" width="14" height="14" fill="#ffd8b1" fill-opacity="0.5" stroke="#ffd8b1" stroke-width="1"/>
+  <text x="578" y="473" font-size="11" fill="#222">17. Ecologista inaspettato</text>
+  <rect x="560" y="489" width="14" height="14" fill="#000075" fill-opacity="0.5" stroke="#000075" stroke-width="1"/>
+  <text x="578" y="500" font-size="11" fill="#222">18. Minimalista urbano</text>
+  <rect x="560" y="516" width="14" height="14" fill="#a9a9a9" fill-opacity="0.5" stroke="#a9a9a9" stroke-width="1"/>
+  <text x="578" y="527" font-size="11" fill="#222">19. Automobilista riflessivo</text>
+  <rect x="560" y="543" width="14" height="14" fill="#ffffff" fill-opacity="0.5" stroke="#ffffff" stroke-width="1"/>
+  <text x="578" y="554" font-size="11" fill="#222">20. Ecopioniere</text>
+</svg>
+</div>
+
+<h2>Dati numerici</h2>
+<table>
+  <tr><th>#</th><th>Archetipo</th><th>xmin</th><th>xmax</th><th>ymin</th><th>ymax</th><th>Area</th></tr>
+  <tr><td>1</td><td>L'ecociclista</td><td>-95.0</td><td>95.0</td><td>-22.0</td><td>65.0</td><td>16530</td></tr>
+  <tr><td>2</td><td>Pedone socievole</td><td>-5.0</td><td>95.0</td><td>-22.0</td><td>65.0</td><td>8700</td></tr>
+  <tr><td>3</td><td>Visionario di quartiere</td><td>-85.0</td><td>95.0</td><td>-22.0</td><td>65.0</td><td>15660</td></tr>
+  <tr><td>4</td><td>Automobilista illuminato</td><td>-95.0</td><td>95.0</td><td>-49.0</td><td>65.0</td><td>21660</td></tr>
+  <tr><td>5</td><td>Amante del verde quieto</td><td>-95.0</td><td>5.0</td><td>-40.0</td><td>57.0</td><td>9700</td></tr>
+  <tr><td>6</td><td>Estroverso zen</td><td>-95.0</td><td>85.0</td><td>-59.0</td><td>57.0</td><td>20880</td></tr>
+  <tr><td>7</td><td>Ambientalista selettivo</td><td>-95.0</td><td>5.0</td><td>-53.0</td><td>57.0</td><td>11000</td></tr>
+  <tr><td>8</td><td>Coltivatore della socialità</td><td>-5.0</td><td>95.0</td><td>-34.0</td><td>65.0</td><td>9900</td></tr>
+  <tr><td>9</td><td>Automobilista combattuto</td><td>-85.0</td><td>95.0</td><td>-36.0</td><td>65.0</td><td>18180</td></tr>
+  <tr><td>10</td><td>Tradizionalista silenzioso</td><td>-95.0</td><td>5.0</td><td>-65.0</td><td>22.0</td><td>8700</td></tr>
+  <tr><td>11</td><td>Ecologista prudente</td><td>-85.0</td><td>95.0</td><td>-57.0</td><td>30.0</td><td>15660</td></tr>
+  <tr><td>12</td><td>Automobilista di sobborgo</td><td>-95.0</td><td>5.0</td><td>-61.0</td><td>57.0</td><td>11800</td></tr>
+  <tr><td>13</td><td>Tradizionalista 4 ruote</td><td>-95.0</td><td>95.0</td><td>-61.0</td><td>30.0</td><td>17290</td></tr>
+  <tr><td>14</td><td>Automobilista da bar</td><td>-5.0</td><td>95.0</td><td>-55.0</td><td>65.0</td><td>12000</td></tr>
+  <tr><td>15</td><td>Socievole zero sbatti</td><td>-5.0</td><td>95.0</td><td>-59.0</td><td>30.0</td><td>8900</td></tr>
+  <tr><td>16</td><td>Riformista cauto</td><td>-95.0</td><td>95.0</td><td>-57.0</td><td>30.0</td><td>16530</td></tr>
+  <tr><td>17</td><td>Ecologista inaspettato</td><td>-95.0</td><td>95.0</td><td>-57.0</td><td>30.0</td><td>16530</td></tr>
+  <tr><td>18</td><td>Minimalista urbano</td><td>-95.0</td><td>5.0</td><td>-30.0</td><td>57.0</td><td>8700</td></tr>
+  <tr><td>19</td><td>Automobilista riflessivo</td><td>-95.0</td><td>95.0</td><td>-22.0</td><td>65.0</td><td>16530</td></tr>
+  <tr><td>20</td><td>Ecopioniere</td><td>-85.0</td><td>95.0</td><td>-28.0</td><td>65.0</td><td>16740</td></tr>
+</table>
+</body>
+</html>

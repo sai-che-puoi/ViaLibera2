@@ -46,6 +46,7 @@ export class QuizController {
      */
     async handleSubmit() {
         const answers = this.ui.collectAnswers();
+        await this.ui.finalizeRecording();   // stop + wait for blob if still recording
         const audioData = this.ui.getRecording();
 
         const result = this.calculator.calculate(answers);
@@ -73,6 +74,9 @@ export class QuizController {
         // Update loading message for form submission
         this.updateLoadingMessage('Invio dati questionario...', 'form');
 
+        // Calculate coordinates using the new algorithm
+        const coordinates = this.calculator.calculateCoordinates(answers);
+
         // Prepare submission data
         const submissionData = {
             timestamp: result.timestamp,
@@ -83,6 +87,8 @@ export class QuizController {
             latitude: geoData.latitude,
             longitude: geoData.longitude,
             geoError: geoData.error,
+            x_coord: coordinates.x,
+            y_coord: coordinates.y,
             ...result.answers,
         };
 
@@ -91,27 +97,28 @@ export class QuizController {
         // Update loading message for final processing
         this.updateLoadingMessage('Elaborazione risultati...', 'chart');
 
-        // Calculate coordinates using the new algorithm
-        const coordinates = this.calculator.calculateCoordinates(answers);
-
         // Small delay to show the final loading message
         await new Promise(resolve => setTimeout(resolve, 800));
 
+        // Extract gender answer for gendered archetype display
+        const genderAnswer = answers.find(a => a.id === 'genere');
+        const genderValue = genderAnswer ? genderAnswer.value : null;
+
         // Show result with cartesian plane
-        this.displayResult(result, coordinates);
+        this.displayResult(result, coordinates, genderValue);
     }
 
 
     /**
      * Display result to user
      */
-    displayResult(result, coordinates) {
+    displayResult(result, coordinates, genderValue) {
         document.getElementById('resultTitle').textContent = "Il tuo risultato";
         document.getElementById('resultDescription').textContent = "Ecco la tua posizione e il tuo profilo basati sulle risposte fornite";
 
         // Pass archetype to ResultUI for display
         if (result.archetype) {
-            this.resultUI.setArchetype(result.archetype);
+            this.resultUI.setArchetype(result.archetype, genderValue);
         } else {
             console.log('No archetype found in result:', result);
         }
