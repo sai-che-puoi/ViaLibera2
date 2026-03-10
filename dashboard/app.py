@@ -354,7 +354,7 @@ def render_cartesian_heatmap():
         ),
         # Y positive: top, outside
         dict(
-            x=0.5, y=1.08,
+            x=0.5, y=1.00,
             xref="paper", yref="paper",
             text="Cambiamo lo spazio pubblico",
             showarrow=False,
