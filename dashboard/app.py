@@ -410,8 +410,8 @@ def render_cartesian_heatmap():
                 line=dict(width=1, color="gray"),
             ),
             text=short_labels,          # A, B, C, ...
-            textposition="top center",  # small labels, less overlap
-            textfont=dict(size=16),     # font size as requested
+            textposition="top right",  # small labels, less overlap
+            textfont=dict(size=16, color="gray"),     # font size as requested
             hovertext=arche_labels,     # full label on hover
             hoverinfo="text",
         )
