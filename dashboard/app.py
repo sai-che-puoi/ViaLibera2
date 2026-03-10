@@ -394,7 +394,7 @@ def render_cartesian_heatmap():
 
     # Build legend lines like "A. Ecociclista", "B. Pedone socievole", ...
     legend_lines = [
-        f"**{code}.** {label}"
+        f"**{code}.** {label.replace("<br>", " ")}"
         for code, label in zip(short_labels, arche_labels)
     ]
 
@@ -447,15 +447,19 @@ def render_cartesian_heatmap():
     )
 
     # 6) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 2, 2])
+    col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
 
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
 
-    with col_right:
+    with col_right_1:
         st.markdown("### Archetipi")
         # Each legend line in a new paragraph
-        st.markdown("\n\n".join(legend_lines))
+        st.markdown("\n".join(legend_lines[0:len(legend_lines)//2]))
+
+    with col_right_2:
+        # Each legend line in a new paragraph
+        st.markdown("\n".join(legend_lines[len(legend_lines)//2:]))
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
