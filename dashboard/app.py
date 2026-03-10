@@ -336,7 +336,7 @@ def render_cartesian_heatmap():
         dict(
             x=-0.05, y=0.5,
             xref="paper", yref="paper",
-            text="Quartiere\ntranquillo",
+            text="Quartiere<br>tranquillo",
             showarrow=False,
             xanchor="right",   # text ends at the plot area
             yanchor="middle",
@@ -346,7 +346,7 @@ def render_cartesian_heatmap():
         dict(
             x=1.05, y=0.5,
             xref="paper", yref="paper",
-            text="Quartiere\nvivace",
+            text="Quartiere<br>vivace",
             showarrow=False,
             xanchor="left",    # text starts at the plot area
             yanchor="middle",
