@@ -215,7 +215,7 @@ def calculate_coordinates(answers: List[Dict[str, Any]]) -> Dict[str, float]:
 # ---------------------------------------------------------
 
 HIGH_VALUE = 10.0   # maximum agreement for base attitudes
-NEUTRAL_VALUE = 5.0 # neutral / mid for other sliders
+NEUTRAL_VALUE = 1.0 # neutral / mid for other sliders
 
 
 def synthetic_answers_for_archetype(archetype: Dict[str, Any]) -> List[Dict[str, Any]]:
