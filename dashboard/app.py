@@ -329,15 +329,15 @@ def render_cartesian_heatmap():
             line=dict(color="rgba(150,150,150,0.5)", width=1)
         ))
 
-    # Highlight axes
-    shapes.append(dict(
-        type="line", x0=0, x1=0, y0=-100, y1=100,
-        line=dict(color="black", width=1)
-    ))
-    shapes.append(dict(
-        type="line", x0=-100, x1=100, y0=0, y1=0,
-        line=dict(color="black", width=1)
-    ))
+    # # Highlight axes
+    # shapes.append(dict(
+    #     type="line", x0=0, x1=0, y0=-100, y1=100,
+    #     line=dict(color="black", width=1),
+    # ))
+    # shapes.append(dict(
+    #     type="line", x0=-100, x1=100, y0=0, y1=0,
+    #     line=dict(color="black", width=1)
+    # ))
 
     # 4) Semantic axis labels OUTSIDE the plot area (paper coordinates)
     annotations = [
@@ -407,11 +407,11 @@ def render_cartesian_heatmap():
             marker=dict(
                 size=8,
                 color="gray",
-                line=dict(width=1, color="gray"),
+                line=dict(width=1, color="black"),
             ),
             text=short_labels,          # A, B, C, ...
             textposition="top right",  # small labels, less overlap
-            textfont=dict(size=16, color="gray"),     # font size as requested
+            textfont=dict(size=16, color="gray" ),     # font size as requested
             hovertext=arche_labels,     # full label on hover
             hoverinfo="text",
         )
@@ -424,7 +424,9 @@ def render_cartesian_heatmap():
             # title="Coordinata X",
             range=[-100, 100],
             dtick=25,
-            zeroline=False,
+            zeroline=True,
+            zerolinecolor="black",
+            zerolinewidth=1,
             scaleanchor="y",
             scaleratio=1,
             constrain="range",
@@ -433,7 +435,9 @@ def render_cartesian_heatmap():
             # title="Coordinata Y",
             range=[-100, 100],
             dtick=25,
-            zeroline=False,
+            zeroline=True,
+            zerolinecolor="black",
+            zerolinewidth=1,
             scaleanchor="x",
             scaleratio=1,
             constrain="range",
