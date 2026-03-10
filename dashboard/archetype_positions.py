@@ -77,10 +77,6 @@ ARCHETYPES = [
         "base": ["NON_VIVO_SENZA_AUTO", "VERDE"],
     },
     {
-        "label": "Estroversə<br>combattutə",
-        "base": ["FATEMI_DORMIRE", "PIAZZA"],
-    },
-    {
         "label": "Tradizionalista<br>silenziosə",
         "base": ["FATEMI_DORMIRE", "STATUS_QUO"],
     },
@@ -107,10 +103,6 @@ ARCHETYPES = [
     {
         "label": "Riformista<br>cautə",
         "base": ["STATUS_QUO", "GRETA"],
-    },
-    {
-        "label": "Automobilista<br>sincerə",
-        "base": ["NON_VIVO_SENZA_AUTO", "GRETA"],
     },
     {
         "label": "Ecologista<br>inaspettatə",
