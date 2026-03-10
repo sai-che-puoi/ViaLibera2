@@ -443,7 +443,7 @@ def render_cartesian_heatmap():
         width=700,
         height=700,
         # Larger margins to make space for outside labels
-        margin=dict(t=60, b=80, l=120, r=120),
+        margin=dict(t=60, b=60, l=120, r=120),
     )
 
     # 6) Center on the page using columns
