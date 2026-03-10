@@ -43,8 +43,16 @@ def load_data_from_google_sheet():
     df = pd.DataFrame(data_rows, columns=headers)
     return df
 
+@st.cache_data
+def load_archetypes():
+    """Load archetype positions from local JSON file."""
+    here = os.path.dirname(__file__)
+    json_path = os.path.join(here, "archetype_positions.json")
+    with open(json_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 df = load_data_from_google_sheet()
+archetypes = load_archetypes() 
 
 if df.empty:
     st.warning("No data found in the Google Sheet.")
@@ -330,7 +338,7 @@ def render_cartesian_heatmap():
         line=dict(color="black", width=3)
     ))
 
-    # 5) Semantic axis labels OUTSIDE the plot area (paper coordinates)
+    # 4) Semantic axis labels OUTSIDE the plot area (paper coordinates)
     annotations = [
         # X negative: left side, outside
         dict(
@@ -373,6 +381,28 @@ def render_cartesian_heatmap():
             font=dict(size=20),
         ),
     ]
+
+    # 5) Add archetype points + labels
+    arche_x = [a["position"][0] for a in archetypes]
+    arche_y = [a["position"][1] for a in archetypes]
+    arche_labels = [a["label"] for a in archetypes]
+
+    fig.add_trace(
+        go.Scatter(
+            x=arche_x,
+            y=arche_y,
+            mode="markers+text",
+            name="Archetipi",
+            marker=dict(
+                size=8,
+                color="gray",
+                line=dict(width=1, color="black"),
+            ),
+            text=arche_labels,
+            textposition="top center",
+            textfont=dict(size=16),
+        )
+    )
 
     fig.update_layout(
         shapes=shapes,
