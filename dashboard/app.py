@@ -332,11 +332,11 @@ def render_cartesian_heatmap():
     # Highlight axes
     shapes.append(dict(
         type="line", x0=0, x1=0, y0=-100, y1=100,
-        line=dict(color="black", width=3)
+        line=dict(color="black", width=1)
     ))
     shapes.append(dict(
         type="line", x0=-100, x1=100, y0=0, y1=0,
-        line=dict(color="black", width=3)
+        line=dict(color="black", width=1)
     ))
 
     # 4) Semantic axis labels OUTSIDE the plot area (paper coordinates)
