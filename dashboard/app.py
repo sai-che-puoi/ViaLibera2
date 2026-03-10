@@ -455,11 +455,11 @@ def render_cartesian_heatmap():
     with col_right_1:
         st.markdown("### Archetipi")
         # Each legend line in a new paragraph
-        st.markdown("\n".join(legend_lines[0:len(legend_lines)//2]))
+        st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
 
     with col_right_2:
         # Each legend line in a new paragraph
-        st.markdown("\n".join(legend_lines[len(legend_lines)//2:]))
+        st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
