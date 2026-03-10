@@ -650,6 +650,7 @@ def render_transport_modes_barchart():
 # List of charts in the carousel (you can add more later)
 
 CHARTS = [
+    ("Posizionamenti rilevati", render_cartesian_heatmap),
     ("Numero di interviste", render_gauge),
     ("Top 5 Squadre", render_squadra_barchart),
     ("Mappa densità", render_heatmap),
@@ -659,7 +660,7 @@ CHARTS = [
     ("Distribuzione occupazione", lavoro_donut),
     ("Opinioni su limitare le auto", render_auto_migliora_peggiora),
     ("Valutazioni affermazioni (1-10)", render_likert_heatmap),
-    ("Posizionamenti rilevati", render_cartesian_heatmap),
+    #("Posizionamenti rilevati", render_cartesian_heatmap),
 ]
 
 
