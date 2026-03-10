@@ -3,6 +3,7 @@ import sys
 import urllib3
 import json
 import pydeck as pdk
+import string
 
 import streamlit as st
 import pandas as pd
@@ -387,53 +388,34 @@ def render_cartesian_heatmap():
     arche_y = [a["position"][1] for a in archetypes]
     arche_labels = [a["label"] for a in archetypes]
 
+    # Create short codes: A, B, C, ...
+    letters = list(string.ascii_uppercase)
+    short_labels = [letters[i] for i in range(len(arche_labels))]
+
+    # Build legend lines like "A. Ecociclista", "B. Pedone socievole", ...
+    legend_lines = [
+        f"**{code}.** {label}"
+        for code, label in zip(short_labels, arche_labels)
+    ]
 
     fig.add_trace(
         go.Scatter(
             x=arche_x,
             y=arche_y,
-            mode="markers",
+            mode="markers+text",
             name="Archetipi",
             marker=dict(
                 size=8,
                 color="gray",
                 line=dict(width=1, color="gray"),
             ),
-            hovertext=arche_labels,
+            text=short_labels,          # A, B, C, ...
+            textposition="top center",  # small labels, less overlap
+            textfont=dict(size=16),     # font size as requested
+            hovertext=arche_labels,     # full label on hover
             hoverinfo="text",
         )
     )
-
-    # 6) Add annotations for archetype labels
-    for label, (ax, ay) in zip(arche_labels, zip(arche_x, arche_y)):
-        # small data-space offsets to reduce overlap;
-        # you can tweak these rules
-        if ax >= 0 and ay >= 0:       # top-right quadrant
-            dx, dy = 2, 2
-            xanchor, yanchor = "left", "bottom"
-        elif ax < 0 and ay >= 0:      # top-left quadrant
-            dx, dy = -2, 2
-            xanchor, yanchor = "right", "bottom"
-        elif ax >= 0 and ay < 0:      # bottom-right
-            dx, dy = 2, -2
-            xanchor, yanchor = "left", "top"
-        else:                         # bottom-left
-            dx, dy = -2, -2
-            xanchor, yanchor = "right", "top"
-
-        annotations.append(
-            dict(
-                x=ax + dx,
-                y=ay + dy,
-                xref="x",
-                yref="y",
-                text=label,
-                showarrow=False,
-                xanchor=xanchor,
-                yanchor=yanchor,
-                font=dict(size=10, color="gray"),
-            )
-        )
 
     fig.update_layout(
         shapes=shapes,
@@ -466,8 +448,14 @@ def render_cartesian_heatmap():
 
     # 6) Center on the page using columns
     col_left, col_center, col_right = st.columns([1, 1.75, 1])
+
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
+
+    with col_right:
+        st.markdown("### Archetipi")
+        # Each legend line in a new paragraph
+        st.markdown("\n\n".join(legend_lines))
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
