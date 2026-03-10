@@ -400,7 +400,7 @@ def render_cartesian_heatmap():
             ),
             text=arche_labels,
             textposition="top center",
-            textfont=dict(size=16),
+            textfont=dict(size=10, color="gray"),
         )
     )
 
