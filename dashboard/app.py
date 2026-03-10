@@ -409,16 +409,16 @@ def render_cartesian_heatmap():
         # small data-space offsets to reduce overlap;
         # you can tweak these rules
         if ax >= 0 and ay >= 0:       # top-right quadrant
-            dx, dy = 3, 3
+            dx, dy = 2, 2
             xanchor, yanchor = "left", "bottom"
         elif ax < 0 and ay >= 0:      # top-left quadrant
-            dx, dy = -3, 3
+            dx, dy = -2, 2
             xanchor, yanchor = "right", "bottom"
         elif ax >= 0 and ay < 0:      # bottom-right
-            dx, dy = 3, -3
+            dx, dy = 2, -2
             xanchor, yanchor = "left", "top"
         else:                         # bottom-left
-            dx, dy = -3, -3
+            dx, dy = -2, -2
             xanchor, yanchor = "right", "top"
 
         annotations.append(
@@ -431,7 +431,7 @@ def render_cartesian_heatmap():
                 showarrow=False,
                 xanchor=xanchor,
                 yanchor=yanchor,
-                font=dict(size=16),
+                font=dict(size=10),
             )
         )
 
