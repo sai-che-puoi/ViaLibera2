@@ -1,5 +1,10 @@
 import json
 from typing import List, Dict, Any
+import sys
+
+# Ensure UTF-8 output on stdout
+sys.stdout.reconfigure(encoding='utf-8')
+
 
 # ---------------------------------------------------------
 # 1. Attitudes and mapping to slider question IDs
@@ -36,91 +41,91 @@ SLIDER_QIDS = ["q1", "q2", "q3", "q4", "q5", "q6", "q7"]
 
 ARCHETYPES = [
     {
-        "label": "L'ecociclista",
+        "label": "Ecociclista",
         "base": ["VIVO_SENZA_AUTO", "GRETA"],
     },
     {
-        "label": "Il pedone socievole",
+        "label": "Pedone<br>socievole",
         "base": ["VIVO_SENZA_AUTO", "PIAZZA"],
     },
     {
-        "label": "Il visionario di quartiere",
+        "label": "Visionariə<br>di quartiere",
         "base": ["VIVO_SENZA_AUTO", "VERDE"],
     },
     {
-        "label": "L'automobilista illuminato",
+        "label": "Automobilista<br>illuminatə",
         "base": ["NON_VIVO_SENZA_AUTO", "GRETA"],
     },
     {
-        "label": "L'amante del verde quieto",
+        "label": "Amante del verde quieto",
         "base": ["VERDE", "FATEMI_DORMIRE"],
     },
     {
-        "label": "L'estroverso zen",
+        "label": "Estroversə<br>zen",
         "base": ["FATEMI_DORMIRE", "PIAZZA"],
     },
     {
-        "label": "L'ambientalista selettivo",
+        "label": "Ambientalista<br>selettivə",
         "base": ["GRETA", "FATEMI_DORMIRE"],
     },
     {
-        "label": "Il coltivatore della socialità",
+        "label": "Coltivatorə<br>della socialità",
         "base": ["VERDE", "PIAZZA"],
     },
     {
-        "label": "L'automobilista combattuto",
+        "label": "Automobilista<br>combattutə",
         "base": ["NON_VIVO_SENZA_AUTO", "VERDE"],
     },
     {
-        "label": "L'estroverso combattuto",
+        "label": "Estroversə<br>combattutə",
         "base": ["FATEMI_DORMIRE", "PIAZZA"],
     },
     {
-        "label": "Il tradizionalista silenzioso",
+        "label": "Tradizionalista<br>silenziosə",
         "base": ["FATEMI_DORMIRE", "STATUS_QUO"],
     },
     {
-        "label": "L'ecologista prudente",
+        "label": "Ecologista<br>prudente",
         "base": ["VERDE", "STATUS_QUO"],
     },
     {
-        "label": "L'automobilista di sobborgo",
+        "label": "Automobilista<br>di sobborgo",
         "base": ["NON_VIVO_SENZA_AUTO", "FATEMI_DORMIRE"],
     },
     {
-        "label": "Il tradizionalista a quattro ruote",
+        "label": "Tradizionalista<br>a quattro ruote",
         "base": ["NON_VIVO_SENZA_AUTO", "STATUS_QUO"],
     },
     {
-        "label": "L'automobilista da bar",
+        "label": "Automobilista<br>da bar",
         "base": ["NON_VIVO_SENZA_AUTO", "PIAZZA"],
     },
     {
-        "label": 'Il socievole "zero sbatti"',
+        "label": 'Socievole<br>"zero sbatti"',
         "base": ["STATUS_QUO", "PIAZZA"],
     },
     {
-        "label": "Il riformista cauto",
+        "label": "Riformista<br>cautə",
         "base": ["STATUS_QUO", "GRETA"],
     },
     {
-        "label": "L'automobilista sincero",
+        "label": "Automobilista<br>sincerə",
         "base": ["NON_VIVO_SENZA_AUTO", "GRETA"],
     },
     {
-        "label": "L'ecologista inaspettato",
+        "label": "Ecologista<br>inaspettatə",
         "base": ["VIVO_SENZA_AUTO", "STATUS_QUO"],
     },
     {
-        "label": "Il minimalista urbano",
+        "label": "Minimalista<br>urbanə",
         "base": ["VIVO_SENZA_AUTO", "FATEMI_DORMIRE"],
     },
     {
-        "label": "L’automobilista riflessivo",
+        "label": "Automobilista<br>riflessivə",
         "base": ["VIVO_SENZA_AUTO", "NON_VIVO_SENZA_AUTO"],
     },
     {
-        "label": "L'ecopioniere",
+        "label": "Ecopionierə",
         "base": ["VERDE", "GRETA"],
     },
 ]
