@@ -330,9 +330,6 @@ def render_cartesian_heatmap():
         line=dict(color="black", width=3)
     ))
 
-    # 4) Dynamic text color based on Streamlit theme
-    text_color = st.get_option("theme.textColor") or "black"
-
     # 5) Semantic axis labels OUTSIDE the plot area (paper coordinates)
     annotations = [
         # X negative: left side, outside
@@ -343,7 +340,7 @@ def render_cartesian_heatmap():
             showarrow=False,
             xanchor="right",   # text ends at the plot area
             yanchor="middle",
-            font=dict(size=16, color=text_color),
+            font=dict(size=20),
         ),
         # X positive: right side, outside
         dict(
@@ -353,7 +350,7 @@ def render_cartesian_heatmap():
             showarrow=False,
             xanchor="left",    # text starts at the plot area
             yanchor="middle",
-            font=dict(size=16, color=text_color),
+            font=dict(size=20),
         ),
         # Y positive: top, outside
         dict(
@@ -363,7 +360,7 @@ def render_cartesian_heatmap():
             showarrow=False,
             xanchor="center",
             yanchor="bottom",
-            font=dict(size=16, color=text_color),
+            font=dict(size=20),
         ),
         # Y negative: bottom, outside
         dict(
@@ -373,7 +370,7 @@ def render_cartesian_heatmap():
             showarrow=False,
             xanchor="center",
             yanchor="top",
-            font=dict(size=16, color=text_color),
+            font=dict(size=20),
         ),
     ]
 
@@ -407,7 +404,7 @@ def render_cartesian_heatmap():
     )
 
     # 6) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 1, 1])
+    col_left, col_center, col_right = st.columns([1, 2, 1])
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
 
