@@ -404,7 +404,7 @@ def render_cartesian_heatmap():
     )
 
     # 6) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 2.5, 1])
+    col_left, col_center, col_right = st.columns([1, 2, 1])
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
 
