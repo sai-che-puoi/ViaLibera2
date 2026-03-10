@@ -382,31 +382,58 @@ def render_cartesian_heatmap():
         ),
     ]
 
-    # 5) Add archetype points + labels
+    # 5) Add archetype markers (points only)
     arche_x = [a["position"][0] for a in archetypes]
     arche_y = [a["position"][1] for a in archetypes]
     arche_labels = [a["label"] for a in archetypes]
 
-    offsets = [
-        ("12,-4" if x > 0 and y > 0 else
-        "-12,-4" if x < 0 and y > 0 else
-        "12,12"  if x > 0 else
-        "-12,12")
-        for x, y in zip(arche_x, arche_y)
-    ]
 
     fig.add_trace(
         go.Scatter(
             x=arche_x,
             y=arche_y,
-            mode="markers+text",
-            text=arche_labels,
-            marker=dict(size=8, color="gray", line=dict(width=1, color="gray")),
-            textfont=dict(size=10),
-            textposition="middle center",
-            textoffset=offsets,
+            mode="markers",
+            name="Archetipi",
+            marker=dict(
+                size=8,
+                color="gray",
+                line=dict(width=1, color="gray"),
+            ),
+            hovertext=arche_labels,
+            hoverinfo="text",
         )
     )
+
+    # 6) Add annotations for archetype labels
+    for label, (ax, ay) in zip(arche_labels, zip(arche_x, arche_y)):
+        # small data-space offsets to reduce overlap;
+        # you can tweak these rules
+        if ax >= 0 and ay >= 0:       # top-right quadrant
+            dx, dy = 3, 3
+            xanchor, yanchor = "left", "bottom"
+        elif ax < 0 and ay >= 0:      # top-left quadrant
+            dx, dy = -3, 3
+            xanchor, yanchor = "right", "bottom"
+        elif ax >= 0 and ay < 0:      # bottom-right
+            dx, dy = 3, -3
+            xanchor, yanchor = "left", "top"
+        else:                         # bottom-left
+            dx, dy = -3, -3
+            xanchor, yanchor = "right", "top"
+
+        annotations.append(
+            dict(
+                x=ax + dx,
+                y=ay + dy,
+                xref="x",
+                yref="y",
+                text=label,
+                showarrow=False,
+                xanchor=xanchor,
+                yanchor=yanchor,
+                font=dict(size=16),
+            )
+        )
 
     fig.update_layout(
         shapes=shapes,
