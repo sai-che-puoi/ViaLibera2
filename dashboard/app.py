@@ -336,7 +336,7 @@ def render_cartesian_heatmap():
         dict(
             x=-0.05, y=0.5,
             xref="paper", yref="paper",
-            text="Quartiere tranquillo",
+            text="Quartiere\ntranquillo",
             showarrow=False,
             xanchor="right",   # text ends at the plot area
             yanchor="middle",
@@ -346,7 +346,7 @@ def render_cartesian_heatmap():
         dict(
             x=1.05, y=0.5,
             xref="paper", yref="paper",
-            text="Quartiere vivace",
+            text="Quartiere\nvivace",
             showarrow=False,
             xanchor="left",    # text starts at the plot area
             yanchor="middle",
@@ -404,7 +404,7 @@ def render_cartesian_heatmap():
     )
 
     # 6) Center on the page using columns
-    col_left, col_center, col_right = st.columns([1, 3, 1])
+    col_left, col_center, col_right = st.columns([1, 2, 1])
     with col_center:
         st.plotly_chart(fig, use_container_width=False)
 
