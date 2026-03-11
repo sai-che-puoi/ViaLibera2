@@ -38,7 +38,7 @@ function generaMessaggio4() {
   var col = {};
   header.forEach(function(name, i) { col[name] = i; });
 
-  var required = ["ID NIL", "Data", "Telefono1", "Telefono2", "Messaggio 4 - 1", "Messaggio 4 - 2"];
+  var required = ["ID NIL", "Data", "Telefono1", "Telefono2", "Messaggio 4 - 1", "Messaggio 4 - 2", "NIL Assegnato"];
   var missing = required.filter(function(c) { return col[c] === undefined; });
   if (missing.length > 0) {
     SpreadsheetApp.getUi().alert("Colonne non trovate nel foglio:\n" + missing.join(", "));
@@ -50,6 +50,7 @@ function generaMessaggio4() {
   if (!luoghi) return; // error already shown
 
   var updated = 0;
+  var usedNilMap = {};
 
   for (var r = 1; r < data.length; r++) {
     var row = data[r];
@@ -62,27 +63,35 @@ function generaMessaggio4() {
     var tel1     = row[col["Telefono1"]];
     var tel2     = row[col["Telefono2"]];
 
-    // Look up LUOGO and LINK MAPS
+    // Look up LUOGO and LINK MAPS, using title1/link1 on first use and title2/link2 on second
     var luogoEntry = luoghi[idNil];
-    var luogo, linkMaps;
+    var luogo, linkMaps, nilSlot;
     if (!luogoEntry) {
       Logger.log("Riga " + (r + 1) + ": nessun luogo trovato per ID NIL = " + idNil);
       luogo    = "(luogo non trovato per ID " + idNil + ")";
       linkMaps = "";
+      nilSlot  = "";
+    } else if (!usedNilMap[idNil]) {
+      luogo           = luogoEntry.title1;
+      linkMaps        = luogoEntry.link1;
+      nilSlot         = "1";
+      usedNilMap[idNil] = true;
     } else {
-      luogo    = luogoEntry.title;
-      linkMaps = luogoEntry.link;
+      luogo    = luogoEntry.title2;
+      linkMaps = luogoEntry.link2;
+      nilSlot  = "2";
     }
 
-    // Extract ORARIO from Data string: "Domenica 15 marzo ore 15:00 - 16:30" → "dalle 15:00 alle 16:30"
+    // Extract ORARIO from Data string: "Domenica 15 marzo ore 15:00 - 16:30" → "Domenica 15 marzo dalle 15:00 alle 16:30"
     var dataStr = String(data_val);
     var oreParts = dataStr.split(" ore ");
     var orario = dataStr;
     if (oreParts.length > 1) {
+      var dayPart = oreParts[0].trim();
       var timeParts = oreParts[1].split(" - ");
       orario = timeParts.length > 1
-        ? "dalle " + timeParts[0].trim() + " alle " + timeParts[1].trim()
-        : "ore " + oreParts[1];
+        ? dayPart + " dalle " + timeParts[0].trim() + " alle " + timeParts[1].trim()
+        : dayPart + " ore " + oreParts[1].trim();
     }
 
     var testo = MESSAGE_TEMPLATE
@@ -102,6 +111,11 @@ function generaMessaggio4() {
       setHyperlink(sheet.getRange(r + 1, col["Messaggio 4 - 2"] + 1), link2, "WhatsApp " + sanitizePhone(tel2));
     }
 
+    if (nilSlot) {
+      var nilRange = sheet.getRange(r + 1, col["NIL Assegnato"] + 1);
+      nilRange.setRichTextValue(SpreadsheetApp.newRichTextValue().setText(String(idNil) + " - " + nilSlot).build());
+    }
+
     updated++;
   }
 
@@ -117,7 +131,9 @@ function fetchLuoghi() {
     var json     = JSON.parse(response.getContentText());
     // Index by id for O(1) lookup
     var map = {};
-    json.forEach(function(item) { map[item.id] = { title: item.title1, link: item.link1 }; });
+    json.forEach(function(item) {
+      map[item.id] = { title1: item.title1, link1: item.link1, title2: item.title2, link2: item.link2 };
+    });
     return map;
   } catch (e) {
     SpreadsheetApp.getUi().alert("Errore nel recupero del file luoghi:\n" + e.message);
