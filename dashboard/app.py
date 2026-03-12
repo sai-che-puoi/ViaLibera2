@@ -51,6 +51,7 @@ CHART_HEIGHT = 400 if IS_MOBILE else 600
 MAP_HEIGHT = 400 if IS_MOBILE else 700
 SQUARE_CHART_SIZE = 350 if IS_MOBILE else 700
 CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
+STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=20, l=20, r=20)
 
 # -----------------------------
 # Data loading
@@ -258,7 +259,7 @@ def render_squadra_barchart():
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
         ),
-        margin=dict(t=40, b=20, l=20, r=20)
+        margin=STANDARD_MARGIN,
     )
 
     st.plotly_chart(bar_fig, width='stretch', height=CHART_HEIGHT)
@@ -540,7 +541,7 @@ def render_age_distribution():
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
         ),
-        margin=dict(t=20, b=20, l=20, r=20)
+        margin=STANDARD_MARGIN,
     )
 
     st.plotly_chart(age_fig, width='stretch', height=CHART_HEIGHT)
@@ -565,7 +566,7 @@ def render_gender_distribution():
     )
     donut_fig.update_layout(
         showlegend=False,
-        margin=dict(t=20, b=80, l=20, r=20),
+        margin=STANDARD_MARGIN,
     )
     st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
@@ -626,7 +627,7 @@ def render_auto_migliora_peggiora():
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
         ),
-        margin=dict(t=20, b=20, l=20, r=20)
+        margin=STANDARD_MARGIN,
     )
 
     st.plotly_chart(ampp_fig, width='stretch', height=CHART_HEIGHT)
@@ -743,7 +744,7 @@ def lavoro_donut():
     )
     donut_fig.update_layout(
         showlegend=False,
-        margin=dict(t=20, b=80, l=20, r=20),
+        margin=STANDARD_MARGIN,
     )
     st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
@@ -804,7 +805,7 @@ def render_transport_modes_barchart():
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
         ),
-        margin=dict(t=20, b=20, l=20, r=20)
+        margin=STANDARD_MARGIN,
     )
 
     st.plotly_chart(transport_fig, width='stretch', height=CHART_HEIGHT)
