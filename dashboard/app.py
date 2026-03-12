@@ -217,23 +217,39 @@ def render_squadra_barchart():
     # Sort by count ascending for better visualization
     sorted_counts = squadra_counts.sort_values(ascending=True)
 
+    if IS_MOBILE:
+        # Vertical bars on mobile
+        bar_trace = go.Bar(
+            x=sorted_counts.index,
+            y=sorted_counts.values,
+            marker_color="steelblue",
+            text=sorted_counts.values,
+            textposition="outside",
+            textfont={"size": AXIS_FONT_SIZE},
+        )
+        xaxis_title = "Squadra"
+        yaxis_title = "Interviste"
+    else:
+        # Horizontal bars on desktop (original)
+        bar_trace = go.Bar(
+            y=sorted_counts.index,
+            x=sorted_counts.values,
+            orientation="h",
+            marker_color="steelblue",
+            text=sorted_counts.values,
+            textposition="inside",
+            textfont={"size": AXIS_FONT_SIZE},
+        )
+        xaxis_title = "Interviste"
+        yaxis_title = ""
+
+
     # Make labels bigger and show counts inside
-    bar_fig = go.Figure(
-        data=[
-            go.Bar(
-                y=sorted_counts.index,
-                x=sorted_counts.values,
-                orientation="h",
-                marker_color="steelblue",
-                text=sorted_counts.values,
-                textposition="inside",
-                textfont={"size": PIE_LABEL_FONT_SIZE},
-            )
-        ]
-    )
+    bar_fig = go.Figure(data=[bar_trace])
 
     bar_fig.update_layout(
-        xaxis_title="Interviste",
+        xaxis_title=xaxis_title,
+        yaxis_title=yaxis_title,
         xaxis=dict(
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
@@ -473,21 +489,27 @@ def render_cartesian_heatmap():
         margin=dict(t=60, b=70, l=120, r=120),
     )
 
-    # 6) Center on the page using columns
-    col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
+    # 6) Center on the page using columns, but adapt layout for mobile (stack chart and legend vertically)
+    if IS_MOBILE:
+        # Stack: chart on top, legend below
+        st.plotly_chart(fig, use_container_width=True)
 
-    with col_center:
-        st.plotly_chart(fig, use_container_width=False)
-
-    with col_right_1:
         st.markdown("### Archetipi")
-        # Each legend line in a new paragraph
-        st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
+        st.markdown("\n\n".join(legend_lines))
+    else:
+        # Original multi-column layout for desktop
+        col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
 
-    with col_right_2:
-        st.markdown("### ")
-        # Each legend line in a new paragraph
-        st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
+        with col_center:
+            st.plotly_chart(fig, use_container_width=False)
+
+        with col_right_1:
+            st.markdown("### Archetipi")
+            st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
+
+        with col_right_2:
+            st.markdown("### ")
+            st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -536,7 +558,7 @@ def render_gender_distribution():
                 values=gender_counts.values,
                 hole=0.5,
                 textinfo="percent+label",
-                textposition="outside",
+                textposition="outside" if not IS_MOBILE else "auto",
                 textfont={"size": AXIS_FONT_SIZE}
             )
         ]
@@ -561,21 +583,41 @@ def render_auto_migliora_peggiora():
     # Sort by count ascending for better visualization
     ampp_df = ampp_df.sort_values("Count", ascending=True)
 
-    ampp_fig = go.Figure(
-        data=[
-            go.Bar(
-                y=ampp_df["Response"],
-                x=ampp_df["Count"],
-                orientation="h",
-                marker_color="coral"
-            )
-        ]
-    )
+    if IS_MOBILE:
+        # Vertical bars on mobile
+        ampp_fig = go.Figure(
+            data=[
+                go.Bar(
+                    x=ampp_df["Response"],
+                    y=ampp_df["Count"],
+                    marker_color="coral",
+                    text=ampp_df["Count"],
+                    textposition="outside",
+                    textfont={"size": AXIS_FONT_SIZE},
+                )
+            ]
+        )
+
+        xaxis_title = "Risposta"
+        yaxis_title = "Conteggio"
+    else:        # Horizontal bars on desktop (original)
+
+        ampp_fig = go.Figure(
+            data=[
+                go.Bar(
+                    y=ampp_df["Response"],
+                    x=ampp_df["Count"],
+                    orientation="h",
+                    marker_color="coral"
+                )
+            ]
+        )
+        xaxis_title = "Conteggio"
+        yaxis_title = "Risposta"
 
     ampp_fig.update_layout(
-        # title="Opinioni su limitare le auto",
-        # yaxis_title="Risposta",
-        xaxis_title="Conteggio",
+        xaxis_title=xaxis_title,
+        yaxis_title=yaxis_title,
         xaxis=dict(
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
@@ -673,7 +715,7 @@ def lavoro_donut():
                 values=lavoro_counts.values,
                 hole=0.5,
                 textinfo="percent+label",
-                textposition="outside",
+                textposition="outside" if not IS_MOBILE else "auto",
                 textfont={"size": AXIS_FONT_SIZE}
             )
         ]
@@ -698,22 +740,41 @@ def render_transport_modes_barchart():
     # Sort by count descending for better visualization
     transport_df = transport_df.sort_values("Count", ascending=True)
 
-    transport_fig = go.Figure(
-        data=[
-            go.Bar(
-                y=transport_df["Mode"],
-                x=transport_df["Count"],
-                orientation="h",
-                marker_color="teal",
-                #text=transport_df["Count"],
-                # textposition="inside",
-                # textfont={"size": 20}
-            )
-        ]
-    )
+    if IS_MOBILE:
+        # Vertical bars on mobile
+        transport_fig = go.Figure(
+            data=[
+                go.Bar(
+                    x=transport_df["Mode"],
+                    y=transport_df["Count"],
+                    marker_color="teal",
+                    text=transport_df["Count"],
+                    textposition="outside",
+                    textfont={"size": AXIS_FONT_SIZE},
+                )
+            ]
+        )
+
+        xaxis_title = "Modalità di trasporto"
+        yaxis_title = "Conteggio"
+
+    else:        # Horizontal bars on desktop (original)
+        transport_fig = go.Figure(
+            data=[
+                go.Bar(
+                    y=transport_df["Mode"],
+                    x=transport_df["Count"],
+                    orientation="h",
+                    marker_color="teal",
+                )
+            ]
+        )
+        xaxis_title = "Conteggio"
+        yaxis_title = "Modalità di trasporto"
 
     transport_fig.update_layout(
-        xaxis_title="Conteggio",
+        xaxis_title=xaxis_title,
+        yaxis_title=yaxis_title,
         xaxis=dict(
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
