@@ -812,7 +812,7 @@ def render_transport_modes_barchart():
 
 # List of charts in the carousel (you can add more later)
 
-CHARTS = [
+ALL_CHARTS = [
     ("Numero di interviste", render_gauge),
     ("Top 5 Squadre", render_squadra_barchart),
     ("Mappa densità", render_heatmap),
@@ -825,6 +825,21 @@ CHARTS = [
     ("Posizionamenti rilevati", render_cartesian_heatmap),
 ]
 
+# Which charts to hide on mobile (you can match by function, safer than by title)
+MOBILE_EXCLUDED_FUNCS = {
+    render_auto_migliora_peggiora,
+    render_likert_heatmap,
+    render_cartesian_heatmap,
+}
+
+if IS_MOBILE:
+    CHARTS = [
+        (title, func)
+        for (title, func) in ALL_CHARTS
+        if func not in MOBILE_EXCLUDED_FUNCS
+    ]
+else:
+    CHARTS = ALL_CHARTS
 
 
 # -----------------------------
