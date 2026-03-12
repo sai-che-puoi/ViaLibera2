@@ -668,26 +668,47 @@ def render_likert_heatmap():
     matrix = matrix.reindex(columns=all_scores, fill_value=0)
 
     # Build heatmap
-    heatmap_fig = go.Figure(
-        data=go.Heatmap(
-            z=matrix.values,
-            x=[str(s) for s in matrix.columns],
-            y=matrix.index.tolist(),
-            colorscale="Blues",
-            colorbar=dict(
-                title=dict(
-                    text="Conteggio",
-                    font=dict(size=TITLE_FONT_SIZE)
+    if IS_MOBILE:
+        heatmap_fig = go.Figure(
+            data=go.Heatmap(
+                z=matrix.values,
+                y=[str(s) for s in matrix.columns],
+                x=matrix.index.tolist(),
+                colorscale="Blues",
+                colorbar=dict(
+                    title=dict(
+                        text="Conteggio",
+                        font=dict(size=TITLE_FONT_SIZE)
+                    ),
+                    tickfont=dict(size=AXIS_FONT_SIZE)
                 ),
-                tickfont=dict(size=AXIS_FONT_SIZE)
-            ),
+            )
         )
-    )
+        xaxis_title = ""
+        yaxis_title = "Punteggio (1-10)"
+    else:
+        heatmap_fig = go.Figure(
+            data=go.Heatmap(
+                z=matrix.values,
+                x=[str(s) for s in matrix.columns],
+                y=matrix.index.tolist(),
+                colorscale="Blues",
+                colorbar=dict(
+                    title=dict(
+                        text="Conteggio",
+                        font=dict(size=TITLE_FONT_SIZE)
+                    ),
+                    tickfont=dict(size=AXIS_FONT_SIZE)
+                ),
+            )
+        )
+        xaxis_title = "Punteggio (1-10)"
+        yaxis_title = ""
 
     heatmap_fig.update_layout(
         # title="Distribution of Scores per Statement",
-        xaxis_title="Punteggio (1-10)",
-        #yaxis_title="Statement",
+        xaxis_title=xaxis_title,
+        yaxis_title=yaxis_title,
         xaxis=dict(
             tickfont=dict(size=AXIS_FONT_SIZE),
             title_font=dict(size=TITLE_FONT_SIZE)
@@ -792,7 +813,6 @@ def render_transport_modes_barchart():
 # List of charts in the carousel (you can add more later)
 
 CHARTS = [
-    ("Posizionamenti rilevati", render_cartesian_heatmap),
     ("Numero di interviste", render_gauge),
     ("Top 5 Squadre", render_squadra_barchart),
     ("Mappa densità", render_heatmap),
@@ -802,7 +822,7 @@ CHARTS = [
     ("Distribuzione occupazione", lavoro_donut),
     ("Opinioni su limitare le auto", render_auto_migliora_peggiora),
     ("Valutazioni affermazioni (1-10)", render_likert_heatmap),
-    #("Posizionamenti rilevati", render_cartesian_heatmap),
+    ("Posizionamenti rilevati", render_cartesian_heatmap),
 ]
 
 
