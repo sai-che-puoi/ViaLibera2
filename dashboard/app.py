@@ -846,38 +846,39 @@ else:
 # Carousel logic
 # -----------------------------
 
-# 1. Auto-refresh
 REFRESH_INTERVAL_MS = 15_000  # 15 seconds
+
 refresh_count = st_autorefresh(
     interval=REFRESH_INTERVAL_MS,
     limit=None,
     key="carousel_autorefresh",
 )
 
-# 2. Determine current chart index
+# Initialize state
 if "chart_index" not in st.session_state:
     st.session_state.chart_index = 0
 
-# Use refresh_count to advance chart index
-st.session_state.chart_index = refresh_count % len(CHARTS)
+if "last_refresh_count" not in st.session_state:
+    st.session_state.last_refresh_count = refresh_count
+
+# Auto-advance only when refresh_count increments
+if refresh_count != st.session_state.last_refresh_count:
+    st.session_state.last_refresh_count = refresh_count
+    st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
 current_title, current_renderer = CHARTS[st.session_state.chart_index]
-
-# 3. Optional: show current slide indicator
-# st.markdown(
-#     f"**Slide {st.session_state.chart_index + 1} / {len(CHARTS)}** &nbsp; | &nbsp; _auto-rotating every {REFRESH_INTERVAL_MS // 1000}s_"
-# )
 
 st.subheader(current_title)
 current_renderer()
 
-# # Optional manual navigation controls
-# col_prev, col_next = st.columns(2)
-# with col_prev:
-#     if st.button("◀ Previous", width='stretch'):
-#         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
-#         st.rerun()
-# with col_next:
-#     if st.button("Next ▶", width='stretch'):
-#         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
-#         st.rerun()
+# Optional manual navigation controls - only on mobile
+if IS_MOBILE:
+    col_prev, col_next = st.columns(2)
+
+    with col_prev:
+        if st.button("◀ Previous"):
+            st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
+
+    with col_next:
+        if st.button("Next ▶"):
+            st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
