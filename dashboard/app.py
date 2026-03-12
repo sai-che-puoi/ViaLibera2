@@ -920,12 +920,16 @@ current_renderer()
 
 # Optional manual navigation controls - only on mobile
 if IS_MOBILE:
-    col_prev, col_next = st.columns(2)
+    col_prev, col_next = st.columns([1, 1])
 
     with col_prev:
-        if st.button("◀ Previous"):
-            st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
+        prev_clicked = st.button("◀ Previous", key="btn_prev")
 
     with col_next:
-        if st.button("Next ▶"):
-            st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
+        next_clicked = st.button("Next ▶", key="btn_next")
+
+    if prev_clicked:
+        st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
+
+    if next_clicked:
+        st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
