@@ -225,7 +225,7 @@ def render_squadra_barchart():
             y=sorted_counts.values,
             marker_color="steelblue",
             text=sorted_counts.values,
-            textposition="outside",
+            textposition="inside",
             textfont={"size": AXIS_FONT_SIZE},
         )
         xaxis_title = "Squadra"
@@ -559,7 +559,7 @@ def render_gender_distribution():
                 values=gender_counts.values,
                 hole=0.5,
                 textinfo="percent+label",
-                textposition="outside" if not IS_MOBILE else "auto",
+                textposition="outside" if not IS_MOBILE else "inside",
                 textfont={"size": AXIS_FONT_SIZE}
             )
         ]
@@ -737,7 +737,7 @@ def lavoro_donut():
                 values=lavoro_counts.values,
                 hole=0.5,
                 textinfo="percent+label",
-                textposition="outside" if not IS_MOBILE else "auto",
+                textposition="outside" if not IS_MOBILE else "inside",
                 textfont={"size": AXIS_FONT_SIZE}
             )
         ]
@@ -771,7 +771,7 @@ def render_transport_modes_barchart():
                     y=transport_df["Count"],
                     marker_color="teal",
                     text=transport_df["Count"],
-                    textposition="outside",
+                    textposition="inside",
                     textfont={"size": AXIS_FONT_SIZE},
                 )
             ]
