@@ -28,6 +28,29 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
 # st.title("Google Sheet Live Dashboard")
 
+# Layout mode: Desktop vs Mobile
+if "layout_mode" not in st.session_state:
+    st.session_state["layout_mode"] = "Desktop"
+
+layout_mode = st.radio(
+    "Layout",
+    ["Desktop", "Mobile"],
+    index=0 if st.session_state["layout_mode"] == "Desktop" else 1,
+    horizontal=True
+)
+
+st.session_state["layout_mode"] = layout_mode
+IS_MOBILE = layout_mode == "Mobile"
+
+# Global sizing depending on layout mode
+NUMBER_FONT_SIZE = 40 if IS_MOBILE else 75
+AXIS_FONT_SIZE = 16 if IS_MOBILE else 25
+TITLE_FONT_SIZE = 16 if IS_MOBILE else 25
+PIE_LABEL_FONT_SIZE = 14 if IS_MOBILE else 25
+CHART_HEIGHT = 400 if IS_MOBILE else 600
+MAP_HEIGHT = 400 if IS_MOBILE else 700
+SQUARE_CHART_SIZE = 350 if IS_MOBILE else 700
+CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
 
 # -----------------------------
 # Data loading
@@ -169,10 +192,10 @@ def render_gauge():
             mode="gauge+number",
             value=unique_ids_count,
             # title={"text": "Unique IDs"},
-            number={"font": {"size": 75}},
+            number={"font": {"size": NUMBER_FONT_SIZE}},
             gauge={
                 "axis": {"range": [0, 1000],
-                         "tickfont":{"size": 25}},
+                         "tickfont":{"size": AXIS_FONT_SIZE}},
                 "bar": {"color": "darkblue"},
                 "steps": [
                     {"range": [0, 250], "color": "#e0f3ff"},
@@ -183,7 +206,7 @@ def render_gauge():
             },
         )
     )
-    st.plotly_chart(gauge_fig, width='stretch')
+    st.plotly_chart(gauge_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_squadra_barchart():
     """Horizontal bar chart showing the most common values in 'Squadra'."""
@@ -204,7 +227,7 @@ def render_squadra_barchart():
                 marker_color="steelblue",
                 text=sorted_counts.values,
                 textposition="inside",
-                textfont={"size": 25},
+                textfont={"size": PIE_LABEL_FONT_SIZE},
             )
         ]
     )
@@ -212,17 +235,17 @@ def render_squadra_barchart():
     bar_fig.update_layout(
         xaxis_title="Interviste",
         xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         margin=dict(t=40, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(bar_fig, width='stretch', height=600)
+    st.plotly_chart(bar_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_heatmap():
     """Heatmap over Milan NIL polygons, using local GeoJSON (no external tiles)."""
@@ -274,7 +297,7 @@ def render_heatmap():
         tooltip={"text": "NIL: {NIL}"},
     )
 
-    st.pydeck_chart(deck, width='stretch', height=700)
+    st.pydeck_chart(deck, width='stretch', height=MAP_HEIGHT)
 
 def render_cartesian_heatmap():
     """Smooth Gaussian KDE heatmap on a [-100, 100] Cartesian plane with gridlines & axes."""
@@ -411,7 +434,7 @@ def render_cartesian_heatmap():
             ),
             text=short_labels,          # A, B, C, ...
             textposition="top right",  # small labels, less overlap
-            textfont=dict(size=16, color="black", weight="bold"),     # font size as requested
+            textfont=dict(size=CARTESIAN_TEXT_SIZE, color="black", weight="bold"),     # font size as requested
             hovertext=arche_labels,     # full label on hover
             hoverinfo="text",
         )
@@ -444,8 +467,8 @@ def render_cartesian_heatmap():
         ),
         # Keep the figure square and not autosized
         autosize=True,
-        width=700,
-        height=700,
+        width=SQUARE_CHART_SIZE,
+        height=SQUARE_CHART_SIZE,
         # Larger margins to make space for outside labels
         margin=dict(t=60, b=70, l=120, r=120),
     )
@@ -488,17 +511,17 @@ def render_age_distribution():
         xaxis_title="Età",
         yaxis_title="Numero",
         xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(age_fig, width='stretch', height=600)
+    st.plotly_chart(age_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_gender_distribution():
     """Render donut chart for gender distribution."""
@@ -514,7 +537,7 @@ def render_gender_distribution():
                 hole=0.5,
                 textinfo="percent+label",
                 textposition="outside",
-                textfont={"size": 25}
+                textfont={"size": AXIS_FONT_SIZE}
             )
         ]
     )
@@ -522,7 +545,7 @@ def render_gender_distribution():
         showlegend=False,
         margin=dict(t=20, b=80, l=20, r=20),
     )
-    st.plotly_chart(donut_fig, width='stretch', height=600)
+    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_auto_migliora_peggiora():
     """Render bar chart for 'Limitare le auto migliora o peggiora' question."""
@@ -554,17 +577,17 @@ def render_auto_migliora_peggiora():
         # yaxis_title="Risposta",
         xaxis_title="Conteggio",
         xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(ampp_fig, width='stretch', height=600)
+    st.plotly_chart(ampp_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_likert_heatmap():
     """Heatmap of score frequencies for the 7 affirmations (1-10)."""
@@ -612,9 +635,9 @@ def render_likert_heatmap():
             colorbar=dict(
                 title=dict(
                     text="Conteggio",
-                    font=dict(size=25)
+                    font=dict(size=TITLE_FONT_SIZE)
                 ),
-                tickfont=dict(size=25)
+                tickfont=dict(size=AXIS_FONT_SIZE)
             ),
         )
     )
@@ -624,18 +647,18 @@ def render_likert_heatmap():
         xaxis_title="Punteggio (1-10)",
         #yaxis_title="Statement",
         xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25),
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE),
             automargin=True
         ),
         margin=dict(l=120, r=20, t=40, b=40),
     )
 
-    st.plotly_chart(heatmap_fig, width='stretch', height=600)
+    st.plotly_chart(heatmap_fig, width='stretch', height=CHART_HEIGHT)
 
 def lavoro_donut():
     """Render donut chart for 'Lavoro' distribution."""
@@ -651,7 +674,7 @@ def lavoro_donut():
                 hole=0.5,
                 textinfo="percent+label",
                 textposition="outside",
-                textfont={"size": 25}
+                textfont={"size": AXIS_FONT_SIZE}
             )
         ]
     )
@@ -659,7 +682,7 @@ def lavoro_donut():
         showlegend=False,
         margin=dict(t=20, b=80, l=20, r=20),
     )
-    st.plotly_chart(donut_fig, width='stretch', height=600)
+    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_transport_modes_barchart():
     """Render bar chart for transportation modes aggregated by sum."""
@@ -692,17 +715,17 @@ def render_transport_modes_barchart():
     transport_fig.update_layout(
         xaxis_title="Conteggio",
         xaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         yaxis=dict(
-            tickfont=dict(size=25),
-            title_font=dict(size=25)
+            tickfont=dict(size=AXIS_FONT_SIZE),
+            title_font=dict(size=TITLE_FONT_SIZE)
         ),
         margin=dict(t=20, b=20, l=20, r=20)
     )
 
-    st.plotly_chart(transport_fig, width='stretch', height=600)
+    st.plotly_chart(transport_fig, width='stretch', height=CHART_HEIGHT)
 
 
 # List of charts in the carousel (you can add more later)
