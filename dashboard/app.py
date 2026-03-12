@@ -893,7 +893,7 @@ else:
 # Carousel logic
 # -----------------------------
 
-REFRESH_INTERVAL_MS = 15_000  # 15 seconds
+REFRESH_INTERVAL_MS = 30_000 if IS_MOBILE else 15_000
 
 refresh_count = st_autorefresh(
     interval=REFRESH_INTERVAL_MS,
@@ -920,16 +920,30 @@ current_renderer()
 
 # Optional manual navigation controls - only on mobile
 if IS_MOBILE:
-    col_prev, col_next = st.columns([1, 1])
+    st.markdown("""
+        <style>
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-buttons button {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1.2rem;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-    with col_prev:
-        prev_clicked = st.button("◀ Previous", key="btn_prev")
+    col = st.container()
+    with col:
+        st.markdown('<div class="nav-buttons">', unsafe_allow_html=True)
+        prev = st.button("◀ Previous", key="btn_prev")
+        next = st.button("Next ▶", key="btn_next")
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    with col_next:
-        next_clicked = st.button("Next ▶", key="btn_next")
-
-    if prev_clicked:
+    if prev:
         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
 
-    if next_clicked:
+    if next:
         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
