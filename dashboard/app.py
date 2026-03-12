@@ -551,23 +551,46 @@ def render_gender_distribution():
     if gender_counts.empty:
         st.info("No non-empty values found in 'Genere' column.")
         return
-    
+
+    # Desktop vs Mobile settings
+    if IS_MOBILE:
+        pie_textinfo = "percent"          # only percent inside
+        pie_textposition = "inside"
+        show_legend = True                # separate legend
+        legend_cfg = dict(
+            orientation="h",              # horizontal legend below
+            yanchor="top",
+            y=-0.1,                       # slightly under the plot area
+            xanchor="center",
+            x=0.5,
+            font=dict(size=AXIS_FONT_SIZE - 2),
+        )
+    else:
+        pie_textinfo = "percent+label"    # labels + percent outside
+        pie_textposition = "outside"
+        show_legend = False               # no legend on desktop
+        legend_cfg = dict()
+
     donut_fig = go.Figure(
         data=[
             go.Pie(
                 labels=gender_counts.index,
                 values=gender_counts.values,
                 hole=0.5,
-                textinfo="percent+label",
-                textposition="outside" if not IS_MOBILE else "inside",
-                textfont={"size": AXIS_FONT_SIZE}
+                textinfo=pie_textinfo,
+                textposition=pie_textposition,
+                textfont={"size": AXIS_FONT_SIZE},
             )
         ]
     )
+
     donut_fig.update_layout(
-        showlegend=False,
+        showlegend=show_legend,
+        legend=legend_cfg,
         margin=STANDARD_MARGIN,
+        height=CHART_HEIGHT,
     )
+
     st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_auto_migliora_peggiora():
@@ -730,22 +753,45 @@ def lavoro_donut():
         st.info("No non-empty values found in 'Lavoro' column.")
         return
 
+    # Desktop vs Mobile settings
+    if IS_MOBILE:
+        pie_textinfo = "percent"          # only percent inside
+        pie_textposition = "inside"
+        show_legend = True                # separate legend
+        legend_cfg = dict(
+            orientation="h",              # horizontal legend
+            yanchor="top",
+            y=-0.1,                       # place below the chart
+            xanchor="center",
+            x=0.5,
+            font=dict(size=AXIS_FONT_SIZE - 2),
+        )
+    else:
+        pie_textinfo = "percent+label"    # labels + percent outside
+        pie_textposition = "outside"
+        show_legend = False
+        legend_cfg = dict()               # no legend
+
     donut_fig = go.Figure(
         data=[
             go.Pie(
                 labels=lavoro_counts.index,
                 values=lavoro_counts.values,
                 hole=0.5,
-                textinfo="percent+label",
-                textposition="outside" if not IS_MOBILE else "inside",
-                textfont={"size": AXIS_FONT_SIZE}
+                textinfo=pie_textinfo,
+                textposition=pie_textposition,
+                textfont={"size": AXIS_FONT_SIZE},
             )
         ]
     )
+
     donut_fig.update_layout(
-        showlegend=False,
+        showlegend=show_legend,
+        legend=legend_cfg,
         margin=STANDARD_MARGIN,
+        height=CHART_HEIGHT,
     )
+
     st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
 
 def render_transport_modes_barchart():
