@@ -911,9 +911,14 @@ else:
         key="carousel_autorefresh",
     )
 
-# 1. Initialize state
+
+# Initialize state
 if "chart_index" not in st.session_state:
     st.session_state.chart_index = 0
+
+if "last_refresh_count" not in st.session_state:
+    st.session_state.last_refresh_count = refresh_count
+
 
 # 2. MOBILE: handle manual navigation FIRST
 if IS_MOBILE:
@@ -940,6 +945,9 @@ if not IS_MOBILE:
 
 # 4. NOW use the updated index
 current_title, current_renderer = CHARTS[st.session_state.chart_index]
+
+# Indicator line
+render_slide_indicator()
 
 st.subheader(current_title)
 current_renderer()
