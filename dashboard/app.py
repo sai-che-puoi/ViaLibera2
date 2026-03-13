@@ -934,27 +934,13 @@ current_renderer()
 
 # Optional manual navigation controls - only on mobile
 if IS_MOBILE:
-    st.markdown("""
-        <style>
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .nav-buttons button {
-            width: 100%;
-            padding: 0.8rem;
-            font-size: 1.2rem;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    col_prev, col_next = st.columns(2)
 
-    col = st.container()
-    with col:
-        st.markdown('<div class="nav-buttons">', unsafe_allow_html=True)
-        prev = st.button("◀ Previous", key="btn_prev")
-        next = st.button("Next ▶", key="btn_next")
-        st.markdown('</div>', unsafe_allow_html=True)
+    with col_prev:
+        prev = st.button("◀", key="btn_prev")
+
+    with col_next:
+        next = st.button("▶", key="btn_next")
 
     if prev:
         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
