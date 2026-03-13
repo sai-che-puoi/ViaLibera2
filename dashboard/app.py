@@ -198,7 +198,7 @@ def render_gauge():
                 "axis": {
                     "range": [0, 1000],
                     "tickfont": {"size": AXIS_FONT_SIZE},
-                    "ticks": "outside" if not IS_MOBILE else "inside"
+                    "ticks": "outside"
                     },
                 "bar": {"color": "darkblue"},
                 "steps": [
