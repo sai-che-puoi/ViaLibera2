@@ -922,29 +922,26 @@ if "last_refresh_count" not in st.session_state:
 
 # 2. MOBILE: handle manual navigation FIRST
 if IS_MOBILE:
-    col_prev, col_spacer, col_next = st.columns([1, 4, 1], gap="xxsmall")
+    
+    st.markdown("""
+    <style>
+    .nav-row div.stButton > button {
+        width: 100%;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    col_prev, col_next = st.columns(2, gap="xxsmall")
 
     with col_prev:
-        st.markdown(
-            "<div style='text-align: left;'>",
-            unsafe_allow_html=True,
-        )
         prev = st.button("◀", key="btn_prev")
-        st.markdown("</div>", unsafe_allow_html=True)
 
     with col_next:
-        st.markdown(
-            "<div style='text-align: right;'>",
-            unsafe_allow_html=True,
-        )
         next = st.button("▶", key="btn_next")
-        st.markdown("</div>", unsafe_allow_html=True)
 
-
-    # Update index based on which button was clicked
     if prev:
         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
-    elif next:
+    if next:
         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
 # 3. DESKTOP: auto-advance (if you use st_autorefresh there)
