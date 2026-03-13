@@ -810,9 +810,6 @@ def render_transport_modes_barchart():
                     x=transport_df["Mode"],
                     y=transport_df["Count"],
                     marker_color="teal",
-                    text=transport_df["Count"],
-                    textposition="inside",
-                    textfont={"size": AXIS_FONT_SIZE},
                 )
             ]
         )
