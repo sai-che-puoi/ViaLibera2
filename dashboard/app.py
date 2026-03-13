@@ -42,7 +42,7 @@ CHART_HEIGHT = 400 if IS_MOBILE else 600
 MAP_HEIGHT = 400 if IS_MOBILE else 700
 SQUARE_CHART_SIZE = 350 if IS_MOBILE else 700
 CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
-STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=20, l=20, r=20)
+STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=40, l=20, r=20)
 
 # -----------------------------
 # Data loading
