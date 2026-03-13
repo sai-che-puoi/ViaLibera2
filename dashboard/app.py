@@ -949,5 +949,5 @@ current_title, current_renderer = CHARTS[st.session_state.chart_index]
 # Indicator line
 render_slide_indicator()
 
-st.subheader(current_title)
+st.title(current_title)
 current_renderer()
