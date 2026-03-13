@@ -195,8 +195,11 @@ def render_gauge():
             # title={"text": "Unique IDs"},
             number={"font": {"size": NUMBER_FONT_SIZE}},
             gauge={
-                "axis": {"range": [0, 1000],
-                         "tickfont":{"size": AXIS_FONT_SIZE}},
+                "axis": {
+                    "range": [0, 1000],
+                    "tickfont": {"size": AXIS_FONT_SIZE},
+                    "ticks": "outside" if not IS_MOBILE else "inside"
+                    },
                 "bar": {"color": "darkblue"},
                 "steps": [
                     {"range": [0, 250], "color": "#e0f3ff"},
