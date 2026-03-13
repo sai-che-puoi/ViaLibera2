@@ -26,21 +26,12 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Streamlit page config
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
-# st.title("Google Sheet Live Dashboard")
 
-# Layout mode: Desktop vs Mobile
-if "layout_mode" not in st.session_state:
-    st.session_state["layout_mode"] = "Desktop"
+# Toggle instead of radio
+IS_MOBILE = st.toggle("Mobile layout", value=False)
 
-layout_mode = st.radio(
-    "Layout",
-    ["Desktop", "Mobile"],
-    index=0 if st.session_state["layout_mode"] == "Desktop" else 1,
-    horizontal=True
-)
-
-st.session_state["layout_mode"] = layout_mode
-IS_MOBILE = layout_mode == "Mobile"
+# If needed, still store in session_state
+st.session_state["layout_mode"] = "Mobile" if IS_MOBILE else "Desktop"
 
 # Global sizing depending on layout mode
 NUMBER_FONT_SIZE = 40 if IS_MOBILE else 75
