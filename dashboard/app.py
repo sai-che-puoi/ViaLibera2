@@ -887,7 +887,7 @@ else:
 # Carousel logic
 # -----------------------------
 
-REFRESH_INTERVAL_MS = 30_000 if IS_MOBILE else 15_000
+REFRESH_INTERVAL_MS = 15_000
 
 refresh_count = st_autorefresh(
     interval=REFRESH_INTERVAL_MS,
@@ -902,8 +902,8 @@ if "chart_index" not in st.session_state:
 if "last_refresh_count" not in st.session_state:
     st.session_state.last_refresh_count = refresh_count
 
-# Auto-advance only when refresh_count increments
-if refresh_count != st.session_state.last_refresh_count:
+# Auto‑advance only on DESKTOP
+if (not IS_MOBILE) and (refresh_count != st.session_state.last_refresh_count):
     st.session_state.last_refresh_count = refresh_count
     st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
