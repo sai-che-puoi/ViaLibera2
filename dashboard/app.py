@@ -882,6 +882,21 @@ if IS_MOBILE:
 else:
     CHARTS = ALL_CHARTS
 
+def render_slide_indicator():
+    """Render a simple dot indicator for the current slide."""
+    total = len(CHARTS)
+    current = st.session_state.chart_index
+
+    dots = []
+    for i in range(total):
+        # Filled dot for current, hollow for others
+        dots.append("●" if i == current else "○")
+
+    # Centered row of dots
+    st.markdown(
+        f"<div style='text-align:center; font-size: 1.4rem;'>{' '.join(dots)}</div>",
+        unsafe_allow_html=True,
+    )
 
 # -----------------------------
 # Carousel logic
@@ -908,6 +923,9 @@ if (not IS_MOBILE) and (refresh_count != st.session_state.last_refresh_count):
     st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
 current_title, current_renderer = CHARTS[st.session_state.chart_index]
+
+# Indicator line
+render_slide_indicator()
 
 st.subheader(current_title)
 current_renderer()
