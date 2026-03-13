@@ -902,13 +902,18 @@ def render_slide_indicator():
 # Carousel logic
 # -----------------------------
 
-REFRESH_INTERVAL_MS = 15_000
+REFRESH_INTERVAL_MS = 15_000 # Only for Desktop
 
-refresh_count = st_autorefresh(
-    interval=REFRESH_INTERVAL_MS,
-    limit=None,
-    key="carousel_autorefresh",
-)
+if IS_MOBILE:
+    # No auto-refresh on mobile
+    refresh_count = 0
+else:
+    refresh_count = st_autorefresh(
+        interval=REFRESH_INTERVAL_MS,
+        limit=None,
+        key="carousel_autorefresh",
+    )
+
 
 # Initialize state
 if "chart_index" not in st.session_state:
