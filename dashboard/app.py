@@ -933,17 +933,31 @@ st.subheader(current_title)
 current_renderer()
 
 # Optional manual navigation controls - only on mobile
+# if IS_MOBILE:
+#     col_prev, col_next = st.columns(2)
+
+#     with col_prev:
+#         prev = st.button("◀", key="btn_prev")
+
+#     with col_next:
+#         next = st.button("▶", key="btn_next")
+
+#     if prev:
+#         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
+
+#     if next:
+#         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 if IS_MOBILE:
-    col_prev, col_next = st.columns(2)
+    options = list(range(len(CHARTS)))
+    current_idx = st.session_state.chart_index
 
-    with col_prev:
-        prev = st.button("◀", key="btn_prev")
+    new_idx = st.slider(
+        "◀ Slide ▶",
+        min_value=0,
+        max_value=len(CHARTS) - 1,
+        value=current_idx,
+        label_visibility="collapsed",
+    )
 
-    with col_next:
-        next = st.button("▶", key="btn_next")
-
-    if prev:
-        st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
-
-    if next:
-        st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
+    if new_idx != current_idx:
+        st.session_state.chart_index = new_idx
