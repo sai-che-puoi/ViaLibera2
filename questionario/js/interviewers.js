@@ -114,13 +114,4 @@ export const interviewers = [
     "Scimmia Coraggiosa",
     "Scimmia Audace",
     "Scimmia Curiosa",
-    "Pinguino Robot",
-    "Squalo Robot",
-    "Leone Veloce",
-    "Squalo Audace",
-    "Falco Arancione",
-    "Papera Arancione",
-    "Aquila Audace",
-    "Pinguino Blu",
-    "Falco Audace"
 ]
