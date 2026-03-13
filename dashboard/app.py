@@ -911,28 +911,11 @@ else:
         key="carousel_autorefresh",
     )
 
-
-# Initialize state
+# 1. Initialize state
 if "chart_index" not in st.session_state:
     st.session_state.chart_index = 0
 
-if "last_refresh_count" not in st.session_state:
-    st.session_state.last_refresh_count = refresh_count
-
-# Auto‑advance only on DESKTOP
-if (not IS_MOBILE) and (refresh_count != st.session_state.last_refresh_count):
-    st.session_state.last_refresh_count = refresh_count
-    st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
-
-current_title, current_renderer = CHARTS[st.session_state.chart_index]
-
-# Indicator line
-render_slide_indicator()
-
-st.subheader(current_title)
-current_renderer()
-
-# Optional manual navigation controls - only on mobile
+# 2. MOBILE: handle manual navigation FIRST
 if IS_MOBILE:
     col_prev, col_next = st.columns(2, gap="xxsmall")
 
@@ -942,8 +925,21 @@ if IS_MOBILE:
     with col_next:
         next = st.button("▶", key="btn_next")
 
+    # Update index based on which button was clicked
     if prev:
         st.session_state.chart_index = (st.session_state.chart_index - 1) % len(CHARTS)
-
-    if next:
+    elif next:
         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
+
+# 3. DESKTOP: auto-advance (if you use st_autorefresh there)
+if not IS_MOBILE:
+    # your refresh_count / last_refresh_count logic here
+    if refresh_count != st.session_state.last_refresh_count:
+        st.session_state.last_refresh_count = refresh_count
+        st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
+
+# 4. NOW use the updated index
+current_title, current_renderer = CHARTS[st.session_state.chart_index]
+
+st.subheader(current_title)
+current_renderer()
