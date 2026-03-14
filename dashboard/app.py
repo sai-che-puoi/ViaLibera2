@@ -45,10 +45,7 @@ CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
 STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=40, l=20, r=20)
 
 PLOTLY_CONFIG_STATIC = {
-    "scrollZoom": False,
-    "displayModeBar": False,
-    "editable": False,
-    "doubleClick": False,
+    "staticPlot": True,         # this overrides zoom/pan/drag
 }
 
 # -----------------------------
