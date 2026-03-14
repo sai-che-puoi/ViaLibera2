@@ -226,7 +226,7 @@ def render_squadra_barchart():
             marker_color="steelblue",
             text=sorted_counts.values,
             textposition="inside",
-            textfont={"size": AXIS_FONT_SIZE},
+            textfont={"size": 25},
         )
         xaxis_title = "Squadra"
         yaxis_title = "Interviste"
