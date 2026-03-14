@@ -44,6 +44,13 @@ SQUARE_CHART_SIZE = 350 if IS_MOBILE else 700
 CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
 STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=40, l=20, r=20)
 
+PLOTLY_CONFIG_STATIC = {
+    "scrollZoom": False,
+    "displayModeBar": False,
+    "editable": False,
+    "doubleClick": False,
+}
+
 # -----------------------------
 # Data loading
 # -----------------------------
@@ -201,7 +208,7 @@ def render_gauge():
             },
         )
     )
-    st.plotly_chart(gauge_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(gauge_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_squadra_barchart():
     """Horizontal bar chart showing the most common values in 'Squadra'."""
@@ -256,7 +263,7 @@ def render_squadra_barchart():
         margin=STANDARD_MARGIN,
     )
 
-    st.plotly_chart(bar_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(bar_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_heatmap():
     """Heatmap over Milan NIL polygons, using local GeoJSON (no external tiles)."""
@@ -487,7 +494,7 @@ def render_cartesian_heatmap():
     # 6) Center on the page using columns, but adapt layout for mobile (stack chart and legend vertically)
     if IS_MOBILE:
         # Stack: chart on top, legend below
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG_STATIC)
 
         st.markdown("### Archetipi")
         st.markdown("\n\n".join(legend_lines))
@@ -496,7 +503,7 @@ def render_cartesian_heatmap():
         col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
 
         with col_center:
-            st.plotly_chart(fig, use_container_width=False)
+            st.plotly_chart(fig, use_container_width=False, config=PLOTLY_CONFIG_STATIC)
 
         with col_right_1:
             st.markdown("### Archetipi")
@@ -538,7 +545,7 @@ def render_age_distribution():
         margin=STANDARD_MARGIN,
     )
 
-    st.plotly_chart(age_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(age_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_gender_distribution():
     """Render donut chart for gender distribution."""
@@ -585,7 +592,7 @@ def render_gender_distribution():
         height=CHART_HEIGHT,
     )
 
-    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_auto_migliora_peggiora():
     """Render bar chart for 'Limitare le auto migliora o peggiora' question."""
@@ -647,7 +654,7 @@ def render_auto_migliora_peggiora():
         margin=STANDARD_MARGIN,
     )
 
-    st.plotly_chart(ampp_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(ampp_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_likert_heatmap():
     """Heatmap of score frequencies for the 7 affirmations (1-10)."""
@@ -739,7 +746,7 @@ def render_likert_heatmap():
         margin=dict(l=120, r=20, t=40, b=40),
     )
 
-    st.plotly_chart(heatmap_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(heatmap_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def lavoro_donut():
     """Render donut chart for 'Lavoro' distribution."""
@@ -786,7 +793,7 @@ def lavoro_donut():
         height=CHART_HEIGHT,
     )
 
-    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(donut_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 def render_transport_modes_barchart():
     """Render bar chart for transportation modes aggregated by sum."""
@@ -845,7 +852,7 @@ def render_transport_modes_barchart():
         margin=STANDARD_MARGIN,
     )
 
-    st.plotly_chart(transport_fig, width='stretch', height=CHART_HEIGHT)
+    st.plotly_chart(transport_fig, width='stretch', height=CHART_HEIGHT, config=PLOTLY_CONFIG_STATIC)
 
 
 # List of charts in the carousel (you can add more later)
