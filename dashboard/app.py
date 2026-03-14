@@ -218,6 +218,7 @@ def render_squadra_barchart():
 
     if IS_MOBILE:
         # Vertical bars on mobile
+        sorted_counts = squadra_counts.sort_values(ascending=False)
         bar_trace = go.Bar(
             x=sorted_counts.index,
             y=sorted_counts.values,
@@ -607,6 +608,7 @@ def render_auto_migliora_peggiora():
 
     if IS_MOBILE:
         # Vertical bars on mobile
+        ampp_df = ampp_df.sort_values("Count", ascending=False)
         ampp_fig = go.Figure(
             data=[
                 go.Bar(
@@ -808,6 +810,7 @@ def render_transport_modes_barchart():
 
     if IS_MOBILE:
         # Vertical bars on mobile
+        transport_df = transport_df.sort_values("Count", ascending=False)
         transport_fig = go.Figure(
             data=[
                 go.Bar(
