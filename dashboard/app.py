@@ -196,7 +196,7 @@ def render_gauge():
                     "tickfont": {"size": AXIS_FONT_SIZE},
                     "ticks": "outside"
                     },
-                "bar": {"color": "darkblue"},
+                "bar": {"color": "lime"},
                 "steps": [
                     {"range": [0, 250], "color": "#e0f3ff"},
                     {"range": [250, 500], "color": "#a6cee3"},
