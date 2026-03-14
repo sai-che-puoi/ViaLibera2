@@ -930,21 +930,22 @@ if "last_refresh_count" not in st.session_state:
 
 # 2. MOBILE: handle manual navigation FIRST
 if IS_MOBILE:
-    
+    # Make buttons full-width within their columns
     st.markdown("""
     <style>
-    .nav-row div.stButton > button {
+    div.stButton > button {
         width: 100%;
     }
     </style>
     """, unsafe_allow_html=True)
 
-    col_prev, col_next = st.columns(2, gap="xxsmall")
+    # Use 3 columns to push arrows toward extremes
+    col_left, col_spacer, col_right = st.columns([1, 4, 1], gap="xxsmall")
 
-    with col_prev:
+    with col_left:
         prev = st.button("◀", key="btn_prev")
 
-    with col_next:
+    with col_right:
         next = st.button("▶", key="btn_next")
 
     if prev:
