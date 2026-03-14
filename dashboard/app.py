@@ -28,7 +28,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
 
 # Toggle instead of radio
-IS_MOBILE = st.toggle("Mobile layout", value=False)
+# IS_MOBILE = st.toggle("Mobile layout", value=False)
+IS_MOBILE = True
 
 # If needed, still store in session_state
 st.session_state["layout_mode"] = "Mobile" if IS_MOBILE else "Desktop"
