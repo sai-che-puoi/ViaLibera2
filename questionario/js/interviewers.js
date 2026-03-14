@@ -114,4 +114,5 @@ export const interviewers = [
     "Scimmia Coraggiosa",
     "Scimmia Audace",
     "Scimmia Curiosa",
+    "Scimmia Veloce",
 ]
