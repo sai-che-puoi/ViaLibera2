@@ -28,8 +28,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
 
 # Toggle instead of radio
-# IS_MOBILE = st.toggle("Mobile layout", value=False)
-IS_MOBILE = False
+IS_MOBILE = st.toggle("Mobile layout", value=False)
+# IS_MOBILE = False
 
 # If needed, still store in session_state
 st.session_state["layout_mode"] = "Mobile" if IS_MOBILE else "Desktop"
@@ -912,15 +912,15 @@ def render_slide_indicator():
 
 REFRESH_INTERVAL_MS = 25_000 # Only for Desktop
 
-if IS_MOBILE:
+if IS_MOBILE or not IS_MOBILE:
     # No auto-refresh on mobile
     refresh_count = 0
-else:
-    refresh_count = st_autorefresh(
-        interval=REFRESH_INTERVAL_MS,
-        limit=None,
-        key="carousel_autorefresh",
-    )
+# else:
+#     refresh_count = st_autorefresh(
+#         interval=REFRESH_INTERVAL_MS,
+#         limit=None,
+#         key="carousel_autorefresh",
+#     )
 
 
 # Initialize state
@@ -932,7 +932,7 @@ if "last_refresh_count" not in st.session_state:
 
 
 # 2. MOBILE: handle manual navigation FIRST
-if IS_MOBILE:
+if IS_MOBILE or not IS_MOBILE:
     # Make buttons full-width within their columns
     st.markdown("""
     <style>
@@ -957,11 +957,11 @@ if IS_MOBILE:
         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
 # 3. DESKTOP: auto-advance (if you use st_autorefresh there)
-if not IS_MOBILE:
-    # your refresh_count / last_refresh_count logic here
-    if refresh_count != st.session_state.last_refresh_count:
-        st.session_state.last_refresh_count = refresh_count
-        st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
+# if not IS_MOBILE:
+#     # your refresh_count / last_refresh_count logic here
+#     if refresh_count != st.session_state.last_refresh_count:
+#         st.session_state.last_refresh_count = refresh_count
+#         st.session_state.chart_index = (st.session_state.chart_index + 1) % len(CHARTS)
 
 # 4. NOW use the updated index
 current_title, current_renderer = CHARTS[st.session_state.chart_index]
