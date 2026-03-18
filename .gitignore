@@ -6,4 +6,5 @@ token.pickle
 .env
 downloads/
 prova.ipynb
+.streamlit/
 secrets.toml
