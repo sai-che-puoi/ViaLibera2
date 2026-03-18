@@ -1,4 +1,4 @@
-import {QUIZ_DATA} from './config.js';
+import {QUIZ_DATA, ATTITUDES} from './config.js';
 
 export class ResultCalculator {
     constructor(questions) {
@@ -31,11 +31,14 @@ export class ResultCalculator {
      * Calculate weighted coordinates using new algorithm
      */
     calculateCoordinates(answers) {
-        // Extract Q1-Q7 values from answers
+        // Extract Q1-Q7 values from answers using the answer id (q1…q7)
         const Q = {};
-        answers.forEach((answer, index) => {
-            if (answer.type === 'slider') {
-                Q[`Q${index + 1}`] = parseFloat(answer.value);
+        answers.forEach((answer) => {
+            if (answer.type === 'slider' && answer.id) {
+                const num = parseInt(answer.id.replace(/\D/g, ''));
+                if (!isNaN(num)) {
+                    Q[`Q${num}`] = parseFloat(answer.value);
+                }
             }
         });
 
@@ -83,7 +86,7 @@ export class ResultCalculator {
         const x = (X - 5) * 20;
         const y = (Y - 5) * 20;
 
-        return {x: x, y: y, quadrant: quadrant};
+        return {x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100, quadrant: quadrant};
     }
 
     /**
@@ -107,35 +110,9 @@ export class ResultCalculator {
         const topScored = sorted.filter(q => parseInt(q.value) === topScore);
         console.log('Top scored questions:', topScored);
 
-        // If we have more than 2 questions with the top score, try multiple random pairs
-        if (topScored.length > 2) {
-            console.log('More than 2 questions with top score, trying multiple pairs');
-            
-            // Try up to 10 random pairs to find a matching archetype
-            for (let attempt = 0; attempt < 10; attempt++) {
-                const shuffled = [...topScored].sort(() => Math.random() - 0.5);
-                const slice = shuffled.slice(0, 2).map(q => q.attitude);
-                console.log(`Attempt ${attempt + 1}, selected attitudes:`, slice);
-                
-                const archetype = this.findArchetype(slice[0], slice[1]);
-                if (archetype) {
-                    console.log('Found matching archetype on attempt', attempt + 1);
-                    return archetype;
-                }
-            }
-            
-            // If no match found, return a default archetype
-            console.log('No archetype found after 10 attempts, returning default');
-            return {
-                name: "Profilo Equilibrato",
-                description: "Hai una visione equilibrata su tutti i temi urbani, senza preferenze marcate."
-            };
-        }
-
-        // If we have exactly 2 we return them
-        if (topScored.length === 2) {
-            const topTwo = topScored.map(q => q.attitude);
-            console.log('Exactly 2 questions with top score, attitudes:', topTwo);
+        // If we have 2 or more questions with the top score, pick two at random
+        if (topScored.length >= 2) {
+            const topTwo = [...topScored].sort(() => Math.random() - 0.5).slice(0, 2).map(q => q.attitude);
             return this.findArchetype(topTwo[0], topTwo[1]);
         }
 
@@ -147,34 +124,31 @@ export class ResultCalculator {
         if (secondScored.length > 1) {
             for (const second of secondScored) {
                 const archetype = this.findArchetype(topScored[0].attitude, second.attitude);
-                if (archetype) {
-                    return archetype;
-                }
+                if (archetype) return archetype;
             }
         }
 
-        const finalArchetype = this.findArchetype(topScored[0].attitude, secondScored[0].attitude);
-        if (finalArchetype) {
-            return finalArchetype;
+        return this.findArchetype(topScored[0].attitude, secondScored[0].attitude);
+    }
+
+    resolveAttitude(key) {
+        // Convert "ATTITUDES.VIVO_SENZA_AUTO" to the actual attitude string value
+        if (typeof key === 'string' && key.startsWith('ATTITUDES.')) {
+            return ATTITUDES[key.slice(10)] || key;
         }
-        
-        // Final fallback
-        return {
-            name: "Profilo Unico",
-            description: "Il tuo profilo è unico e non corrisponde ai pattern più comuni che abbiamo mappato."
-        };
+        return key;
     }
 
     findArchetype(attitude1, attitude2) {
         console.log('Looking for archetype with attitudes:', attitude1, attitude2);
         console.log('Available archetypes:', QUIZ_DATA.archetypes.length);
-        
-        const archetype = QUIZ_DATA.archetypes.find(archetype =>
-            archetype.base.length === 2 &&
-            archetype.base.includes(attitude1) &&
-            archetype.base.includes(attitude2)
+
+        const archetype = QUIZ_DATA.archetypes.find(a =>
+            a.base.length === 2 &&
+            a.base.map(k => this.resolveAttitude(k)).includes(attitude1) &&
+            a.base.map(k => this.resolveAttitude(k)).includes(attitude2)
         );
-        
+
         console.log('Found archetype:', archetype);
         return archetype || null;
     }

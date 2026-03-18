@@ -1,0 +1,682 @@
+[
+  {
+    "id": 1,
+    "nil_name": "Duomo",
+    "title1": "Piazza Sant Ambrogio",
+    "text1": "piazza di fronte ad una delle chiese più antiche di Milano, vicino all’università Cattolica, con una nuova stazione della M4 e strade da poco rinnovate",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Sant%20Ambrogio%2C%20Milano",
+    "title2": "Panchine via Marconi - Piazza Diaz lato bar/ristorante",
+    "text2": "sedute vicino a piazza Duomo, portici con ristoranti e alla fermata del tram 15 per Rozzano",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Panchine%20via%20Marconi%20-%20Piazza%20Diaz%20lato%20bar/ristorante%2C%20Milano"
+  },
+  {
+    "id": 2,
+    "nil_name": "Brera",
+    "title1": "Pinacoteca di Brera",
+    "text1": "importante museo nel mezzo di un’area pedonalizzata tempo fa, molti turisti, ristoranti e bar",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Pinacoteca%20di%20Brera%2C%20Milano",
+    "title2": "Corso Garibaldi",
+    "text2": "lunga via con intenso flusso pedonale  e larghi marciapiedi con negozi, bar, ristoranti",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Corso%20Garibaldi%2C%20Milano"
+  },
+  {
+    "id": 4,
+    "nil_name": "Guastalla",
+    "title1": "Giardini della Guastalla",
+    "text1": "parco centrale e non troppo grande, curato e dietro l’università Statale",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Giardini%20della%20Guastalla%2C%20Milano",
+    "title2": "Arco di Porta Romana",
+    "text2": "trafficato incrocio stradale, con fermata del tram 9, la stazione della M3 e locali all’inizio di Corso Lodi e negozi all’inizio via Monte Nero",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Arco%20di%20Porta%20Romana%2C%20Milano"
+  },
+  {
+    "id": 5,
+    "nil_name": "Porta Vigentina - Porta Lodovica",
+    "title1": "Via San Calimero",
+    "text1": "stretta strada pedonalizzata, con alberi, panchine e chiesa, vicino a fermata Sforza-Policlinico della M4 e del tram",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Via%20San%20Calimero%2C%20Milano",
+    "title2": "Parco Ravizza",
+    "text2": "largo parco con alberi, tavoli e panchine, giochi e campi da pallavolo e basket",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Ravizza%2C%20Milano"
+  },
+  {
+    "id": 6,
+    "nil_name": "Porta Ticinese - Conca del Naviglio",
+    "title1": "Largo Mahler",
+    "text1": "piccolo incrocio, con fermata tranviaria, negozi e bar",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Largo%20Mahler%2C%20Milano",
+    "title2": "Mercato di via Tabacchi (solo sabato fino alle 15)",
+    "text2": "mercato comunale, con numerose bancarelle su un tratto piuttosto ampio di strada",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Mercato%20di%20via%20Tabacchi%20%28solo%20sabato%20fino%20alle%2015%29%2C%20Milano"
+  },
+  {
+    "id": 7,
+    "nil_name": "Magenta- San Vittore",
+    "title1": "Piazza sant'Agostino - viale Papiniano (mercato del sabato)",
+    "text1": "mercato comunale, con numerose bancarelle su un tratto piuttosto ampio di strada",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20sant%27Agostino%20-%20viale%20Papiniano%20%28mercato%20del%20sabato%29%2C%20Milano",
+    "title2": "Piazza di Santa Maria delle Grazie",
+    "text2": "piazza pedonalizzata con panchine, di fronte alla chiesa del cenacolo Vinciano, vicina a fermate tranviarie su Corso Magenta, solitamente con consistente flusso pedonale",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20di%20Santa%20Maria%20delle%20Grazie%2C%20Milano"
+  },
+  {
+    "id": 8,
+    "nil_name": "Parco Sempione",
+    "title1": "Castello Sforzesco - Piazza del Cannone",
+    "text1": "zona molto frequentata del parco Sempione, con una forte attrazione turistica, panchine e qualche piccolo bar all’interno del parco",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Castello%20Sforzesco%20-%20Piazza%20del%20Cannone%2C%20Milano",
+    "title2": "Ingresso Atletica - via Repubblica Cisalpina (arena civica)",
+    "text2": "ingresso est al Parco Sempione",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Ingresso%20Atletica%20-%20via%20Repubblica%20Cisalpina%20%28arena%20civica%29%2C%20Milano"
+  },
+  {
+    "id": 9,
+    "nil_name": "Porta Garibaldi - Porta Nuova",
+    "title1": "corso Como",
+    "text1": "strada pedonalizzata con un fortissimo passaggio pedonale, con molti bar, negozi e ristoranti",
+    "link1": "https://www.google.com/maps/search/?api=1&query=corso%20Como%2C%20Milano",
+    "title2": "Piazza Gae Aulenti",
+    "text2": "piazza pedonale molto frequentata con fontana, molti negozi, parco della Biblioteca degli Alberi",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Gae%20Aulenti%2C%20Milano"
+  },
+  {
+    "id": 10,
+    "nil_name": "Stazione Centrale - Ponte Seveso",
+    "title1": "Piazza Caiazzo",
+    "text1": "fermata di tram, metro e filobus, con un ampio parcheggio su via Andrea Doria; molte attività commerciali, specie sul lato sud ed est (via Pergolesi, via Gaffurio e via Settembrini):",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Caiazzo%2C%20Milano",
+    "title2": "Piazza Cincinnato",
+    "text2": "piazza recentemente risistemata, con panchine, alberi, esercizi commerciali e una fermata tranviaria discretamente usata (ci sono due linee che fermano); circondata da edifici densi, tipico del tessuto urbano tradizionale di fine ‘800",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Cincinnato%2C%20Milano"
+  },
+  {
+    "id": 11,
+    "nil_name": "Isola",
+    "title1": "parcheggio Carrefour/Brico/McDonald's via Farini",
+    "text1": "largo parcheggio di fronte a diversi grandi negozi, fermate tranviarie e filoviarie sulla circonvallazione",
+    "link1": "https://www.google.com/maps/search/?api=1&query=parcheggio%20Carrefour/Brico/McDonald%27s%20via%20Farini%2C%20Milano",
+    "title2": "Piazzale Lagosta (mercato sabato)",
+    "text2": "mercato esterno del sabato, capolinea tranviario di alcune linee con alcuni esercizi commerciali, il mercato comunale coperto “Isola” ed annesso bar con sedute esterne; molte auto in divieto di sosta regolarmente",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Lagosta%20%28mercato%20sabato%29%2C%20Milano"
+  },
+  {
+    "id": 12,
+    "nil_name": "Maciachini-Maggiolina",
+    "title1": "uscita parcheggio Maciachini - bike park",
+    "text1": "vicino ad una delle principali fermate del tram 4, essendo all’intersezione con la M3 (alcune corse hanno capolinea proprio qui); il parcheggio auto ha un discreto utilizzo, perlopiù a lungo termine (giornaliero più che orario); l’adiacente parco pubblico Murat ha un buon utilizzo; auto in divieto di sosta permanente sul parterre di viale Marche, all’uscita dal parcheggio",
+    "link1": "https://www.google.com/maps/search/?api=1&query=uscita%20parcheggio%20Maciachini%20-%20bike%20park%2C%20Milano",
+    "title2": "Piazzale Istria",
+    "text2": "rotonda con un ampio parterre centrale, che ospita un’edicola, un chiosco/bar sul lato della carreggiata diretta verso il centro (lato ovest), oltre che le fermate “Istria M5” dei tram 5 e 7, la stazione della metropolitana omonima e qualche panchina; presente qualche piccolo negozio sul marciapiede al lato est del piazzale e su entrambi i lati di Viale Zara",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Istria%2C%20Milano"
+  },
+  {
+    "id": 13,
+    "nil_name": "Greco – Segnano",
+    "title1": "Inizio ciclabile Martesana",
+    "text1": "inizio del lungo percorso ciclopedonale che porta fino all’Adda, frequentato sia da jogger che da famiglie; presente un parco con alberi e panchine, oltre che un bar con diverse sedute all’esterno, il campo di bocce “Zuretti” e un largo spiazzo alberato con numerose panchine sul lato della chiesa “Santa Maria Goretti”, vicino al quale si trova anche un piccolo parcheggio",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Inizio%20ciclabile%20Martesana%2C%20Milano",
+    "title2": "Unes-Piscina de Marchi",
+    "text2": "grande centro commerciale su via De Marchi, con diverse attività commerciali, un grande parcheggio auto e qualche piccolo stallo bici; la piscina si trova sul lato opposto della stessa via, dove c’è anche una fermata bus (linee 43 e 81, direzione centro con un utilizzo non trascurabile",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Unes-Piscina%20de%20Marchi%2C%20Milano"
+  },
+  {
+    "id": 14,
+    "nil_name": "Niguarda - Ca’ Granda - Prato Centenaro - Q.re Fulvio Testi",
+    "title1": "Ospedale Niguarda-ingresso principale - parcheggio Niguarda",
+    "text1": "uno degli ospedali principali della città; presenti diversi parcheggi per i fruitori dell’ospedale, la fermata del tram 4, il capolinea del 5 e una postazione BikeMi",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Ospedale%20Niguarda-ingresso%20principale%20-%20parcheggio%20Niguarda%2C%20Milano",
+    "title2": "Bar Parco Nord",
+    "text2": "bar “Caffetteria Sun Strac”, molto frequentato, sempre pieno di persone nei weekend durante il giorno, sia famiglie e anziani che sportivi; luogo raggiungibile dai fruitori a piedi, in bici, in auto (grazie al parcheggio adiacente in tram, con la linea 4, che qui fa capolinea insieme a diverse linee di autobus (bus e tram fermano in via Luigi Ornato, sulla carreggiata diretta verso il centro), oltre che accanto al parcheggio",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Bar%20Parco%20Nord%2C%20Milano"
+  },
+  {
+    "id": 15,
+    "nil_name": "Bicocca",
+    "title1": "Hangar Bicocca",
+    "text1": "ben frequentato nei weekend, grazie alla galleria di installazioni (ingresso gratuito), un locale brunch e una caffetteria; pubblico di livello culturale medio alto, diverse famiglie",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Hangar%20Bicocca%2C%20Milano",
+    "title2": "Bicocca Village",
+    "text2": "cinema multisala, negozi, palestra Virgin. Raggiungo prevalentemente in automobile, può essere interessante per questo. Preferibile intervistare all'angolo con via Hayek, se più vicino all'ingresso può dare fastidio alla proprietà",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Bicocca%20Village%2C%20Milano"
+  },
+  {
+    "id": 16,
+    "nil_name": "Gorla – Precotto",
+    "title1": "Precotto M1",
+    "text1": "fermata della metropolitana su una strada molto trafficata e frequentata come viale Monza; nelle vicinanze si trovano diversi esercizi commerciali (supermercato, caffè, bar, gelateria), la fermata del tram “Precotto M1” su via Giuseppe Pelitti, del bus in via Cislaghi (via più silenziosa e forse più adatta ad un'intervista e la “passeggiata monsignor Egidio Vergani”, alberata e con diverse panchine",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Precotto%20M1%2C%20Milano",
+    "title2": "Parco di Villa Finzi",
+    "text2": "parco tranquillo e di medie dimensioni con alberature, panchine e area giochi per bambini, nelle immediate vicinanze di viale Monza, della fermata “Gorla” della M1 e dell’alzaia del naviglio della Martesana",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20di%20Villa%20Finzi%2C%20Milano"
+  },
+  {
+    "id": 17,
+    "nil_name": "Adriano",
+    "title1": "Esselunga via Adriano",
+    "text1": "grosso supermercato, uno dei principali del quartiere, adiacente ad altri grandi punti vendita più specializzati, il tutto accessibile da uno spazio pedonale fra i due edifici (dove si trova il “matitone”), utile luogo per interviste; c’è un largo parcheggio a fianco dei due edifici, oltre che il capolinea del 7 “Adriano-Vipiteno”",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Esselunga%20via%20Adriano%2C%20Milano",
+    "title2": "Giardini Franca Rame",
+    "text2": "grande parco con area per bambini, ai limiti di un’area di recente urbanizzazione, con palazzi di media altezza a gruppi di due o tre e la linea tranviaria di recente aperture (fermate Tremelloni-Tognazzi e Tremelloni-Gassman della linea 7); il parco prosegue a nord della linea tranviaria, con aree dotate di giochi per bambini e panchine, oltre che un campo da basket",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Giardini%20Franca%20Rame%2C%20Milano"
+  },
+  {
+    "id": 18,
+    "nil_name": "Cimiano - Rottole - Q.re Feltre",
+    "title1": "Ingresso Parco Lambro / skatepark",
+    "text1": "lo skatepark è piuttosto apprezzato e si trova vicino all’ingresso del grande parco a nord-est di Milano, che è perlopiù adibito a bosco, quindi un poco selvatico; potrebbe essere non così facile ricevere risposte alle interviste nello skatepark, ma il campione sarebbe sicuramente utile da sondare",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Ingresso%20Parco%20Lambro%20/%20skatepark%2C%20Milano",
+    "title2": "IRCCS Ospedale San Raffaele-Cascina Gobba",
+    "text2": "grande ospedale al confine comunale, vicino a parcheggi e alla la stazione della metro “Cascina Gobba” (con altri parcheggi e bus); la stazione si raggiunge camminando su via Padova, checché ne dica Google maps: ci sono marciapiedi e attraversamenti, per quanto non sia una strada troppo piacevole",
+    "link2": "https://www.google.com/maps/search/?api=1&query=IRCCS%20Ospedale%20San%20Raffaele-Cascina%20Gobba%2C%20Milano"
+  },
+  {
+    "id": 19,
+    "nil_name": "Padova - Turro – Crescenzago",
+    "title1": "Anfiteatro Martesana",
+    "text1": "anfiteatro che ospita diversi spettacoli (alcuni molto seguiti), all’interno del parco “Martiri della Libertà Iracheni” sul naviglio della Martesana, con frequentatori di tutti i tipi, panchine e piccola area giochi per bambini",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Anfiteatro%20Martesana%2C%20Milano",
+    "title2": "Via Padova angolo via Arici",
+    "text2": "all’angolo di una strada commerciale e residenziale piuttosto importante; vicino ad attività commerciali quali  Conad (che ha un parcheggio esterno), Aumai, diversi piccoli locali e negozi agli angoli",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Via%20Padova%20angolo%20via%20Arici%2C%20Milano"
+  },
+  {
+    "id": 20,
+    "nil_name": "Loreto - Casoretto – NoLo",
+    "title1": "Piazza Spoleto / Arcobalena",
+    "text1": "piazza semi-pedonalizzata come parte del programma “piazze aperte”, con sedute e di frequente utilizzata da bambini con genitori; vicina a bar, piccoli esercizi commerciali ed al capolinea del tram 1, in un contesto di urbanizzazione densa e matura, tipica del primo Novecento",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Spoleto%20/%20Arcobalena%2C%20Milano",
+    "title2": "Bar Mosso (via Angelo Mosso)",
+    "text2": "bar con molte sedute esterne, vicino ad alcune attività commerciali su via Padova e adiacente al Parco Trotter, punto di riferimento dell’area circostante",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Bar%20Mosso%20%28via%20Angelo%20Mosso%29%2C%20Milano"
+  },
+  {
+    "id": 21,
+    "nil_name": "Buenos Aires - Porta Venezia - Porta Monforte",
+    "title1": "Bocciofila Amici delle Bocce - casa dell’acqua -  Morgagni",
+    "text1": "area verde all’interno dell’ampio parterre di via Morgagni, con alberature e diverse panchine, vicino alla stazione “Lima” della M1 e al recentemente rinnovato piazzale Lavater, dotato di altre sedute; vicino corso Buenos Aires, in un contesto di urbanizzazione tipico del tardo Ottocento",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Bocciofila%20Amici%20delle%20Bocce%20-%20casa%20dell%E2%80%99acqua%20-%20%20Morgagni%2C%20Milano",
+    "title2": "Caffè degli artisti - Bar Basso (via Plinio)",
+    "text2": "locali con sedute esterne, su un trafficato incrocio della circonvallazione, circondato da diversi negozi, speso ai piani terra di palazzi di 4/8 piani",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Caff%C3%A8%20degli%20artisti%20-%20Bar%20Basso%20%28via%20Plinio%29%2C%20Milano"
+  },
+  {
+    "id": 22,
+    "nil_name": "Città studi",
+    "title1": "Giardini del politecnico (Piazza Leonardo Da Vinci)",
+    "text1": "ampio spazio verde di fronte all’ingresso del politecnico, solitamente frequentato sia dagli studenti in ingresso e pausa che dai residenti, grazie alle numerose panchine; serviti da una fermata tranviaria (linee 19 e 33); molto frequentato il bar su via Ampère, a nord della piazza, soprattutto se il tempo è soleggiato",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Giardini%20del%20politecnico%20%28Piazza%20Leonardo%20Da%20Vinci%29%2C%20Milano",
+    "title2": "Stazione FS Lambrate-piazza Bottini",
+    "text2": "importante snodo trasportistico, sempre ben utilizzato: stazione ferroviaria, fermata di tram e metro, oltre che capolinea di diversi autobus e sede di molti negozi nelle vicinanze, specie su via Pacini (parcheggio su parterre regolarmente tollerato, nonostante il divieto), oltre che di bar con dehor",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Stazione%20FS%20Lambrate-piazza%20Bottini%2C%20Milano"
+  },
+  {
+    "id": 23,
+    "nil_name": "Lambrate – Ortica",
+    "title1": "Piazza Vigili del Fuoco",
+    "text1": "alla periferia della città, urbnizzazione semi-recente: piccola piazza pdeonale vicino a unEselunga, MediaWorld, un bar e una palestra; frequentato da bambini e famiglie; un viale pedonale (viale Maria Cutuli e con molte panchine la collega al parco della Lambretta, affiancato da alcune aree giochi per bambini e palazzine residenziali",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Vigili%20del%20Fuoco%2C%20Milano",
+    "title2": "Mercato comunale di via Rombon (chiuso la domenica, sabato chiude alle 19.30)",
+    "text2": "un mercato coperto riaperto dopo diversi anni di lavori e ristrutturazioni su una strada importante di ingresso a Milano (via Rombon); vicino a una piccola area giochi",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Mercato%20comunale%20di%20via%20Rombon%20%28chiuso%20la%20domenica%2C%20sabato%20chiude%20alle%2019.30%29%2C%20Milano"
+  },
+  {
+    "id": 24,
+    "nil_name": "Parco Forlanini – Cavriano",
+    "title1": "Via Tucidide",
+    "text1": "di fronte alla birreria “Impronta Birraia” e accanto ai binari della linea per Venezia, è un piccolo agglomerato di esercizi commerciali al limitare dell’urbanizzato, piuttosto raggiungibile in auto, sia dal parcheggio di fronte che su quello di  via Cavriana; c’è una ciclabile, prolungata qualche anno fa fino a San Babila con i lavori di M4, discretamente utilizzata",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Via%20Tucidide%2C%20Milano",
+    "title2": "Parco Forlanini (parco + parcheggio in ingresso da via Taverna)",
+    "text2": "importante e grande parco, ben utilizzato con il bel tempo, con moltissimi percorsi, panchine e un campo da baseball; chi arriva in auto (non facile da raggiungere in autobus, solo una linea su viale Forlanini entra ca via Taverna, dove c’è un piccolo parcheggio (possibile categoria automobilisti per necessità)",
+    "link2": "https://maps.app.goo.gl/dweLjx5Hqv12h4Mg6"
+  },
+  {
+    "id": 25,
+    "nil_name": "Corsica",
+    "title1": "Largo Porto di Classe",
+    "text1": "luogo di transizione tra una zona riqualificata con spazi equamente ripartiti e una zona devastata dalle auto in sosta irregolare, servita dalla fermata Argonne della linea M4; il largo parterre viale Argonne (riqualificato in occasione dei lavori per la costruzione della metropolitana è molto ben utilizzato, soprattutto nei pomeriggi dei fine settimana, con numerose aree gioco, di allenamento e campi da basket/calcio gli edifici che fiancheggiano la via e i largo sono tipici dell'urbanizzazione di metà Novecento, con negozi ai piani terra di molti edifici e larghi marciapiede",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Largo%20Porto%20di%20Classe%2C%20Milano",
+    "title2": "Forlanini M4-via Mezzofanti",
+    "text2": "piccola area verde, ricavata dai lavori di scavo della M4; vicino alla fermata metropolitana e ferroviaria “Forlanini”, oltre che a un distributore e diverse aree di parcheggio lungo la strada, poco distante dai negozi di media grandezza (MD e Tigotà su via Negroli )",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Forlanini%20M4-via%20Mezzofanti%2C%20Milano"
+  },
+  {
+    "id": 26,
+    "nil_name": "XXII Marzo",
+    "title1": "Via Cadore-Parco Formentano",
+    "text1": "parco ben frequentato, vicino alla fermata tranviaria “via Cadore-XXII Marzo” e con aree per jogger e famiglie con bambini; via Cadore ha molta sosta irregolare, in parte recentemente protetta da tronchi di vecchi alberi, oltre cha alcuni bar e una fermata dei bus",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Via%20Cadore-Parco%20Formentano%2C%20Milano",
+    "title2": "Viale Campania (per Via libera 1, tra via Marconi, Melloni e Archimede, che può essere interessante visitare, essendo più tranquille e silenziose)",
+    "text2": "trafficata strada di tangenza, con alcune fermate filoviarie discretamente utilizzate (linea 93 e molte auto in divieto di sosta su parterre urbanistica tradizionale di metà Novecento, con palazzine di 6/8 piani e qualche negozio al piano terra",
+    "link2": "https://maps.app.goo.gl/oYHazkU6UFQ2bQRk8"
+  },
+  {
+    "id": 27,
+    "nil_name": "Porta Romana",
+    "title1": "Arco di Porta Romana",
+    "text1": "servita dalle metropolitana M3 e dal tram 9, al centro di un trafficato incrocio all’imbocco di Corso Lodi, su cui si trovano bar ed esercizi commerciali e un PAM ben frequentato",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Arco%20di%20Porta%20Romana%2C%20Milano",
+    "title2": "Piazzale Libia",
+    "text2": "emblema dell'autocentrismo, una rotonda da svincolo autostradale nel cuore di un quartiere vivo e denso: si tratta di un’area di incrocio relativamente larga, con ampli parterre con sedute e giochi",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Libia%2C%20Milano"
+  },
+  {
+    "id": 28,
+    "nil_name": "Umbria - Molise – Calvairate",
+    "title1": "Piazzale Martini",
+    "text1": "parco di buone dimensioni nel quartiere di Calvairate, circondato da edifici tipici dell'urbanizzazione della prima parte del Novecento e strade solitamente piuttosto frequentate da un discreto traffico pedonale, vista anche la fermata tranviaria del bus 66; le strade attorno hanno diverse attività e bar a livello stradale, oltre alla biblioteca dal quartiere",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Martini%2C%20Milano",
+    "title2": "Piazzale Lodi",
+    "text2": "affollato incrocio, sia stradale che di trasporto pubblico, grazie alla fermata della M3 “Lodi TIBB” e le linee filoviarie 90/91 e 92 su viale Umbria; grande esercizio assortimento di negozi all’interno del “Centro Commerciale Piazza Lodi”, con ingresso all’angolo fra viale Umbria e via Colletta; nelle vicinanze, la recentemente rinnovata stazione “Milano Scalo Romana”, con ingresso più tranquillo su via Sannio e più automobilisticamente trafficato su Corso Lodi",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Lodi%2C%20Milano"
+  },
+  {
+    "id": 29,
+    "nil_name": "Ortomercato",
+    "title1": "fermata della 66 su via Lombroso",
+    "text1": "utile luogo per interviste il sabato mattina con Ortomercato, mercato Floricolo e mercato Ittico aperti al pubblico, in una zona altrimenti prettamente industriale",
+    "link1": "https://maps.app.goo.gl/3dhizYda2UeQR65H7",
+    "title2": "Parco Emilio Alessandrino",
+    "text2": "parco di discrete dimensioni, con area giochi per bambini, panchine alberate e aree cani ad entrambe le estremità, oltre cha alcuni orti condivisi e un’area coperta con tavoli e sedute nell’angolo sud-est del parco; non distante dalla fermata di Piazzale Cuoco sulla linea tranviaria 16",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Emilio%20Alessandrino%2C%20Milano"
+  },
+  {
+    "id": 30,
+    "nil_name": "Taliedo - Morsenchio - Q.re Forlanini",
+    "title1": "Piazza Ovidio",
+    "text1": "piazzale sulla larga strada principale dei quartieri di Taliedo e Forlanini perlopiù urbanizzati negli anni Sessanta, circondata da un’Esselunga, farmacie, bar, qualche negozio e una piccola area cani, oltre che il vicino parco Guido Galli; servita dalla ben utilizzata fermata tranviaria omonima della linea 27, strutturata e con pensilina e barriere",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Ovidio%2C%20Milano",
+    "title2": "Viale Ungheria-via Giraud",
+    "text2": "sulla strada principale del quartiere Morsenchio, con un Carrefour, un panificio, alcuni piccoli negozi, edificata soprattutto negli anni Sessanta; servita da fermate di bus e dal capolinea del  tram 27",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Viale%20Ungheria-via%20Giraud%2C%20Milano"
+  },
+  {
+    "id": 33,
+    "nil_name": "Rogoredo - Santa Giulia",
+    "title1": "Parco Trapezio di Santa Giulia-Parcheggio ATM Rogoredo",
+    "text1": "grande parco inerbito in un’area di nuova edificazione, con alcune aree gioco e sedute; servita da diverse linee di autobus, la stazione metropolitana e ferroviaria di Rogoredo FS, oltre che da un parcheggio sotterraneo",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Parco%20Trapezio%20di%20Santa%20Giulia-Parcheggio%20ATM%20Rogoredo%2C%20Milano",
+    "title2": "Via Bruno Cassinari",
+    "text2": "principale via del quartiere di Santa Giulia, pedonalizzata e con diverse residenze, bar, panchine ai suoi lati",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Via%20Bruno%20Cassinari%2C%20Milano"
+  },
+  {
+    "id": 35,
+    "nil_name": "Lodi-Corvetto",
+    "title1": "Corvetto M3",
+    "text1": "fermata della M3 che serve l’omonimo piazzale, sovrastato dal trafficato cavalcavia del raccordo autostradale e circondato da molte attività commerciali, soprattutto verso  e su viale Martini, dove si trovano una stazione di bike-sharing “BikeMi” e una piccola area pedonale che ospita un’edicola e alcune bancarelle e un piccolo chiosco esterno (apertura alle 17.30",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Corvetto%20M3%2C%20Milano",
+    "title2": "Piazzale Gabriele Rosa",
+    "text2": "larga area verde all’interno di una rotonda dotata di un marciapiede a tratti piuttosto largo, con spazi gioco per bambini e numerose panchine che proseguono su viale Omero; attraversato da un lungo percorso ciclabile che qui arriva da piazzale Lodi e servito dalla linea filoviaria 93; circondato da palazzi, che ospitano numerose attività commerciali ai rispettivi piani terra, e una chiesa",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Gabriele%20Rosa%2C%20Milano"
+  },
+  {
+    "id": 36,
+    "nil_name": "Scalo Romana",
+    "title1": "Piazza Adriano Olivetti",
+    "text1": "piazza pedonale e parzialmente inverdita, con diverse lunghe panchine e un ristorante con sedute esterne; sita in un’area di recentissima urbanizzazione, dietro la Fondazione Prada, al cui ingresso su via Orobia il flusso pedonale può essere significativo, e con alcuni uffici ai suoi lati",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Adriano%20Olivetti%2C%20Milano",
+    "title2": "Parco Autieri- Carrefour di piazza Angilberto",
+    "text2": "largo parco cittadino, con panchine, aree giochi per bambini, panchine e campi da basket e calcio; a circa 500 metri, al limitare della parte più densa dsi trova piazza Angilberto II, parte del programma “piazze aperte”, che ha portata ad una risistemazione degli spazi e parziali pedonalizzazioni, prima tattiche e poi definitive, con panchine distribuite su tutta la piazza e campi da ping pong.",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Autieri-%20Carrefour%20di%20piazza%20Angilberto%2C%20Milano"
+  },
+  {
+    "id": 37,
+    "nil_name": "Morivione",
+    "title1": "Esselunga Carlo de Angeli",
+    "text1": "grande supermercato, punto focale della zona, che è di recente urbanizzazione; ha un grande parcheggio di fronte, non lontano dalla discoteca “Magazzini Generali\" e da un negozio di bici (chiuso la domenica), all’angolo con via Buzzi; non ci sono densi insediamenti residenziali adiacenti, ma si trovano diverse torri, ciascuna circondata da verde, nelle immediate vicinanze, configurazione abbastanza tipica di fine Novecento - primi anni Duemila; servita dalla linea tranviaria 24 su via Ripamonti",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Esselunga%20Carlo%20de%20Angeli%2C%20Milano",
+    "title2": "Parco Memorie industriali",
+    "text2": "larga area verde a nord di torri residenziali (di recente urbanizzazione), con aree cani, fitness e con giochi per bambini",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Memorie%20industriali%2C%20Milano"
+  },
+  {
+    "id": 38,
+    "nil_name": "Vigentino - Q.re Fatima",
+    "title1": "Via Ripamonti-Sibari",
+    "text1": "incrocio sulla strada principale del quartiere Vigentino, in un insieme di edifici di inizio Novecento e degli anni 60/70 circondato da bar con sedute esterne, qualche piccolo negozio, e con la LIDL non molto lontana in direzione di di via Quaranta; servita dalla linea tranviaria 24, molto utilizzata soprattutto in direzione di Piazza Fontana, verso il centro",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Via%20Ripamonti-Sibari%2C%20Milano",
+    "title2": "Piazza Madonna di Fatima",
+    "text2": "piazza antistante la chiesa omonima, vicina al parco Ripamonti-Sabini, mercatino dell'usato, negozi su via Val di sole e piazzale Madonna di Fatima, non lontano si trova anche il \"Parco Grande”; i negozi sono riparati sotto porticati, al piano terra di edifici degli anni Sessanta/Ottanta; servita dalla linea tranviaria 24, su via Ripamonti",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Madonna%20di%20Fatima%2C%20Milano"
+  },
+  {
+    "id": 41,
+    "nil_name": "Gratosoglio - Q.re Missaglia - Q.re Terrazze",
+    "title1": "Incrocio via Saponaro-via Costantino Baroni",
+    "text1": "incrocio circondato da alcune attività, come una farmacia, due bar con larghe sedute esterne e un panificio, con marciapiede alberato su via Baroni; servita da alcune  fermate del bus 79",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Incrocio%20via%20Saponaro-via%20Costantino%20Baroni%2C%20Milano",
+    "title2": "Eurospin via Saponaro",
+    "text2": "supermercato vicino alla chiesa “santa Maria madre della Chiesa, di fronte a due palazzine di case ALER; servita dalle linee tranviarie 3 e 15, con fermate piuttosto utilizzate, soprattutto in direzione centro",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Eurospin%20via%20Saponaro%2C%20Milano"
+  },
+  {
+    "id": 42,
+    "nil_name": "Stadera - Chiesa Rossa - Q.re Torretta - Conca Fallata",
+    "title1": "Parco Chiesa Rossa",
+    "text1": "parco alberato di discrete dimensioni, con aree gioco per bambini, campo da basket, panchine, un bar con estesa area porticata esterna e la biblioteca di quartiere (chiusa la domenica",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Parco%20Chiesa%20Rossa%2C%20Milano",
+    "title2": "Piazza Abbiategrasso - Chiesa Rossa M2",
+    "text2": "importante snodo del trasporto pubblico di zona, con il capolinea della M2, fermate tranviarie delle linee 3 e 15; attraversata dalla larga e trafficata via dei Missaglia, con alcune attività commerciali sul lato della piazza verso via Medeghino e un parcheggio di interscambio ATM",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Abbiategrasso%20-%20Chiesa%20Rossa%20M2%2C%20Milano"
+  },
+  {
+    "id": 43,
+    "nil_name": "Tibaldi",
+    "title1": "GetFIT - Via Meda",
+    "text1": "su una delle principali direttrici della zona, servita da due ben utilizzate fermate linea tranviaria 3; diverse piccole attività commerciali (ai piani terra dei rispettivi palazzi) e un supermercato su viale Giovanni da Cermenate, dove si trovano alcune aree verdi attrezzate",
+    "link1": "https://www.google.com/maps/search/?api=1&query=GetFIT%20-%20Via%20Meda%2C%20Milano",
+    "title2": "Esselunga via Pezzotti",
+    "text2": "grande supermercato su un’altra strada principale del quartiere, attraversato dalla linea tranviaria 15 (la fermata “Giovanni da Cermenate” è piuttosto ben utilizzata); mediana foltamente alberata, con negozi e bar ai piani terra di via Pezzotti e una chiesa con piccolo sagrato all’angolo con via Carcano",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Esselunga%20via%20Pezzotti%2C%20Milano"
+  },
+  {
+    "id": 44,
+    "nil_name": "Porta Ticinese – Conchetta",
+    "title1": "Parco Baden Powell",
+    "text1": "parco molto frequentato, anche da famiglie nel weekend.",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Parco%20Baden%20Powell%2C%20Milano",
+    "title2": "Piazzale Stazione Genova; luogo interessante",
+    "text2": "il piazzale di fronte alla stazione ha molto potenziale, e sono stati fatti degli interventi di recente. Buona frequentazione, sicuramente un buon posto per effettuare le interviste.",
+    "link2": "https://maps.app.goo.gl/TNLVWVTVR42fFE6U9"
+  },
+  {
+    "id": 45,
+    "nil_name": "Moncucco - San Cristoforo",
+    "title1": "Via L. Il Moro Via Pestalozzi",
+    "text1": "fermata tranviaria della linea 2, sul Naviglio Grande e una strada con un buon numero di attività commerciali; attraversato il vicina al ponte di san Cristoforo, sul lato opposto del naviglio, si trova la chiesa di san Cristoforo è molto più tranquillo e semi-pedonalizzatpo",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Via%20L.%20Il%20Moro%20Via%20Pestalozzi%2C%20Milano",
+    "title2": "Parco La Spezia-casa di quartiere",
+    "text2": "grande parco con campi da basket, giochi per bambini e un’area coperta, spesso usata come campo da gioco; vicino al Penny di via Moncucco e fiancheggiato dalla rampa di accesso alla A7",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20La%20Spezia-casa%20di%20quartiere%2C%20Milano"
+  },
+  {
+    "id": 46,
+    "nil_name": "Barona",
+    "title1": "Ospedale San Paolo",
+    "text1": "importante ospedale della zona, con molti parcheggi che lo circondano; zona non residenziale, visto che l’altro prominente edificio è la “Casa di riposo Famagosta”",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Ospedale%20San%20Paolo%2C%20Milano",
+    "title2": "Parco Cascina Bianca",
+    "text2": "grande parco circondato da edifici residenziali, perlopiù intorno ai 6/8 piani; ai confini dell’area edificata del territorio comunale; molte panchine e alberi, alcune aree gioco per bambini e piccoli negozi sul lato sud di via Cascina Bianca",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Cascina%20Bianca%2C%20Milano"
+  },
+  {
+    "id": 48,
+    "nil_name": "Ronchetto sul Naviglio - Q.re Lodovico il Moro",
+    "title1": "Centro commerciale “Tre castelli”",
+    "text1": "grande centro commerciale in un’area di urbanizzazione tipica degli anni 70 e 80: palazzine alte 8/10 piani, marciapiede stretti, aree alberate attorno agli edifici; parcheggio di discrete dimensioni di fronte, piccola area verde con panchine a fianco, sul lato dove si trova anche un bar sotto porticato, e chiesa sul lato opposto della strada; fermata bus 95, senza pensiline",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Centro%20commerciale%20%E2%80%9CTre%20castelli%E2%80%9D%2C%20Milano",
+    "title2": "Parco Andrea Campagna - Teramo",
+    "text2": "grande area verde, effettiva continuazione del parco agricolo sud Milano, con panchine nella zona alberata, campo da calcio, pallavolo e disc golf verso via Campari; palazzine dense su un lato, dove si trova la fermata autobus e un piccolo bar con sedute esterne",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Andrea%20Campagna%20-%20Teramo%2C%20Milano"
+  },
+  {
+    "id": 49,
+    "nil_name": "Giambellino",
+    "title1": "San Cristoforo M4",
+    "text1": "capolinea della nuova M4 e importante fermata ferroviaria (linea per Mortara) e tramviaria (linea 14, piazza Tirana, che ospita anche una piccola area verde). bar e  ristoranti nelle immediate vicinanze",
+    "link1": "https://www.google.com/maps/search/?api=1&query=San%20Cristoforo%20M4%2C%20Milano",
+    "title2": "Biblioteca Lorenteggio",
+    "text2": "biblioteca di quartiere, in un’area verde con sedute e panchine , area giochi e palestra all’aperto sul lato opposto di largo Giambellino; poco lontano dalla fermata della linea tranviaria 14, molto ben utilizzata, su via Giambellino, la tradizionale strada principale del quartiere",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Biblioteca%20Lorenteggio%2C%20Milano"
+  },
+  {
+    "id": 50,
+    "nil_name": "Porta Genova",
+    "title1": "Mudec, ingresso",
+    "text1": "gran giro di persone, molte probabilmente di fuori Milano",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Mudec%2C%20ingresso%2C%20Milano",
+    "title2": "Parco Solari",
+    "text2": "verso la fermata della metro di coni zugna la zona è stata recentemente riqualificata, diventa un buon paragone per il resto delle strade intorno al parco. Ottimo giro di persone",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Solari%2C%20Milano"
+  },
+  {
+    "id": 51,
+    "nil_name": "Porta Magenta",
+    "title1": "Esselunga via Washington",
+    "text1": "grande supermercato, su strada e marciapiede piuttosto larghi; mix di edifici di epoche molto diverse, piccoli negozi agli angoli",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Esselunga%20via%20Washington%2C%20Milano",
+    "title2": "Parterre via Dezza",
+    "text2": "si tratta di una residenziale molto tranquilla, marginalmente interessata dalla riqualificazione in seguito ai cantieri della metropolitana.",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parterre%20via%20Dezza%2C%20Milano"
+  },
+  {
+    "id": 52,
+    "nil_name": "Bande Nere",
+    "title1": "Frattini M4",
+    "text1": "fermata della metropolitana, in una rotonda con una grande area verde attrezzata al centro, recentemente riaperta dopo i lavori di costruzione della M4; buon numero di panchine e aree gioco per bambini; negozi e una chiesa ai lati della piazza, su larghi marciapiede",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Frattini%20M4%2C%20Milano",
+    "title2": "Piazza Bettini",
+    "text2": "piazza Bettini è un punto particolarmente “caldo”: la piazza aperta è stata osteggiata da parte dei residenti. Potrebbe essere interessante per incontrare opinioni polarizzate e quindi interessate al dialogo (o agli insulti, ndr",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Bettini%2C%20Milano"
+  },
+  {
+    "id": 53,
+    "nil_name": "Lorenteggio",
+    "title1": "Piscina Cardellino - Parco delle Crocerossine",
+    "text1": "piscina comunale ai margini di due aree verdi di discrete dimensioni, di fronte ad un complesso di uffici di recente costruzione e edifici residenziali di media altezza",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piscina%20Cardellino%20-%20Parco%20delle%20Crocerossine%2C%20Milano",
+    "title2": "Giardino Alberto Moravia",
+    "text2": "parco con diverse strutture per bambini e aree cani, vicino alla fermata “Inganni” della M1, circondato da edifici anni Sessante di 6/8 piani",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Giardino%20Alberto%20Moravia%2C%20Milano"
+  },
+  {
+    "id": 55,
+    "nil_name": "Baggio - Q.re degli Olmi - Q.re Valsesia",
+    "title1": "Biblioteca Baggio-Parco di Baggio",
+    "text1": "parco al centro del quartiere, biblioteca di quartiere  (chiusa la domenica, sabato chiude alle 18); aree gioco, percorsi per jogging, numerose panchine  e una piazza usata anche come area gioco (piazza Anita Garibaldi",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Biblioteca%20Baggio-Parco%20di%20Baggio%2C%20Milano",
+    "title2": "Parco in Memoria delle Vittime Italiane nei Gulag",
+    "text2": "grande parco nella parte sud del quartiere, con aree giochi, campi da calcio e panchine,, fiancheggiato da un Eurospin con annesso parcheggio su via Macarotti, una chiesa e numerosi edifici residenziali",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20in%20Memoria%20delle%20Vittime%20Italiane%20nei%20Gulag%2C%20Milano"
+  },
+  {
+    "id": 56,
+    "nil_name": "Forze Armate",
+    "title1": "Ospedale San Carlo",
+    "text1": "grande ospedale con ampie superfici dedicate a parcheggio nei dintorni",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Ospedale%20San%20Carlo%2C%20Milano",
+    "title2": "CDI Centro Diagnostico Italiano | Saint Bon",
+    "text2": "ospedale di medie dimensioni, di fronte all'ospedale militare e vicino alla fermata “Inganni “ della M1",
+    "link2": "https://www.google.com/maps/search/?api=1&query=CDI%20Centro%20Diagnostico%20Italiano%20%7C%20Saint%20Bon%2C%20Milano"
+  },
+  {
+    "id": 57,
+    "nil_name": "San Siro",
+    "title1": "Mercato piazzale Brescia-via Osoppo",
+    "text1": "mercato comunale del sabato, fino alle 17; strada “tradizionale”, con edifici vicini l’uno all’altro, e negozi al piano terra su via Osoppo; piazzale Brescia ha una chiesa e una  larga area verde centrale, con aree giochi e panchine; servita dalla linea tranviaria 16, attraversante il piazzale",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Mercato%20piazzale%20Brescia-via%20Osoppo%2C%20Milano",
+    "title2": "Piazzale Selinunte",
+    "text2": "piazzale con ampia area verde centrale, con campo da basket, giochi per bambini e area cani; circondata da densi edifici residenziali, con alcune attività commerciali",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazzale%20Selinunte%2C%20Milano"
+  },
+  {
+    "id": 58,
+    "nil_name": "De Angeli-Monte Rosa",
+    "title1": "Lotto M1 M5 - Esselunga via Vigliani",
+    "text1": "importante hub di trasporto pubblico, punto di incrocio delle linee M1 e M5 e della filoviaria 90/91, che qui effettua capolinea; vicino ad un Esselunga su via Vigliani, con un parcheggio di medie dimensioni di fronte",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Lotto%20M1%20M5%20-%20Esselunga%20via%20Vigliani%2C%20Milano",
+    "title2": "Via Monte Rosa-Piazza Amendola-panchine parterre via Domenichino",
+    "text2": "fermata della M1, su strada con un discreto traffico pedondale, su cui si trovano un’ edicola, fiorista, qualche bar con seduta e uscita Amendola M1, oltre all'Esselunga e le panchine sul parterre alberato di via Domenichino",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Via%20Monte%20Rosa-Piazza%20Amendola-panchine%20parterre%20via%20Domenichino%2C%20Milano"
+  },
+  {
+    "id": 59,
+    "nil_name": "Tre Torri",
+    "title1": "Fontana Quattro stagioni",
+    "text1": "fontana monumentale in un’area verde di discrete dimensioni, su uno degli accessi al parco Tre Torri",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Fontana%20Quattro%20stagioni%2C%20Milano",
+    "title2": "Parco Tre torri-Citylife",
+    "text2": "area pedonalizzata, servita dalla M5  “Tre Torri” e situata in un'area commerciale di costruzione piuttosto recente; molto frequentata, sia da residenti di altre zone di Milano che di altri comuni",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Tre%20torri-Citylife%2C%20Milano"
+  },
+  {
+    "id": 60,
+    "nil_name": "Stadio – Ippodromi",
+    "title1": "San Siro Stadio M5 - giardini Marangoni",
+    "text1": "capolinea metropolitano della M5 e di diversi bus (su via Harar) e tranviario della linea 16, in una strada di accesso alla città di discreta importanza (via Dessiè, direzione centro) adiacenti piccole aree verdi su piazza Axum (piccole attività commerciali) \n Vedi su Google Maps\n\nevitare nel turno di pomeriggio di sabato",
+    "link1": "https://www.google.com/maps/search/?api=1&query=e%20via%20val%20Poschiavina%3B%20urbanistica%20fatta%20di%20torri%20di%206/8%20piani%2C%20con%20aree%20verdi%20attorno%3B%20-%20evitare%20nel%20turno%20di%20pomeriggio%20di%20sabato%2C%20Milano",
+    "title2": "Via Paravia, fra le vie Civitali e Zamagna",
+    "text2": "strada “tradizionale”, con diversi negozi e bar, un Carrefour, ospedale veterinario \"San francesco\" all'angolo con via Newton e una farmacia); molti parcheggi a centro strada",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Via%20Paravia%2C%20fra%20le%20vie%20Civitali%20e%20Zamagna%2C%20Milano"
+  },
+  {
+    "id": 61,
+    "nil_name": "Quarto Cagnino",
+    "title1": "Parco del Fanciullo",
+    "text1": "parco cittadino di medie dimensioni al centro del quartiere: alberato, giochi per bambini, campi e panchine; quartiere edificato negli anni 60 e 70: edifici di media altezza, con verde usato con verde attorno e alcuni esercizi commerciali su via Cannizzaro",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Parco%20del%20Fanciullo%2C%20Milano",
+    "title2": "Parco delle Cave, ingresso via Marchesi",
+    "text2": "ingresso punto piuttosto frequentato ad un grande parco attrezzato, luogo di passaggio tra chi entra/esce dal parco, utilizzato soprattutto da gente della zona; edifici residenziali nei pressi dell’ingresso",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20delle%20Cave%2C%20ingresso%20via%20Marchesi%2C%20Milano"
+  },
+  {
+    "id": 65,
+    "nil_name": "Q.re Gallaratese - Q.re San Leonardo – Lampugnano",
+    "title1": "Giardini \"Sergio Vieira de Mello\"",
+    "text1": "parco cittadino di medie dimensioni al centro del quartiere: alberato, giochi per bambini, campi e panchine; frequentato da gente della zona, pieno nei weekend; zona non troppo densamente edificata, ma diversi edifici sono di tipo “torre nel parco”; sul lato est c’è un piccolo parcheggio del parco, a nord la fermata”Uruguay” della M1",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Giardini%20%22Sergio%20Vieira%20de%20Mello%22%2C%20Milano",
+    "title2": "Bonola M1-ingresso centro commerciale (lato stazione)",
+    "text2": "centro commerciale di riferimento della zona, raggiunto sia in auto che tramite la vicina fermata “Bonola” della M1, il cui ingresso è una piazza pedonale con discreti flussi di traffico e diverse panchine, da cui si accede direttamente al centro commerciale; palazzine anni 70 nei dintorni, oltre che pensilina servita da tre linee di autobus",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Bonola%20M1-ingresso%20centro%20commerciale%20%28lato%20stazione%29%2C%20Milano"
+  },
+  {
+    "id": 66,
+    "nil_name": "QT8",
+    "title1": "CASVA",
+    "text1": "centro culturale vicino alla fermata QT8 della M1, la parrocchia \"Santa Maria Nascente al QT8\" e aree verdi a sud ed est di Piazza Maria Nascente; edifici medio-bassi, alcune villette a schiera e piccole palazzine",
+    "link1": "https://www.google.com/maps/search/?api=1&query=CASVA%2C%20Milano",
+    "title2": "Parco Monte Stella",
+    "text2": "grande parco formato da una collina, attorno a cui salgono diversi percorsi per passeggiate; visitato tanto da residenti della zona che dal resto della città, data la vicinanza della M1",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Monte%20Stella%2C%20Milano"
+  },
+  {
+    "id": 67,
+    "nil_name": "Portello",
+    "title1": "Domodossola FN",
+    "text1": "nodo di interscambio fra M5, stazione ferroviaria e fermata tranviaria, molto ben utilizzato, vista anche la grande pensilina che copre l’area antistante; parco di medie dimensioni sul lato opposto di via Domodossola; alcune piccole attività nelle vicinanze, edifici densi e affiancati l’uno all’altro",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Domodossola%20FN%2C%20Milano",
+    "title2": "via Ruggero di Lauria",
+    "text2": "Unes in piazzale Damiano Chiesa, al cui centro si trova una piccola area verde attrezzata; piccoli negozi e sedute lungo la via alberata; urbanistica tipica di fine Ottocento: edifici vicini l’uno all’altro e di media altezza",
+    "link2": "https://www.google.com/maps/search/?api=1&query=via%20Ruggero%20di%20Lauria%2C%20Milano"
+  },
+  {
+    "id": 68,
+    "nil_name": "Pagano",
+    "title1": "Pagano M1 - parco Vergani Pallavicini (mercato la domenica fino alle 16, parcheggio MM) - Piazza Wagner",
+    "text1": "fermata della M1 su una strada molto larga, vicina ad un parco piuttosto grande e ben attrezzato e un ampio parcheggio che funge da area mercato la domenica; edifici densi, perlopiù di urbanizzazione matura; non lontana dalla parzialmente pedonalizzata piazza Wagner, centro di una zona più riconoscibilmente urbana, senza vaste distese di parcheggi a raso; sede di un mercato coperto, una chiesa e molte piccola attività (maggiori flussi pedonali locali",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Pagano%20M1%20-%20parco%20Vergani%20Pallavicini%20%28mercato%20la%20domenica%20fino%20alle%2016%2C%20parcheggio%20MM%29%20-%20Piazza%20Wagner%2C%20Milano",
+    "title2": "Parco Bompiani",
+    "text2": "vasta area verde attrezzata, con area giochi per bambini e area cani, attorniata da palazzine medio-alte e servita dalla linea tranviaria 19 s via Vincenzo Monti e da una stazione BikeMi nell’angolo più a sud",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Bompiani%2C%20Milano"
+  },
+  {
+    "id": 69,
+    "nil_name": "Sarpi",
+    "title1": "Mercato di via Fauchè (solo sabato)+Giardini piazza Gerusalemme",
+    "text1": "strada su cui si svolge il mercato del sabato e su cui si trovano altresì alcuni esercizi commerciali; poco distante dai piccoli ma attrezzati giardini di Piazza Gerusalemme, che sono serviti dall’omonima fermata della M5; strada eccessivamente larga, auto in sosta spesso su marciapiede; mix di edifici, dall’urbanistica matura e densa di fine Ottocento ad alcuni complessi più industriali e alberghieri, che contribuiscono meno alla vitalità della strada",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Mercato%20di%20via%20Fauch%C3%A8%20%28solo%20sabato%29%2BGiardini%20piazza%20Gerusalemme%2C%20Milano",
+    "title2": "Via Cesariano",
+    "text2": "piccola strada completamente pedonalizzata, con sedute, verde e giochi per bambini; fiancheggiata da palazzine medio-alte, con diverse attività commerciali al pian terreno; non lontano dalle più recentemente pedonalizzate via Verga e piazza Ercole Morselli; a discreta distanza, servita da diverse linee tranviarie (2, 4, 12 e 14, sul trafficato incrocio di piazza Lega Lombarda",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Via%20Cesariano%2C%20Milano"
+  },
+  {
+    "id": 70,
+    "nil_name": "Ghisolfa",
+    "title1": "Giardino Carmelo Bene-Conad via Principe Eugenio",
+    "text1": "di modeste dimensioni, sito in un’area di più recente urbanizzazione, con giochi, area pattinaggio e basket; una Conad con un parcheggio a raso di fronte a breve distanza",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Giardino%20Carmelo%20Bene-Conad%20via%20Principe%20Eugenio%2C%20Milano",
+    "title2": "Giardino Bonelli",
+    "text2": "giardini attrezzati (giochi per bambini e panchine), circondati da edifici residenziali medio-alti  e serviti dalla fermata del tram 12 “Mac Mahon-Caracciolo”, nei cui pressi si trovano diversi negozi",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Giardino%20Bonelli%2C%20Milano"
+  },
+  {
+    "id": 71,
+    "nil_name": "Villapizzone - Cagnola – Boldinasco",
+    "title1": "Piazza Prealpi",
+    "text1": "piazza adibita a parco, attrezzata con giochi e panchine, accanto ad un mercato coperto e servita dall’omonima fermata tranviaria; circondata da palazzi del primo Novecento, con diverse attività al piano terra",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Prealpi%2C%20Milano",
+    "title2": "Centro Commerciale “Il Portello”",
+    "text2": "centro commerciale con piazza esterna, bancarelle, e bar, ben frequentato e poco distante dal Parco Portello, che ha panchine, e buona frequentazione nei fine settimana, e dalla fermata tranviaria (linee 1 e 14) in Vial Certosa.",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Centro%20Commerciale%20%E2%80%9CIl%20Portello%E2%80%9D%2C%20Milano"
+  },
+  {
+    "id": 72,
+    "nil_name": "Maggiore - Musocco – Certosa",
+    "title1": "Cimitero Maggiore",
+    "text1": "cimitero più grande della città, vicino al capolinea della linea tranviaria 14; dotato di un grande piazzale all’ingresso e situato al termine di viale Certosa, fiancheggiato da case “tradizionali”: dense, non troppo alte e con negozi al piano terra",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Cimitero%20Maggiore%2C%20Milano",
+    "title2": "Centro commerciale \"Milano Merlata\"",
+    "text2": "grande centro commerciale di recente apertura in un quartiere di nuova costruzione; all’esterno ci sono fermata bus (in via Pasolini) e rastrelliere per bici (oltre allo sterminato parcheggio auto sotterraneo). moltissime attività di tutti i tipi all’interno",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Centro%20commerciale%20%22Milano%20Merlata%22%2C%20Milano"
+  },
+  {
+    "id": 76,
+    "nil_name": "Quarto Oggiaro - Vialba – Musocco",
+    "title1": "Parco di Villa Scheibler",
+    "text1": "grande parco attrezzato al centro del quartiere di Quarto Oggiaro; la villa è sede di uffici pubblici e alcune esposizioni culturali; ben utilizzate le vicine fermate del bus 57 su via Sebastiano Satta",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Parco%20di%20Villa%20Scheibler%2C%20Milano",
+    "title2": "via de Roberto",
+    "text2": "strada a tratti pedonalizzata strutturalmente, con la” fontana di Quarto Oggiaro” al centro, diversi negozi al piano terra e sedute; nelle immediate vicinanze la chiesa di Santa Lucia e il Mercato Comunale di Quarto Oggiaro, che domenica è aperto solo la mattina; edifici medio-bassi ai lati, esercizi commerciali e dehor al piano terra,",
+    "link2": "https://www.google.com/maps/search/?api=1&query=via%20de%20Roberto%2C%20Milano"
+  },
+  {
+    "id": 77,
+    "nil_name": "Bovisa",
+    "title1": "Piazza Bausan",
+    "text1": "piazza centrale del quartiere, capolinea del tram 2 e servita dalla linea filoviaria 92 e di bus 82; numerosi negozi intorno (che proseguono su via degli Imbriani e via Baldinucci), una piccola fontana con sedute al centro",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Bausan%2C%20Milano",
+    "title2": "Biblioteca Dergano /supermercato Tigros/parco Torregiani",
+    "text2": "angolo fra via Baldinucci e via Maffucci, con biblioteca chiusa sabato mattina e domenica, parco con giochi e panchine e supermercato ben frequentato con un piccolo parcheggio di fronte; vicina al campus di via Candiani del Politecnico, la cui area verde è discretamente utilizzata anche da residenti; servita da alcune fermate dell’autobus 82, tutte con pensilina",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Biblioteca%20Dergano%20/supermercato%20Tigros/parco%20Torregiani%2C%20Milano"
+  },
+  {
+    "id": 78,
+    "nil_name": "Farini",
+    "title1": "Lancetti FS-porticato viale Lancetti",
+    "text1": "stazione del passante ferroviario, con servizio frequente tutto il giorno; vicina ad un’area cani, una LIDL su viale Lancetti (lato della stazione) e Boggi (sul lato opposto) fermata tranviaria della linea 2 su viale Lancetti, su mediana alberata",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Lancetti%20FS-porticato%20viale%20Lancetti%2C%20Milano",
+    "title2": "Bar Nuova Posteria Milanese",
+    "text2": "bar su strada trafficata, vicino ad un  benzinaio/meccanico della Esso, utile se c’è gente ad aspettare le riparazioni; servita dalla fermata del filobus 92 su viale Jenner",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Bar%20Nuova%20Posteria%20Milanese%2C%20Milano"
+  },
+  {
+    "id": 79,
+    "nil_name": "Dergano",
+    "title1": "Piazza Dergano",
+    "text1": "piazza recentemente pedonalizzata come parte del programma “piazza aperte” e ben frequentata, con panchine e tavoli da picnic e ping pong; numerosi negozi e un parco nelle vicinanze, è il tradizionale centro del quartiere; edifici densi e di media altezza di metà secolo, misti ad altri più antichi",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Dergano%2C%20Milano",
+    "title2": "Dergano M3",
+    "text2": "fermata della metropolitana  e delle linea bus 70; piazza pedonale con alcune bancarelle; molti negozi sull'adiacente via Pellegrino Rossi; mix di edifici di inizio secolo e anni 50-60; situata sulla tradizionale strada principale di accesso dalla valle del Seveso (strada Comasina",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Dergano%20M3%2C%20Milano"
+  },
+  {
+    "id": 80,
+    "nil_name": "Affori",
+    "title1": "Affori Centro M3",
+    "text1": "fermata della metropolitana e delle linea bus 70, situata sulla tradizionale strada principale di accesso dalla valle del Seveso (strada Comasina); uscita dalla metro su piazza pedonale, con giochi per bambini e alcune bancarelle; molti negozi sull'adiacente via Carlo Imbonati; mix di edifici di inizio secolo e anni 50-60-70; parcheggio di media capienza a raso poco distante",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Affori%20Centro%20M3%2C%20Milano",
+    "title2": "Parco Villa Litta Affori",
+    "text2": "grande parco ben attrezzato nel quartiere di Affori, un quartiere di antica edificazione; ingresso da viale Affori vicino alla biblioteca e a Villa Litta; parecchie persone senza fretta nei weekend, non lontano dalle fermate Affori FN e Milano Affori",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Parco%20Villa%20Litta%20Affori%2C%20Milano"
+  },
+  {
+    "id": 81,
+    "nil_name": "Bovisasca",
+    "title1": "Quarto Oggiaro FN-deposito veicoli rimossi",
+    "text1": "in una zona prevalentemente industriale alla periferia della città, stazione suburbana con servizio piuttosto frequente (un poco ridotto la domenica mattina); non lontana da alcuni uffici e dal centro commerciale “Metropoli”, che però si trova nel comune Novate Milanese, appena oltre il confine: la strada fra centro commerciale e stazione vede un discreto traffico di utilizzatori del centro",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Quarto%20Oggiaro%20FN-deposito%20veicoli%20rimossi%2C%20Milano",
+    "title2": "Centro commerciale Unicenter",
+    "text2": "piccolo centro commerciale del quartiere, ospitante fra gli altri un bar, le poste e un supermercato; parcheggio a servizio di fronte, piccolo parco adiacente ed edifici residenziali su entrambi i lati del centro commerciale; fermate autobus nelle vicinanze, soprattutto su via Bovisasca verso il centro",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Centro%20commerciale%20Unicenter%2C%20Milano"
+  },
+  {
+    "id": 83,
+    "nil_name": "Bruzzano",
+    "title1": "Piazza Bruzzano-via Acerbi",
+    "text1": "piazza principale del quartiere, recentemente pedonalizzata tatticamente e fra qualche polemica; ci sono panchine e tavoli, un supermercato in piazza, alcuni piccoli esercizi commerciali su via Capsoni e una chiesa appena su via Acerbi, dove si trova un’altra piccola piazzetta con palestra tra via Capsoni e via Fulton",
+    "link1": "https://www.google.com/maps/search/?api=1&query=Piazza%20Bruzzano-via%20Acerbi%2C%20Milano",
+    "title2": "Piazza Giustino Fortunato-parco della Zucca",
+    "text2": "piazza adibita a parco con diverse panchine, diversi esercizi commerciali attorno, alcuni con sedute esterne; c’è un altro piccolo parco di fronte su via Casarsa,, con giochi per bambini; situata su una strada molto trafficata, fermate autobus adiacenti",
+    "link2": "https://www.google.com/maps/search/?api=1&query=Piazza%20Giustino%20Fortunato-parco%20della%20Zucca%2C%20Milano"
+  }
+]

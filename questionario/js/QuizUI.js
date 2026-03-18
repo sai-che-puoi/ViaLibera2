@@ -221,6 +221,15 @@ export class QuizUI {
         container.dataset.valid = 'false';
     }
 
+    getSliderEmoji(value) {
+        const v = parseInt(value);
+        if (v <= 2) return '❌';
+        if (v <= 4) return '🤔';
+        if (v <= 6) return '➖';
+        if (v <= 8) return '👌🏽';
+        return '🚀';
+    }
+
     /**
      * Create slider element
      */
@@ -258,7 +267,7 @@ export class QuizUI {
         labels.style.width = '100%';
         labels.innerHTML = `
         <span>${question.minLabel}</span>
-        <span class="slider-value-center">${slider.value}</span>
+        <span class="slider-value-center">${this.getSliderEmoji(slider.value)} ${slider.value}</span>
         <span>${question.maxLabel}</span>
     `;
 
@@ -266,7 +275,7 @@ export class QuizUI {
         const centerValueSpan = labels.querySelector('.slider-value-center');
         slider.addEventListener('input', () => {
             valueDisplay.textContent = slider.value;
-            centerValueSpan.textContent = slider.value;
+            centerValueSpan.textContent = `${this.getSliderEmoji(slider.value)} ${slider.value}`;
         });
 
         container.appendChild(labels);
@@ -289,6 +298,21 @@ export class QuizUI {
         } else {
             container.textContent = question.text;
         }
+        return container;
+    }
+
+    createLink(question) {
+        const container = document.createElement('div');
+        container.className = 'link-wrapper';
+        const a = document.createElement('a');
+        a.href = question.href;
+        a.textContent = question.text;
+        if (question.attributes) {
+            Object.entries(question.attributes).forEach(([key, value]) => {
+                a.setAttribute(key, value);
+            });
+        }
+        container.appendChild(a);
         return container;
     }
 
@@ -428,7 +452,7 @@ export class QuizUI {
         container.appendChild(controls);
         container.appendChild(status);
 
-        let mediaRecorder = null;
+        this._mediaRecorder = null;
         let audioChunks = [];
         let recordingStartTime = null;
         let timerInterval = null;
@@ -436,14 +460,14 @@ export class QuizUI {
         startBtn.addEventListener('click', async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-                mediaRecorder = new MediaRecorder(stream);
+                this._mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
 
-                mediaRecorder.ondataavailable = (event) => {
+                this._mediaRecorder.ondataavailable = (event) => {
                     audioChunks.push(event.data);
                 };
 
-                mediaRecorder.onstop = () => {
+                this._mediaRecorder.onstop = () => {
                     this.recording = new Blob(audioChunks, {type: 'audio/webm'});
 
                     const statusText = status.querySelector('.status-text');
@@ -452,9 +476,15 @@ export class QuizUI {
                     status.classList.add('saved');
 
                     stream.getTracks().forEach(track => track.stop());
+
+                    // Resolve any pending finalizeRecording() promise
+                    if (this._recordingStopResolve) {
+                        this._recordingStopResolve();
+                        this._recordingStopResolve = null;
+                    }
                 };
 
-                mediaRecorder.start();
+                this._mediaRecorder.start();
                 recordingStartTime = Date.now();
 
                 startBtn.style.display = 'none';
@@ -477,8 +507,8 @@ export class QuizUI {
         });
 
         stopBtn.addEventListener('click', () => {
-            if (mediaRecorder && mediaRecorder.state === 'recording') {
-                mediaRecorder.stop();
+            if (this._mediaRecorder && this._mediaRecorder.state === 'recording') {
+                this._mediaRecorder.stop();
                 clearInterval(timerInterval);
 
                 startBtn.style.display = 'flex';
@@ -491,6 +521,21 @@ export class QuizUI {
 
     getRecording() {
         return this.recording || null;
+    }
+
+    /**
+     * If a recording is still in progress, stop it and wait for the blob to
+     * be finalised before resolving. Safe to call even if nothing is recording.
+     */
+    finalizeRecording() {
+        return new Promise((resolve) => {
+            if (!this._mediaRecorder || this._mediaRecorder.state !== 'recording') {
+                resolve();
+                return;
+            }
+            this._recordingStopResolve = resolve;
+            this._mediaRecorder.stop();
+        });
     }
 
     /**
@@ -858,11 +903,16 @@ export class QuizUI {
             return div;
         }
 
+        if (question.type === 'link') {
+            div.appendChild(this.createLink(question));
+            return div;
+        }
+
         const text = document.createElement('div');
         text.className = 'question-text';
 
         // Handle description type with array of text
-        if ((question.type === 'description' || question.type === 'sorting') && Array.isArray(question.text)) {
+        if ((question.type === 'description' || question.type === 'recording' || question.type === 'sorting') && Array.isArray(question.text)) {
             text.innerHTML = question.text.join('<br><br>');
         } else {
             text.textContent = `${question.text}`;
@@ -876,7 +926,6 @@ export class QuizUI {
             div.appendChild(this.createRadioGroup(question, index));
         } else if (question.type === 'option') {
             div.appendChild(this.createCheckboxGroup(question, index));
-            text.textContent = `${question.text} ID: ${this.id}`
         } else if (question.type === 'allocation') {
             div.appendChild(this.createResourceAllocation(question, index));
         } else if (question.type === 'sorting') {
@@ -1039,14 +1088,14 @@ export class QuizUI {
         
         input.addEventListener('input', () => {
             const filter = input.value.toLowerCase();
-            const filtered = interviewers.filter(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            const filtered = interviewers.filter(interviewer =>
+                interviewer.toLowerCase().includes(filter)
             );
             this.updateDropdownList(dropdownList, filtered, input);
             dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
             // Clear selection if input doesn't match exactly
-            const exactMatch = filtered.find(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase() === filter
+            const exactMatch = filtered.find(interviewer =>
+                interviewer.toLowerCase() === filter
             );
             if (!exactMatch) {
                 this.selectedInterviewer = null;
@@ -1056,8 +1105,8 @@ export class QuizUI {
         
         input.addEventListener('focus', () => {
             const filter = input.value.toLowerCase();
-            const filtered = interviewers.filter(interviewer => 
-                (interviewer.location + ' - ' + interviewer.couple).toLowerCase().includes(filter)
+            const filtered = interviewers.filter(interviewer =>
+                interviewer.toLowerCase().includes(filter)
             );
             this.updateDropdownList(dropdownList, filtered, input);
             dropdownList.style.display = filtered.length > 0 ? 'block' : 'none';
@@ -1086,7 +1135,7 @@ export class QuizUI {
         interviewers.forEach(interviewer => {
             const option = document.createElement('div');
             option.className = 'dropdown-option';
-            const value = interviewer.location + ' - ' + interviewer.couple;
+            const value = interviewer;
             option.textContent = value;
             option.dataset.value = value;
             
@@ -1154,7 +1203,7 @@ export class QuizUI {
                     // Also reset the center value display in labels
                     const centerValueSpan = slider.closest('.question-slider-container').querySelector('.slider-value-center');
                     if (centerValueSpan) {
-                        centerValueSpan.textContent = question.defaultValue;
+                        centerValueSpan.textContent = `${this.getSliderEmoji(question.defaultValue)} ${question.defaultValue}`;
                     }
                 }
             } else if (question.type === 'option') {
