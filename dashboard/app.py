@@ -295,7 +295,7 @@ def render_heatmap():
         aggregation="MEAN",
         threshold=0.05,
         intensity=1.0,
-        radiusPixels=30,
+        radiusPixels=50,
     )
 
     # Center on Milan (approximate center)
