@@ -29,7 +29,7 @@ st.set_page_config(page_title="Google Sheet Dashboard", layout="wide")
 
 # Toggle instead of radio
 # IS_MOBILE = st.toggle("Mobile layout", value=False)
-IS_MOBILE = True
+IS_MOBILE = False
 
 # If needed, still store in session_state
 st.session_state["layout_mode"] = "Mobile" if IS_MOBILE else "Desktop"
@@ -40,10 +40,10 @@ AXIS_FONT_SIZE = 16 if IS_MOBILE else 25
 TITLE_FONT_SIZE = 16 if IS_MOBILE else 25
 PIE_LABEL_FONT_SIZE = 14 if IS_MOBILE else 25
 CHART_HEIGHT = 400 if IS_MOBILE else 600
-MAP_HEIGHT = 400 if IS_MOBILE else 700
-SQUARE_CHART_SIZE = 350 if IS_MOBILE else 700
+MAP_HEIGHT = 400 if IS_MOBILE else 750
+SQUARE_CHART_SIZE = 350 if IS_MOBILE else 600
 CARTESIAN_TEXT_SIZE = 10 if IS_MOBILE else 16
-STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=40, l=20, r=20)
+STANDARD_MARGIN = dict(t=10, b=10, l=10, r=10) if IS_MOBILE else dict(t=20, b=150, l=20, r=20)
 
 PLOTLY_CONFIG_STATIC = {
     "staticPlot": True,         # this overrides zoom/pan/drag
@@ -302,7 +302,7 @@ def render_heatmap():
     view_state = pdk.ViewState(
         latitude=45.45,
         longitude=9.19,
-        zoom=10.8,    # tweak as you like (10–13)
+        zoom=11,    # tweak as you like (10–13)
         pitch=0,
         bearing=0,
     )
@@ -337,7 +337,7 @@ def render_cartesian_heatmap():
     # 1) Build evaluation grid for KDE
     xmin, xmax = -100, 100
     ymin, ymax = -100, 100
-    grid_size = 400  # Increase for smoother result (300–500 recommended)
+    grid_size = 500  # Increase for smoother result (300–500 recommended)
     grid_x, grid_y = np.mgrid[xmin:xmax:grid_size*1j, ymin:ymax:grid_size*1j]
 
     kde = gaussian_kde(np.vstack([x, y]))
@@ -349,7 +349,7 @@ def render_cartesian_heatmap():
             x=np.linspace(xmin, xmax, grid_size),
             y=np.linspace(ymin, ymax, grid_size),
             z=z.T,
-            colorscale="plasma",
+            colorscale="viridis",
             showscale=False,
             opacity=0.95,
         )
@@ -423,39 +423,39 @@ def render_cartesian_heatmap():
         ),
     ]
 
-    # 5) Add archetype markers (points only)
-    arche_x = [a["position"][0] for a in archetypes]
-    arche_y = [a["position"][1] for a in archetypes]
-    arche_labels = [a["label"] for a in archetypes]
+    # # 5) Add archetype markers (points only)
+    # arche_x = [a["position"][0] for a in archetypes]
+    # arche_y = [a["position"][1] for a in archetypes]
+    # arche_labels = [a["label"] for a in archetypes]
 
-    # Create short codes: A, B, C, ...
-    letters = list(string.ascii_uppercase)
-    short_labels = [letters[i] for i in range(len(arche_labels))]
+    # # Create short codes: A, B, C, ...
+    # letters = list(string.ascii_uppercase)
+    # short_labels = [letters[i] for i in range(len(arche_labels))]
 
     # Build legend lines like "A. Ecociclista", "B. Pedone socievole", ...
-    legend_lines = [
-        f"**{code}.** {label.replace("<br>", " ")}"
-        for code, label in zip(short_labels, arche_labels)
-    ]
+    # legend_lines = [
+    #     f"**{code}.** {label.replace("<br>", " ")}"
+    #     for code, label in zip(short_labels, arche_labels)
+    # ]
 
-    fig.add_trace(
-        go.Scatter(
-            x=arche_x,
-            y=arche_y,
-            mode="markers+text",
-            name="Archetipi",
-            marker=dict(
-                size=8,
-                color="gray",
-                line=dict(width=1, color="black"),
-            ),
-            text=short_labels,          # A, B, C, ...
-            textposition="top right",  # small labels, less overlap
-            textfont=dict(size=CARTESIAN_TEXT_SIZE, color="black", weight="bold"),     # font size as requested
-            hovertext=arche_labels,     # full label on hover
-            hoverinfo="text",
-        )
-    )
+    # fig.add_trace(
+    #     go.Scatter(
+    #         x=arche_x,
+    #         y=arche_y,
+    #         mode="markers+text",
+    #         name="Archetipi",
+    #         marker=dict(
+    #             size=8,
+    #             color="gray",
+    #             line=dict(width=1, color="black"),
+    #         ),
+    #         text=short_labels,          # A, B, C, ...
+    #         textposition="top right",  # small labels, less overlap
+    #         textfont=dict(size=CARTESIAN_TEXT_SIZE, color="black", weight="bold"),     # font size as requested
+    #         hovertext=arche_labels,     # full label on hover
+    #         hoverinfo="text",
+    #     )
+    # )
 
     fig.update_layout(
         shapes=shapes,
@@ -487,30 +487,33 @@ def render_cartesian_heatmap():
         width=SQUARE_CHART_SIZE,
         height=SQUARE_CHART_SIZE,
         # Larger margins to make space for outside labels
-        margin=dict(t=60, b=70, l=120, r=120),
+        margin=dict(t=60, b=60, l=120, r=120),
     )
 
     # 6) Center on the page using columns, but adapt layout for mobile (stack chart and legend vertically)
-    if IS_MOBILE:
+    if IS_MOBILE or not IS_MOBILE:
         # Stack: chart on top, legend below
-        st.plotly_chart(fig, use_container_width=True, config=PLOTLY_CONFIG_STATIC)
-
-        st.markdown("### Archetipi")
-        st.markdown("\n\n".join(legend_lines))
-    else:
-        # Original multi-column layout for desktop
-        col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
-
+        
+        col_left, col_center, col_right = st.columns([1,1, 1])
         with col_center:
-            st.plotly_chart(fig, use_container_width=False, config=PLOTLY_CONFIG_STATIC)
+            st.plotly_chart(fig, width='content', config=PLOTLY_CONFIG_STATIC)
 
-        with col_right_1:
-            st.markdown("### Archetipi")
-            st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
+        # st.markdown("### Archetipi")
+        # st.markdown("\n\n".join(legend_lines))
+    # else:
+        # # Original multi-column layout for desktop
+        # col_left, col_center, col_right_1, col_right_2 = st.columns([0.5, 2, 1, 1])
 
-        with col_right_2:
-            st.markdown("### ")
-            st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
+        # with col_center:
+        #     st.plotly_chart(fig, width='content', config=PLOTLY_CONFIG_STATIC)
+
+        # with col_right_1:
+        #     st.markdown("### Archetipi")
+        #     st.markdown("\n\n".join(legend_lines[0:len(legend_lines)//2]))
+
+        # with col_right_2:
+        #     st.markdown("### ")
+        #     st.markdown("\n\n".join(legend_lines[len(legend_lines)//2:]))
 
 def render_age_distribution():
     """Render bar chart for age distribution."""
@@ -907,7 +910,7 @@ def render_slide_indicator():
 # Carousel logic
 # -----------------------------
 
-REFRESH_INTERVAL_MS = 15_000 # Only for Desktop
+REFRESH_INTERVAL_MS = 25_000 # Only for Desktop
 
 if IS_MOBILE:
     # No auto-refresh on mobile

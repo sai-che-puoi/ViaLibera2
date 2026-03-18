@@ -7,3 +7,4 @@ token.pickle
 downloads/
 prova.ipynb
 .streamlit/
+secrets.toml
